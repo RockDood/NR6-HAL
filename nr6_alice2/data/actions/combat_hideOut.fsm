@@ -1,0 +1,92 @@
+/*%FSM<COMPILE "scriptedFSM.cfg, ALICE Action - Hide Out">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"COMBAT_HIDE_OUTS",0,250,-25.000000,-200.000000,75.000000,-150.000000,0.000000,"COMBAT" \n "HIDE OUTSIDE"};
+item1[] = {"Combat_end",4,4314,-10.047089,3.311050,89.952911,53.311050,2.000000,"Combat end"};
+item2[] = {"End",1,250,-18.203232,112.826538,81.796768,162.826538,0.000000,"End"};
+link0[] = {0,1};
+link1[] = {1,2};
+globals[] = {0.000000,0,0,0,0,640,480,1,4,6316128,1,-124.788460,291.174377,420.981964,-279.086182,612,1030,1};
+window[] = {2,-1,-1,-32000,-32000,938,208,1468,208,3,630};
+*//*%FSM</HEAD>*/
+class FSM
+{
+        fsmName = "ALICE Action - Hide Out";
+        class States
+        {
+                /*%FSM<STATE "COMBAT_HIDE_OUTS">*/
+                class COMBAT_HIDE_OUTS
+                {
+                        name = "COMBAT_HIDE_OUTS";
+                        itemno = 0;
+                        init = /*%FSM<STATEINIT""">*/"/////////////////////////////////////////////////////////////////////////////////////////////" \n
+                         "// HIDE INSIDE" \n
+                         "// Unit will hide in home" \n
+                         "/////////////////////////////////////////////////////////////////////////////////////////////" \n
+                         "" \n
+                         "_unit = _this select 0;" \n
+                         "_twn = _unit getvariable ""ALICE_twn"";" \n
+                         "_unit setbehaviour ""stealth"";" \n
+                         "_unit setspeedmode ""full"";" \n
+                         "_unit forcewalk false;" \n
+                         "" \n
+                         "_unit setvariable [""DangerNow"",true];" \n
+                         "" \n
+                         "_home = if (isnil {_unit getvariable ""ALICE_home""}) then {objNull} else {_unit getvariable ""ALICE_home""};" \n
+                         "" \n
+                         "if (!isnull _home) then {" \n
+                         "	_unit domove position _home;" \n
+                         "} else {" \n
+                         "	_unit domove [" \n
+                         "		(position _twn select 0) + (-50 + random 100)," \n
+                         "		(position _twn select 1) + (-50 + random 100)," \n
+                         "		0" \n
+                         "	];" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "_marker = """";" \n
+                         "if (bis_alice_mainscope getvariable ""debug"") then {" \n
+                         "	_marker = _unit getvariable ""ALICE_marker"";" \n
+                         "	_marker setmarkertype ""mil_unknown"";" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Combat_end">*/
+                                class Combat_end
+                                {
+                                        itemno = 1;
+                                        priority = 2.000000;
+                                        to="End";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"if (isnil ""_twn"") then {_twn = objnull};" \n
+                                         "(_twn getvariable ""ALICE_threat"" < 0.40) || ((_unit getvariable [""ALICE_action"",""""]) == """")" \n
+                                         ""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "End">*/
+                class End
+                {
+                        name = "End";
+                        itemno = 2;
+                        init = /*%FSM<STATEINIT""">*/"_unit forcewalk true;" \n
+                         "_unit setvariable [""DangerNow"",false];"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                        };
+                };
+                /*%FSM</STATE>*/
+        };
+        initState="COMBAT_HIDE_OUTS";
+        finalStates[] =
+        {
+                "End",
+        };
+};
+/*%FSM</COMPILE>*/

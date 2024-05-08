@@ -1,0 +1,432 @@
+/*%FSM<COMPILE "scriptedFSM.cfg, ALICE2 - Traffic">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"START",0,250,-400.000000,-25.000000,-300.000000,25.000000,0.000000,"START"};
+item1[] = {"No_Neighbors",4,218,-550.000000,-25.000000,-450.000000,25.000000,1.000000,"No Neighbors"};
+item2[] = {"END",1,250,-550.000000,75.000000,-450.000000,125.000000,0.000000,"END"};
+item3[] = {"True",8,218,-250.000000,-125.000000,-150.000000,-75.000000,0.000000,"True"};
+item4[] = {"Spawn_Car",2,4346,-250.000000,175.000000,-150.000000,225.000000,0.000000,"Spawn Car"};
+item5[] = {"Exception",2,250,-400.000000,175.000000,-300.000000,225.000000,0.000000,"Exception"};
+item6[] = {"Delete",2,250,-700.000000,-125.000000,-600.000000,-75.000000,0.000000,"Delete"};
+item7[] = {"Continue_",2,250,-250.000000,-25.000000,-150.000000,25.000000,0.000000,"Continue?"};
+item8[] = {"Yes",4,218,-250.000000,75.000000,-150.000000,125.000000,0.000000,"Yes"};
+item9[] = {"No",4,218,-400.000000,75.000000,-300.000000,125.000000,1.000000,"No"};
+item10[] = {"Safe_Distance",4,218,-700.000000,175.000000,-600.000000,225.000000,1.000000,"Safe" \n "Distance"};
+item11[] = {"Exception",4,218,-400.000000,275.000000,-300.000000,325.000000,1.000000,"Exception"};
+item12[] = {"Arrived",4,218,-550.000000,375.000000,-450.000000,425.000000,0.000000,"Arrived"};
+item13[] = {"Arrived",2,250,-700.000000,375.000000,-600.000000,425.000000,0.000000,"Arrived"};
+item14[] = {"Continue",8,218,-250.000000,375.000000,-150.000000,425.000000,0.000000,"Continue"};
+item15[] = {"Move",2,250,-400.000000,375.000000,-300.000000,425.000000,0.000000,"Move"};
+item16[] = {"Restart",4,218,-700.000000,475.000000,-600.000000,525.000000,0.000000,"Restart"};
+item17[] = {"Restart",2,250,-250.000000,475.000000,-150.000000,525.000000,0.000000,"Restart"};
+link0[] = {0,1};
+link1[] = {0,3};
+link2[] = {1,2};
+link3[] = {3,7};
+link4[] = {4,14};
+link5[] = {5,10};
+link6[] = {6,3};
+link7[] = {7,8};
+link8[] = {7,9};
+link9[] = {8,4};
+link10[] = {9,2};
+link11[] = {10,6};
+link12[] = {11,5};
+link13[] = {12,13};
+link14[] = {13,10};
+link15[] = {13,16};
+link16[] = {14,15};
+link17[] = {15,11};
+link18[] = {15,12};
+link19[] = {16,17};
+link20[] = {17,14};
+globals[] = {0.000000,0,0,0,0,640,480,1,21,6316128,1,-703.109253,-129.737427,602.593262,-210.868164,726,1070,1};
+window[] = {2,-1,-1,-1,-1,1016,286,1546,286,3,744};
+*//*%FSM</HEAD>*/
+class FSM
+{
+        fsmName = "ALICE2 - Traffic";
+        class States
+        {
+                /*%FSM<STATE "START">*/
+                class START
+                {
+                        name = "START";
+                        itemno = 0;
+                        init = /*%FSM<STATEINIT""">*/"_logic = _this select 0;" \n
+                         "_twn = _this select 1;" \n
+                         "" \n
+                         "_debug = _logic getvariable ""debug"";" \n
+                         "" \n
+                         "_spawnDistance = _logic getvariable ""trafficDistance"";" \n
+                         "" \n
+                         "_grp = grpnull;" \n
+                         "if (isnil {_twn getvariable ""ALICE_group""}) then {" \n
+                         "	_grp = creategroup civilian;" \n
+                         "	_twn setvariable [""ALICE_group"",_grp];" \n
+                         "};" \n
+                         "" \n
+                         "_neighbors = _twn getvariable ""neighbors"";" \n
+                         "if(isNil ""_neighbors"") then {_neighbors = [];};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "No_Neighbors">*/
+                                class No_Neighbors
+                                {
+                                        itemno = 1;
+                                        priority = 1.000000;
+                                        to="END";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"count _neighbors == 0"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 3;
+                                        priority = 0.000000;
+                                        to="Continue_";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "END">*/
+                class END
+                {
+                        name = "END";
+                        itemno = 2;
+                        init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Spawn_Car">*/
+                class Spawn_Car
+                {
+                        name = "Spawn_Car";
+                        itemno = 4;
+                        init = /*%FSM<STATEINIT""">*/"_classlist = _logic getvariable ""ALICE_classes"";" \n
+                         "_classlistVehiclesAll = _logic getvariable ""ALICE_classesVehicles"";" \n
+                         "_destination = _neighbors call bis_fnc_selectrandom;" \n
+                         "" \n
+                         "//--- Determine radius" \n
+                         "_twnSize = _twn getvariable ""ALICE_townsize"";" \n
+                         "if (isnil ""_twnSize"") then {_twnSize = _logic getvariable ""ALICE_townsize""};" \n
+                         "_destinationSize = _destination getvariable ""ALICE_townsize"";" \n
+                         "if (isnil ""_destinationSize"") then {_destinationSize = _logic getvariable ""ALICE_townsize""};" \n
+                         "" \n
+                         "//--- Find roads" \n
+                         "_twnRoadsPre = _twn nearroads _twnSize;" \n
+                         "_twnRoads = [];" \n
+                         "_players = [] call BIS_fnc_listPlayers;" \n
+                         "{" \n
+                         "	_roadPos = _x;" \n
+                         "	if({(position _roadPos) distance _x < _spawnDistance * 0.33} count _players == 0) then {" \n
+                         "		_twnRoads = _twnRoads + [_roadPos];" \n
+                         "	};" \n
+                         "}forEach _twnRoadsPre;" \n
+                         "_twnPos = if (count _twnRoads > 0) then {_twnRoads call bis_fnc_selectrandom} else {_twn};" \n
+                         "_destinationRoads = _destination nearroads _destinationSize;" \n
+                         "_destinationPos = if (count _destinationRoads > 0) then {_destinationRoads call bis_fnc_selectrandom} else {_destination};" \n
+                         "" \n
+                         "//--- Select driver" \n
+                         "_classlistMen = [];" \n
+                         "{" \n
+                         "	_class = _x select 0;" \n
+                         "	_rarity = _x select 1;" \n
+                         "	_faction = _x select 2;" \n
+                         "	_woman = _x select 3;" \n
+                         "	if (_woman == 0 && _faction in (_twn getVariable [""demography"", _logic getvariable ""townsFaction""])) then {" \n
+                         "		_classlistMen = _classlistMen + [_class];" \n
+                         "	};" \n
+                         "} foreach _classlist;" \n
+                         "_classMan = _classlistMen call bis_fnc_selectrandom;" \n
+                         "" \n
+                         "//--- Select Vehicle" \n
+                         "_classlistVehicles = [];" \n
+                         "{" \n
+                         "	_class = _x select 0;" \n
+                         "	_faction = _x select 1;" \n
+                         "	if (_faction in (_twn getVariable [""demography"", _logic getvariable ""townsFaction""])) then {" \n
+                         "		_classlistVehicles = _classlistVehicles + [_class];" \n
+                         "	};" \n
+                         "} foreach _classlistVehiclesAll;" \n
+                         "_classVehicle = _classlistVehicles call bis_fnc_selectrandom;" \n
+                         "" \n
+                         "" \n
+                         "//--- Spawn vehicle" \n
+                         "_car = createvehicle [_classVehicle,position _twnPos,[],0,""none""];" \n
+                         "_car setdir direction _twnPos;" \n
+                         "_grp = _twn getvariable ""ALICE_group"";" \n
+                         "_driver = _grp createunit [_classMan,position _car,[],0,""none""];" \n
+                         "//--- Custom init" \n
+                         "_globalInit = _logic getvariable ""ALICE_civilianinit"";" \n
+                         "_localInit = _twn getvariable ""ALICE_civilianinit"";" \n
+                         "if !(isnil ""_globalInit"") then {{_driver call _x} foreach _globalInit};" \n
+                         "if !(isnil ""_localInit"") then {{_driver call _x} foreach _localInit};" \n
+                         "_driver setSkill 0.5;" \n
+                         "{_driver disableAI _x} count [""AUTOTARGET"",""TARGET""];" \n
+                         "_driver allowFleeing 0;" \n
+                         "_driver assignasdriver _car;" \n
+                         "_driver setbehaviour ""SAFE"";" \n
+                         "_driver moveindriver _car;" \n
+                         "" \n
+                         "_cargo = getNumber(configFile >> ""CfgVehicles"" >> _classVehicle >> ""transportSoldier"");" \n
+                         "for ""_i"" from 1 to floor(random _cargo) do {" \n
+                         "	_classManx = _classlistMen call bis_fnc_selectrandom;" \n
+                         "	_cargoMan = _grp createunit [_classManx,position _car,[],0,""none""];" \n
+                         "	_cargoMan setSkill 0;" \n
+                         "	_cargoMan assignascargo _car;" \n
+                         "	_cargoMan setbehaviour ""SAFE"";" \n
+                         "	_cargoMan moveincargo _car;	" \n
+                         "" \n
+                         "	//--- Custom init" \n
+                         "	if !(isnil ""_globalInit"") then {{_cargoMan call _x} foreach _globalInit};" \n
+                         "	if !(isnil ""_localInit"") then {{_cargoMan call _x} foreach _localInit};" \n
+                         "};" \n
+                         "" \n
+                         "_marker = """";" \n
+                         "//--- Debug mode, halellujah" \n
+                         "if (_debug) then {" \n
+                         "	_markertext = format [""%1-%2"",_twn, floor(random 9999)];" \n
+                         "	_marker = createmarker [_markertext,position _driver];" \n
+                         "	_marker setmarkertype ""Dot"";" \n
+                         "	_marker setmarkersize [0.5,0.5];" \n
+                         "	_marker setmarkertext _markertext;" \n
+                         "	_marker setmarkercolor ""coloryellow"";" \n
+                         "	_driver setvariable [""ALICE_marker"",_marker];" \n
+                         "	[_marker,_driver] spawn {" \n
+                         "		_marker = _this select 0;" \n
+                         "		_driver = _this select 1;" \n
+                         "		while {alive _driver} do {" \n
+                         "			_marker setmarkerpos position vehicle _driver;" \n
+                         "			sleep 0.1;" \n
+                         "		};" \n
+                         "	};" \n
+                         "};" \n
+                         "_fsmFormation = _driver execfsm ""\NR6_Alice2\data\fsms\alice2Formation.fsm"";"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Continue">*/
+                                class Continue
+                                {
+                                        itemno = 14;
+                                        priority = 0.000000;
+                                        to="Move";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Exception">*/
+                class Exception
+                {
+                        name = "Exception";
+                        itemno = 5;
+                        init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Safe_Distance">*/
+                                class Safe_Distance
+                                {
+                                        itemno = 10;
+                                        priority = 1.000000;
+                                        to="Delete";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_players = [] call BIS_fnc_listPlayers;" \n
+                                         "{(position _car) distance _x < _spawnDistance} count _players == 0"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Delete">*/
+                class Delete
+                {
+                        name = "Delete";
+                        itemno = 6;
+                        init = /*%FSM<STATEINIT""">*/"_cargo = assignedCargo _car;" \n
+                         "{" \n
+                         "	deletevehicle _x;" \n
+                         "} forEach _cargo;" \n
+                         "if (_debug) then {" \n
+                         "	deleteMarker (_driver getvariable ""ALICE_marker"");" \n
+                         "};" \n
+                         "deletevehicle _driver;" \n
+                         "deletevehicle _car;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 3;
+                                        priority = 0.000000;
+                                        to="Continue_";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Continue_">*/
+                class Continue_
+                {
+                        name = "Continue_";
+                        itemno = 7;
+                        init = /*%FSM<STATEINIT""">*/"_timeNow = time;" \n
+                         "_delay = random 60;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "No">*/
+                                class No
+                                {
+                                        itemno = 9;
+                                        priority = 1.000000;
+                                        to="END";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"((_twn getvariable ""ALICE_active_traffic"") == 0)"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Yes">*/
+                                class Yes
+                                {
+                                        itemno = 8;
+                                        priority = 0.000000;
+                                        to="Spawn_Car";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_players = [] call BIS_fnc_listPlayers;" \n
+                                         "(_twn getvariable ""ALICE_active"")" \n
+                                         " && " \n
+                                         "(_twn getvariable ""ALICE_threat"") <= 5.0" \n
+                                         " && " \n
+                                         "(time - _timeNow > _delay)" \n
+                                         "&&" \n
+                                         "{(position _twn) distance _x < _spawnDistance} count _players > 0"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Arrived">*/
+                class Arrived
+                {
+                        name = "Arrived";
+                        itemno = 13;
+                        init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Safe_Distance">*/
+                                class Safe_Distance
+                                {
+                                        itemno = 10;
+                                        priority = 1.000000;
+                                        to="Delete";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_players = [] call BIS_fnc_listPlayers;" \n
+                                         "{(position _car) distance _x < _spawnDistance} count _players == 0"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Restart">*/
+                                class Restart
+                                {
+                                        itemno = 16;
+                                        priority = 0.000000;
+                                        to="Restart";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Move">*/
+                class Move
+                {
+                        name = "Move";
+                        itemno = 15;
+                        init = /*%FSM<STATEINIT""">*/"_driver domove position _destinationPos;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Exception">*/
+                                class Exception
+                                {
+                                        itemno = 11;
+                                        priority = 1.000000;
+                                        to="Exception";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"vehicle _driver == _driver || !alive _driver || !alive _car || !canmove _car"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Arrived">*/
+                                class Arrived
+                                {
+                                        itemno = 12;
+                                        priority = 0.000000;
+                                        to="Arrived";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_players = [] call BIS_fnc_listPlayers;" \n
+                                         "unitready _driver || {(position _car) distance _x < _spawnDistance * 1.2} count _players == 0"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Restart">*/
+                class Restart
+                {
+                        name = "Restart";
+                        itemno = 17;
+                        init = /*%FSM<STATEINIT""">*/"_twnPos = if (count _twnRoads > 0) then {_twnRoads call bis_fnc_selectrandom} else {_twn};" \n
+                         "_destinationPos = _twnPos;" \n
+                         ""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Continue">*/
+                                class Continue
+                                {
+                                        itemno = 14;
+                                        priority = 0.000000;
+                                        to="Move";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+        };
+        initState="START";
+        finalStates[] =
+        {
+                "END",
+        };
+};
+/*%FSM</COMPILE>*/

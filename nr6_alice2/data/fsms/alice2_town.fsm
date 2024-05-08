@@ -1,0 +1,571 @@
+/*%FSM<COMPILE "scriptedFSM.cfg, ALICE2 - Town">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"ALICE_2_TOWN",0,250,25.000000,-200.000000,125.000000,-150.000000,0.000000,"ALICE 2" \n "TOWN"};
+item1[] = {"True",8,218,25.000000,25.000000,125.000000,75.000000,0.000000,"True"};
+item2[] = {"Loop",2,250,125.000000,100.000000,225.000000,150.000000,0.000000,"Loop"};
+item3[] = {"Loop",4,218,25.000000,175.000000,125.000000,225.000000,1.000000,"Loop"};
+item4[] = {"Create",2,250,-75.000000,100.000000,25.000000,150.000000,0.000000,"Create"};
+item5[] = {"Continue",8,218,500.000000,100.000000,600.000000,150.000000,0.000000,"Continue"};
+item6[] = {"Loop_1",2,250,650.000000,-50.000000,750.000000,0.000000,0.000000,"Loop"};
+item7[] = {"Terminate",4,218,650.000000,-200.000000,750.000000,-150.000000,1.000000,"Terminate"};
+item8[] = {"Load_houses",4,218,25.000000,-125.000000,125.000000,-75.000000,0.000000,"Load houses"};
+item9[] = {"Init",2,250,25.000000,-50.000000,125.000000,0.000000,0.000000,"Init"};
+item10[] = {"END",1,250,175.000000,-200.000000,275.000000,-150.000000,0.000000,"END"};
+item11[] = {"New_civilian",4,218,750.000000,-125.000000,850.000000,-75.000000,1.000000,"New civilian"};
+item12[] = {"Action",2,4346,850.000000,-50.000000,950.000000,0.000000,0.000000,"Action"};
+item13[] = {"Return",8,218,750.000000,25.000000,850.000000,75.000000,0.000000,"Return"};
+item14[] = {"Reset",4,218,500.000000,-50.000000,600.000000,0.000000,0.000000,"Reset"};
+item15[] = {"Define",2,250,668.359924,111.015991,768.359924,161.015991,0.000000,"Define"};
+item16[] = {"Reset",2,250,500.000000,25.000000,600.000000,75.000000,0.000000,"Reset"};
+item17[] = {"Continue",8,218,250.000000,100.000000,350.000000,150.000000,0.000000,"Continue"};
+item18[] = {"Start",2,250,375.000000,100.000000,475.000000,150.000000,0.000000,"Start"};
+item19[] = {"No_Houses",4,218,175.000000,-50.000000,275.000000,0.000000,1.000000,"No Houses"};
+link0[] = {0,8};
+link1[] = {1,2};
+link2[] = {2,3};
+link3[] = {2,17};
+link4[] = {3,4};
+link5[] = {4,1};
+link6[] = {5,15};
+link7[] = {6,7};
+link8[] = {6,11};
+link9[] = {6,14};
+link10[] = {7,10};
+link11[] = {8,9};
+link12[] = {9,1};
+link13[] = {9,19};
+link14[] = {11,12};
+link15[] = {12,13};
+link16[] = {13,6};
+link17[] = {14,16};
+link18[] = {15,13};
+link19[] = {16,5};
+link20[] = {17,18};
+link21[] = {18,5};
+link22[] = {19,10};
+globals[] = {0.000000,0,0,0,0,640,480,1,21,6316128,1,465.423767,936.355530,408.790833,-536.744507,513,1030,1};
+window[] = {2,-1,-1,-1,-1,808,78,1338,78,3,531};
+*//*%FSM</HEAD>*/
+class FSM
+{
+        fsmName = "ALICE2 - Town";
+        class States
+        {
+                /*%FSM<STATE "ALICE_2_TOWN">*/
+                class ALICE_2_TOWN
+                {
+                        name = "ALICE_2_TOWN";
+                        itemno = 0;
+                        init = /*%FSM<STATEINIT""">*/"_logic = _this select 0;" \n
+                         "_twn = _this select 1;" \n
+                         "" \n
+                         "_debug = _logic getvariable ""debug"";" \n
+                         "" \n
+                         "_twnpos = position _twn;" \n
+                         "_twntype = _twn getvariable ""type"";" \n
+                         "if (isnil ""_twntype"") then {_twntype = ""ERROR: Missing type""};" \n
+                         "_twnclass = _twn getvariable ""class"";" \n
+                         "if (isnil ""_twnclass"") then{_twnclass = ""ERROR: Missing class""};" \n
+                         "_twnname = _twn getvariable ""name"";" \n
+                         "if (isnil ""_twnname"") then {_twnname = ""ERROR: Missing name""};" \n
+                         "_twndemography = _twn getvariable ""demography"";" \n
+                         "if (isnil ""_twndemography"") then {" \n
+                         "	_twndemography = _logic getvariable [""townsfaction"",[]];" \n
+                         "};" \n
+                         "//--- Wrong value" \n
+                         "if (count _twndemography == 0) then {" \n
+                         "	_twndemography = [""CIV_F""]; //--- Default value" \n
+                         "	_twn setvariable [""demography"",_twndemography];" \n
+                         "};" \n
+                         "if (!isnil {_twn getvariable ""demography""}) then {_twndemography = _twn getvariable ""demography""};" \n
+                         "" \n
+                         "//--- Default values" \n
+                         "//_twn setvariable [""ALICE_threat"",-1];" \n
+                         "//_twn setvariable [""ALICE_status"",""black""];" \n
+                         "" \n
+                         "_distLimit = _logic getvariable ""spawnDistance"";" \n
+                         "_civilianCount = _logic getvariable ""civilianCount"";" \n
+                         "_classlistAll = _logic getvariable ""ALICE_classes"";" \n
+                         "_civilianActionsAll = _logic getvariable ""ALICE_actions"";" \n
+                         "" \n
+                         "//--- Spawn distance" \n
+                         "_distlimit = if (isnil {_twn getvariable ""ALICE_spawnDistance""}) then {_distLimit} else {_twn getvariable ""ALICE_spawnDistance""};" \n
+                         "_twn setvariable [""ALICE_spawnDistance"",_distLimit];" \n
+                         "" \n
+                         "//--- Town size" \n
+                         "_twnSize = if (isnil {_twn getvariable ""ALICE_townsize""}) then {_distLimit * 2/3} else {_twn getvariable ""ALICE_townsize"";};" \n
+                         "_twn setvariable [""ALICE_townsize"",_twnSize];" \n
+                         "" \n
+                         "//--- Restecpa!" \n
+                         "_twnrespect = [""SET""] call BIS_fnc_respect;" \n
+                         "if (isnil {_twn getvariable ""respect""}) then {_twn setVariable [""respect"",_twnrespect,true]};" \n
+                         "" \n
+                         "//--- Get rarityUrban value" \n
+                         "//_twnRarityUrban = _logic getvariable ""rarityurban"";" \n
+                         "//if (isnil ""_twnRarityUrban"") then {_twnRarityUrban = [_twn,[""RARITY""]] call bis_fnc_locations};" \n
+                         "" \n
+                         "_grp = grpnull;" \n
+                         "if (isnil {_twn getvariable ""ALICE_group""}) then {" \n
+                         "	_grp = creategroup civilian;" \n
+                         "	_twn setvariable [""ALICE_group"",_grp];" \n
+                         "};" \n
+                         "" \n
+                         "_classlist = [];" \n
+                         "{ " \n
+                         "	_faction = _x select 2;" \n
+                         "	if (_faction in _twndemography) then {_classlist = _classlist + [_x]};" \n
+                         "} foreach _classlistAll;" \n
+                         "" \n
+                         "" \n
+                         "" \n
+                         "" \n
+                         "" \n
+                         "" \n
+                         "" \n
+                         "" \n
+                         "" \n
+                         "" \n
+                         "_marker = """";" \n
+                         "//--- Debug mode, halellujah" \n
+                         "if (_debug) then {" \n
+                         "	_markerx = createmarker [_twnclass+""_size"",position _twn];" \n
+                         "	_markerx setmarkersize [_twnSize,_twnSize];" \n
+                         "	_markerx setmarkershape ""ellipse"";" \n
+                         "	_markerx setmarkerbrush ""border"";" \n
+                         "	_markerx setmarkercolor ""colorblack"";" \n
+                         "	_markerx setmarkeralpha 0.5;" \n
+                         "" \n
+                         "	_marker = createmarker [_twnclass+""_twn"",position _twn];" \n
+                         "	_marker setmarkertypelocal ""flag1"";" \n
+                         "	_marker setmarkersizelocal [1,1];" \n
+                         "	_marker setmarkercolor ""colorwhite"";" \n
+                         "	[_marker,_twn] spawn {" \n
+                         "		_marker = _this select 0;" \n
+                         "		_twn = _this select 1;" \n
+                         "		while {true} do {" \n
+                         "			_threat = _twn getvariable ""ALICE_threat"";" \n
+                         "			_color = ""colorwhite"";" \n
+                         "			if (_threat >= 0) then {_color = ""color"" + (_twn getvariable ""ALICE_status"")};" \n
+                         "			_marker setmarkercolor _color;" \n
+                         "			_marker setmarkertext format [""%1 (%2)"",_threat,count (_twn getvariable ""ALICE_" \n
+                         "" \n
+                         """)];" \n
+                         "			sleep 1;" \n
+                         "		};" \n
+                         "	};" \n
+                         "};" \n
+                         ""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Load_houses">*/
+                                class Load_houses
+                                {
+                                        itemno = 8;
+                                        priority = 0.000000;
+                                        to="Init";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_twnpos nearObjectsReady _twnSize;"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Loop">*/
+                class Loop
+                {
+                        name = "Loop";
+                        itemno = 2;
+                        init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Loop">*/
+                                class Loop
+                                {
+                                        itemno = 3;
+                                        priority = 1.000000;
+                                        to="Create";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_n < _populationcount;"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Continue">*/
+                                class Continue
+                                {
+                                        itemno = 17;
+                                        priority = 0.000000;
+                                        to="Start";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Create">*/
+                class Create
+                {
+                        name = "Create";
+                        itemno = 4;
+                        init = /*%FSM<STATEINIT""">*/"_n = _n + 1;" \n
+                         "" \n
+                         "_class = (selectRandom _classlist) select 0;" \n
+                         "_house = selectRandom _houselist;" \n
+                         "" \n
+                         "//debuglog [""Log:::::::::::::::::"",_classlist];" \n
+                         "" \n
+                         "if not (isnil ""_class"") then {[_class,_twn,_house] spawn BIS_ALICE2_fnc_civilianSet};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Loop";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Loop_1">*/
+                class Loop_1
+                {
+                        name = "Loop_1";
+                        itemno = 6;
+                        init = /*%FSM<STATEINIT""">*/"_timeNow = time;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "New_civilian">*/
+                                class New_civilian
+                                {
+                                        itemno = 11;
+                                        priority = 1.000000;
+                                        to="Action";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_n < _populationcount;"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Terminate">*/
+                                class Terminate
+                                {
+                                        itemno = 7;
+                                        priority = 1.000000;
+                                        to="END";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"!(_twn getvariable ""ALICE_active"")"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Reset">*/
+                                class Reset
+                                {
+                                        itemno = 14;
+                                        priority = 0.000000;
+                                        to="Reset";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(time - _timeNow) > 1"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Init">*/
+                class Init
+                {
+                        name = "Init";
+                        itemno = 9;
+                        init = /*%FSM<STATEINIT""">*/"_houselist = _twn getvariable [""ALICE_houselist"", []];" \n
+                         "if(count _houselist == 0) then {" \n
+                         "	_houselistRaw = _twnpos nearobjects [""House"",_twnSize];" \n
+                         "	{" \n
+                         "		if ((count ([_x] call BIS_fnc_buildingPositions)) > 0) then {_houselist pushback _x};" \n
+                         "	} foreach _houselistRaw;" \n
+                         "	_twn setvariable [""ALICE_houselist"",_houselist];" \n
+                         "};" \n
+                         "_housecount = count _houselist;" \n
+                         "" \n
+                         "_populationCount = (_civilianCount*_housecount); //--- Total" \n
+                         "_twn setvariable [""ALICE_populationCountDef"",_populationCount];" \n
+                         "_twn setvariable [""ALICE_population"",[]];" \n
+                         "" \n
+                         "" \n
+                         "//--- Pre-set neighbors" \n
+                         "_nearbyTownsAll = _twn getvariable [""neighbors"",[]];" \n
+                         "" \n
+                         "_nearbyTowns = [];" \n
+                         "" \n
+                         "" \n
+                         "//--- Find neighbors if no pre-sets are available" \n
+                         "if (count _nearbyTownsAll == 0) then {" \n
+                         "	" \n
+                         "//	_nearbyTownsAll = [[""NameCity"",""NameCityCapital""],[getposATL _twn,2500],false] call bis_fnc_locations;" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "{" \n
+                         "	if !(isnil {_x getvariable ""ALICE_threat""}) then {_nearbyTowns = _nearbyTowns + [_x]};" \n
+                         "} foreach _nearbyTownsAll;" \n
+                         "" \n
+                         "_twn setvariable [""ALICE_nearbyTowns"",_nearbyTowns];" \n
+                         "" \n
+                         "" \n
+                         "_n = 0;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "No_Houses">*/
+                                class No_Houses
+                                {
+                                        itemno = 19;
+                                        priority = 1.000000;
+                                        to="END";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"count _houselist == 0;"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="Loop";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "END">*/
+                class END
+                {
+                        name = "END";
+                        itemno = 10;
+                        init = /*%FSM<STATEINIT""">*/"_population = _twn getvariable ""alice_population"";" \n
+                         "" \n
+                         "{" \n
+                         "	deletevehicle _x;" \n
+                         "} foreach _population;" \n
+                         "" \n
+                         "if (count _houselist == 0) then {" \n
+                         "	debuglog [""Log: ALICE 2: [ERROR] No houses in %1!"",_twnclass];" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Action">*/
+                class Action
+                {
+                        name = "Action";
+                        itemno = 12;
+                        init = /*%FSM<STATEINIT""">*/"_unit = _population select _n;" \n
+                         "_action = _unit getvariable ""ALICE_action"";" \n
+                         "_fsm = _unit getvariable ""ALICE_action_fsm"";" \n
+                         "" \n
+                         "if (alive _unit) then {_populationAfter = _populationAfter + [_unit]} else {" \n
+                         "	_action = """";" \n
+                         "	_fsm = -1;" \n
+                         "	_unit setvariable [""ALICE_action"",""""];" \n
+                         "};" \n
+                         "" \n
+                         "if (_twnstatuschanged) then {_action = """"};" \n
+                         "if (isnil ""_action"") then {/*hintc str [""A"",_unit,_action,_fsm];*/_action = """"};" \n
+                         "if (isnil ""_fsm"") then {/*hintc str [""B"",_unit,_action,_fsm];*/_fsm = -1};" \n
+                         "" \n
+                         "if ((_action == """" || completedFSM _fsm) && !(_unit getvariable [""DangerNow"",false]) && alive _unit && !isnull _unit) then {" \n
+                         "" \n
+                         "	//--- Homeless" \n
+                         "	_home = _unit getvariable ""ALICE_home"";" \n
+                         "	if (!alive _home) then {" \n
+                         "		_houselistNew = [];" \n
+                         "		{" \n
+                         "			if (alive _x) then {_houselistNew = _houselistNew + [_x]};" \n
+                         "		} foreach _houselist;" \n
+                         "		_houselist = _houselistNew;" \n
+                         "		if (count _houselist > 0) then {" \n
+                         "			_newhome = _houselist call bis_fnc_selectrandom;" \n
+                         "			_unit setvariable [""ALICE_home"",_newhome];" \n
+                         "		} else {" \n
+                         "		_unit setvariable [""ALICE_home"",objnull];" \n
+                         "		};" \n
+                         "	};" \n
+                         "" \n
+                         "	//--- Passed arguments" \n
+                         "	_arguments = [_unit,_twn,_nearbyTowns];" \n
+                         "" \n
+                         "" \n
+                         "	/////////////////////////////////////////////////////////////////////////////////////////////" \n
+                         "	//--- Execute associated FSM" \n
+                         "	_fsmPath = selectrandom _civilianActionClasses;" \n
+                         "	_fsm = _arguments execfsm _fsmPath;" \n
+                         "	_unit setvariable [""ALICE_action_fsm"",_fsm];" \n
+                         "	_unit setvariable [""ALICE_action"",_fsmPath];" \n
+                         "	_unit setvariable [""ALICE_action_locked"",(selectrandom [0,1])];" \n
+                         "	/////////////////////////////////////////////////////////////////////////////////////////////" \n
+                         "" \n
+                         "	if (_debug) then {" \n
+                         "		_id = _unit getvariable ""ALICE_id"";" \n
+                         "		textLogFormat [""Log: [ALICE] %1 - %2"",_id,_fsmPath];" \n
+                         "	};" \n
+                         "};" \n
+                         "" \n
+                         "_n = _n + 1;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Return">*/
+                                class Return
+                                {
+                                        itemno = 13;
+                                        priority = 0.000000;
+                                        to="Loop_1";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Define">*/
+                class Define
+                {
+                        name = "Define";
+                        itemno = 15;
+                        init = /*%FSM<STATEINIT""">*/"_twnthreatold =_twnthreat;" \n
+                         "_twnthreat = _twn getvariable ""ALICE_threat"";" \n
+                         "" \n
+                         "//--- Decrease threat level" \n
+                         "if (_twnthreat > 0) then {" \n
+                         "	_decay = _logic getvariable ""threatDecay"";" \n
+                         "	_twnthreat = _twnthreat - _decay;" \n
+                         "	if (_twnthreat < 0) then {_twnthreat = 0};" \n
+                         "	_twn setvariable [""ALICE_threat"",_twnthreat];" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "//--- Status changed" \n
+                         "_twnstatusold =_twnstatus;" \n
+                         "_twnstatus = if (_twnthreatold != _twnthreat) then {" \n
+                         "	_status = ""black"";" \n
+                         "	_status = if (_twnthreat == 0) then {""green""} else {" \n
+                         "			if (_twnthreat > 0) then {""red""} else {""black""};" \n
+                         "	};" \n
+                         "	_twn setvariable [""ALICE_status"",_status];" \n
+                         "	_status" \n
+                         "} else {_twn getvariable ""ALICE_status""};" \n
+                         "" \n
+                         "_twnstatusChanged = if (_twnstatus != _twnstatusold) then {true} else {false};" \n
+                         "" \n
+                         "_populationAfter = if (isnil ""_populationAfter"") then {_twn getvariable ""ALICE_population""} else {_populationAfter};" \n
+                         "_population = _populationAfter;" \n
+                         "_populationAfter = [];" \n
+                         "_populationCount = count _population;" \n
+                         "_playersNear = _twn getvariable ""ALICE_playersNear"";" \n
+                         "" \n
+                         "" \n
+                         "" \n
+                         "//--- Select suitable actions -----------------------------------------------------------" \n
+                         "_neighbours = (_twn getvariable ""ALICE_population"");" \n
+                         "" \n
+                         "_arguments = [objnull,_twn,_nearbyTowns];" \n
+                         "" \n
+                         "_civilianActionClasses = _civilianActionsAll;" \n
+                         "" \n
+                         "" \n
+                         "_n = 0;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Return">*/
+                                class Return
+                                {
+                                        itemno = 13;
+                                        priority = 0.000000;
+                                        to="Loop_1";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Reset">*/
+                class Reset
+                {
+                        name = "Reset";
+                        itemno = 16;
+                        init = /*%FSM<STATEINIT""">*/"_twn setvariable [""ALICE_population"",_populationAfter];" \n
+                         "" \n
+                         ""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Continue">*/
+                                class Continue
+                                {
+                                        itemno = 5;
+                                        priority = 0.000000;
+                                        to="Define";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Start">*/
+                class Start
+                {
+                        name = "Start";
+                        itemno = 18;
+                        init = /*%FSM<STATEINIT""">*/"_twn setvariable [""ALICE_threat"",0];" \n
+                         "_twn setvariable [""ALICE_status"",""green""];" \n
+                         "" \n
+                         "_twnthreat = 0;" \n
+                         "_twnstatus = ""green"";"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Continue">*/
+                                class Continue
+                                {
+                                        itemno = 5;
+                                        priority = 0.000000;
+                                        to="Define";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+        };
+        initState="ALICE_2_TOWN";
+        finalStates[] =
+        {
+                "END",
+        };
+};
+/*%FSM</COMPILE>*/

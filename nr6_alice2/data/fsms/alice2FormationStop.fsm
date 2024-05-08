@@ -1,0 +1,30 @@
+/*%FSM<COMPILE "C:\BIS\fsmeditor\scriptedFSM.cfg, stdin">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"START",0,4346,-75.000000,-125.000000,25.000000,-75.000000,0.000000,"START"};
+globals[] = {25.000000,1,0,0,16777215,640,480,1,5,6316128,1,-277.295746,180.263580,166.267426,-313.404633,807,846,1};
+window[] = {2,-1,-1,-1,-1,820,110,1070,110,3,824};
+*//*%FSM</HEAD>*/
+class FSM
+{
+  fsmName = "stdin";
+  class States
+  {
+    /*%FSM<STATE "START">*/
+    class START
+    {
+      name = "START";
+      init = /*%FSM<STATEINIT""">*/"//--- The shortest FSM ever!" \n "_target setdestination [_destination,""LEADER DIRECT"",true];" \n "" \n "if (BIS_alice_mainscope getvariable ""debug"" && cheat9) then {" \n "	debuglog str [""Log:::::::"",_target getvariable ""ALICE_id""];" \n "};"/*%FSM</STATEINIT""">*/;
+      precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+      class Links
+      {
+      };
+    };
+    /*%FSM</STATE>*/
+  };
+  initState="START";
+  finalStates[] =
+  {
+  };
+};
+/*%FSM</COMPILE>*/

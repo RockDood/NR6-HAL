@@ -1,0 +1,225 @@
+/*%FSM<COMPILE "scriptedFSM.cfg, ZBE_VehicleCaching">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"init",0,250,150.952545,-124.118782,285.369690,-74.118797,0.000000,"init"};
+item1[] = {"ready_",4,218,165.697510,-32.724136,255.697510,17.275864,0.000000,"ready?"};
+item2[] = {"begin",3,250,38.540627,-61.665623,128.540588,-11.665672,0.000000,"begin"};
+item3[] = {"Cache_",4,218,-64.416862,66.530518,25.583138,116.530518,1.000000,"Cache?"};
+item4[] = {"Cache",2,250,-106.302521,174.015152,-16.302505,224.015152,0.000000,"Cache"};
+item5[] = {"UnCache_",4,4314,29.179626,67.270744,119.179626,117.270752,1.000000,"UnCache?"};
+item6[] = {"UnCache",2,250,-4.480785,172.472382,85.519241,222.472382,0.000000,"UnCache"};
+item7[] = {"Alive_",4,218,66.317932,354.611145,156.318008,404.611115,2.000000,"Alive?"};
+item8[] = {"End",1,250,-268.281616,305.079041,-178.281586,355.079010,0.000000,"End"};
+item9[] = {"delay",8,218,-182.287186,31.343327,-92.287186,81.343323,0.000000,"delay"};
+item10[] = {"delayed",2,250,-242.146393,97.758194,-152.146530,147.758163,0.000000,"delayed"};
+item11[] = {"done_delay_",4,218,-223.476700,196.196793,-133.476837,246.196762,0.000000,"done delay?"};
+link0[] = {0,1};
+link1[] = {1,2};
+link2[] = {2,3};
+link3[] = {2,5};
+link4[] = {3,4};
+link5[] = {4,5};
+link6[] = {4,7};
+link7[] = {4,9};
+link8[] = {5,6};
+link9[] = {6,3};
+link10[] = {6,7};
+link11[] = {7,8};
+link12[] = {9,10};
+link13[] = {10,11};
+link14[] = {11,4};
+globals[] = {0.000000,0,0,0,0,640,480,3,25,6316128,1,-313.945221,315.911346,473.843658,-229.029694,923,1070,1};
+window[] = {2,-1,-1,-1,-1,744,26,1070,26,3,941};
+*//*%FSM</HEAD>*/
+class FSM
+{
+        fsmName = "ZBE_VehicleCaching";
+        class States
+        {
+                /*%FSM<STATE "init">*/
+                class init
+                {
+                        name = "init";
+                        itemno = 0;
+                        init = /*%FSM<STATEINIT""">*/"private[""_vehicle"",""_zbe_dist"",""_t"",""_trandomc"",""_trandomu""];" \n
+                         "_vehicle = _this select 0;" \n
+                         "_zbe_dist = _this select 1;" \n
+                         "_trandomc = (1 + (random 2));" \n
+                         "_trandomu = (3 + (random 2));"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "ready_">*/
+                                class ready_
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="begin";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"typeName allUnits == ""ARRAY"" && typeName playableUnits == ""ARRAY"""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "begin">*/
+                class begin
+                {
+                        name = "begin";
+                        itemno = 2;
+                        init = /*%FSM<STATEINIT""">*/"if (zbe_debug) then {" \n
+                         "diag_log format [""ZBE_Cache starting for vehicle %1"",_vehicle];" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "UnCache_">*/
+                                class UnCache_
+                                {
+                                        itemno = 5;
+                                        priority = 1.000000;
+                                        to="UnCache";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"({_x distance _vehicle < _zbe_dist} count (allPlayers - (entities ""HeadlessClient_F"")) > 0)"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_vehicleUncache;"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Cache_">*/
+                                class Cache_
+                                {
+                                        itemno = 3;
+                                        priority = 1.000000;
+                                        to="Cache";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"({_x distance _vehicle < _zbe_dist} count (allPlayers - (entities ""HeadlessClient_F"")) == 0)"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_hideVeh"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Cache">*/
+                class Cache
+                {
+                        name = "Cache";
+                        itemno = 4;
+                        init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Alive_">*/
+                                class Alive_
+                                {
+                                        itemno = 7;
+                                        priority = 2.000000;
+                                        to="End";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(!alive _vehicle)"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_vehicleUncache;"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "UnCache_">*/
+                                class UnCache_
+                                {
+                                        itemno = 5;
+                                        priority = 1.000000;
+                                        to="UnCache";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"({_x distance _vehicle < _zbe_dist} count (allPlayers - (entities ""HeadlessClient_F"")) > 0)"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_vehicleUncache;"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "delay">*/
+                                class delay
+                                {
+                                        itemno = 9;
+                                        priority = 0.000000;
+                                        to="delayed";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "UnCache">*/
+                class UnCache
+                {
+                        name = "UnCache";
+                        itemno = 6;
+                        init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Alive_">*/
+                                class Alive_
+                                {
+                                        itemno = 7;
+                                        priority = 2.000000;
+                                        to="End";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(!alive _vehicle)"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_vehicleUncache;"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Cache_">*/
+                                class Cache_
+                                {
+                                        itemno = 3;
+                                        priority = 1.000000;
+                                        to="Cache";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"({_x distance _vehicle < _zbe_dist} count (allPlayers - (entities ""HeadlessClient_F"")) == 0)"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_hideVeh"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "End">*/
+                class End
+                {
+                        name = "End";
+                        itemno = 8;
+                        init = /*%FSM<STATEINIT""">*/"if (zbe_debug) then {" \n
+                         "diag_log format [""ZBE_Cache ending for vehicle %1"",_vehicle];" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "delayed">*/
+                class delayed
+                {
+                        name = "delayed";
+                        itemno = 10;
+                        init = /*%FSM<STATEINIT""">*/"_t = time;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "done_delay_">*/
+                                class done_delay_
+                                {
+                                        itemno = 11;
+                                        priority = 0.000000;
+                                        to="Cache";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(time - _t) > _trandomc;"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_hideVeh"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+        };
+        initState="init";
+        finalStates[] =
+        {
+                "End",
+        };
+};
+/*%FSM</COMPILE>*/

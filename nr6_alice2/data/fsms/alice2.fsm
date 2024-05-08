@@ -1,0 +1,234 @@
+/*%FSM<COMPILE "scriptedFSM.cfg, ALICE 2">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"ALICE_2",0,250,-75.000000,-275.000000,25.000000,-225.000000,0.000000,"ALICE 2"};
+item1[] = {"Loop",2,250,-75.000000,-19.094971,25.000000,30.905029,0.000000,"Loop"};
+item2[] = {"Wait",4,218,-75.000000,-175.000000,25.000000,-125.000000,0.000000,"Wait"};
+item3[] = {"Reset",2,250,75.000000,-175.000000,175.000000,-125.000000,0.000000,"Reset"};
+item4[] = {"Loop",4,218,-75.000000,75.000000,25.000000,125.000000,1.000000,"Loop"};
+item5[] = {"Town",2,4346,75.000000,75.000000,175.000000,125.000000,0.000000,"Town"};
+item6[] = {"True",8,218,75.000000,-25.000000,175.000000,25.000000,0.000000,"True"};
+link0[] = {0,2};
+link1[] = {1,2};
+link2[] = {1,4};
+link3[] = {2,3};
+link4[] = {3,6};
+link5[] = {4,5};
+link6[] = {5,6};
+link7[] = {6,1};
+globals[] = {0.000000,0,0,0,0,640,480,1,8,6316128,1,-132.862778,226.752457,267.497009,-340.719177,609,1030,1};
+window[] = {2,-1,-1,-1,-1,782,52,1312,52,3,627};
+*//*%FSM</HEAD>*/
+class FSM
+{
+        fsmName = "ALICE 2";
+        class States
+        {
+                /*%FSM<STATE "ALICE_2">*/
+                class ALICE_2
+                {
+                        name = "ALICE_2";
+                        itemno = 0;
+                        init = /*%FSM<STATEINIT""">*/"_logic = _this;" \n
+                         "_spawnDisMinMain = _logic getvariable ""spawnDistance"";" \n
+                         "//_spawnDisMaxMain = _spawnDisMin * 1.2;" \n
+                         "_trafficDisMinMain = _logic getvariable ""trafficDistance"";" \n
+                         "//_trafficDisMaxMain = _trafficDisMin * 1.2;" \n
+                         "_alltowns = _logic getvariable ""ALICE_alltowns"";" \n
+                         "_alltownsCount = count _alltowns;" \n
+                         "_debug = _logic getvariable ""debug"";" \n
+                         "" \n
+                         "_delay = 0;" \n
+                         "_timeNow = time;" \n
+                         "_debuglist = [];" \n
+                         "" \n
+                         "createcenter civilian;" \n
+                         "_logic setvariable [""id"",0];"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Wait">*/
+                                class Wait
+                                {
+                                        itemno = 2;
+                                        priority = 0.000000;
+                                        to="Reset";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(time - _timeNow) > _delay"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Loop">*/
+                class Loop
+                {
+                        name = "Loop";
+                        itemno = 1;
+                        init = /*%FSM<STATEINIT""">*/"_timeNow = time;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Loop">*/
+                                class Loop
+                                {
+                                        itemno = 4;
+                                        priority = 1.000000;
+                                        to="Town";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_n <_alltownsCount"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Wait">*/
+                                class Wait
+                                {
+                                        itemno = 2;
+                                        priority = 0.000000;
+                                        to="Reset";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(time - _timeNow) > _delay"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Reset">*/
+                class Reset
+                {
+                        name = "Reset";
+                        itemno = 3;
+                        init = /*%FSM<STATEINIT""">*/"_n = 0;" \n
+                         "_delay = 1;" \n
+                         "" \n
+                         "_players = [] call BIS_fnc_listPlayers;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 6;
+                                        priority = 0.000000;
+                                        to="Loop";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Town">*/
+                class Town
+                {
+                        name = "Town";
+                        itemno = 5;
+                        init = /*%FSM<STATEINIT""">*/"_town = _alltowns select _n;" \n
+                         "_name = _town getvariable ""name"";" \n
+                         "" \n
+                         "//--- Virgin - define variables for first time" \n
+                         "if (isnil {_town getvariable ""ALICE_active""}) then {" \n
+                         "	_town setvariable [""ALICE_active"",false];" \n
+                         "	_town setvariable [""ALICE_active_traffic"",0];" \n
+                         "	_town setvariable [""ALICE_threat"",-1];" \n
+                         "	_town setvariable [""ALICE_status"",""black""];" \n
+                         "};" \n
+                         "if (isnil {_town getvariable ""demography""} || count (_town getvariable ""demography"") == 0) then {" \n
+                         "	_town setvariable [""demography"",_logic getvariable ""townsFaction""];" \n
+                         "};" \n
+                         "" \n
+                         "_active = _town getvariable ""ALICE_active"";" \n
+                         "_activeTraffic = _town getvariable ""ALICE_active_traffic"";" \n
+                         "" \n
+                         "////////////////////////////////////////////////////////////////////////////////////////////////" \n
+                         "//--- Spawn distance" \n
+                         "_spawnDisMin = if (isnil {_town getvariable ""ALICE_spawnDistance""}) then {_spawnDisMinMain} else {_town getvariable ""ALICE_spawnDistance""};" \n
+                         "_spawnDisMax = _spawnDisMin * 1.2;" \n
+                         "" \n
+                         "//--- Start " \n
+                         "if (!_active && {_town distance _x < _spawnDisMin} count _players > 0) then {" \n
+                         "	_town setvariable [""ALICE_active"",true];" \n
+                         "	textLogFormat [""Log: [ALICE 2]: %1 populated."",_name];" \n
+                         "	_fsm = [_logic,_town] execfsm (BIS_Alice2_path + ""fsms\alice2_town.fsm"");" \n
+                         "};" \n
+                         "" \n
+                         "//--- End" \n
+                         "if (_active && {_town distance _x < _spawnDisMax} count _players == 0) then {" \n
+                         "	_town setvariable [""ALICE_active"",false];" \n
+                         "	textLogFormat [""Log: [ALICE 2]: %1 depopulated."",_name];" \n
+                         "};" \n
+                         "" \n
+                         "////////////////////////////////////////////////////////////////////////////////////////////////" \n
+                         "//--- Traffic distance" \n
+                         "_trafficDisMin = if (isnil {_town getvariable ""ALICE_trafficDistance""}) then {_trafficDisMinMain} else {_town getvariable ""ALICE_trafficDistance""};" \n
+                         "_trafficDisMax = _trafficDisMin * 1.2;" \n
+                         "" \n
+                         "//--- Start " \n
+                         "_maxtraffic = ceil ((count (_town getvariable [""ALICE_population"", []])) / 25);" \n
+                         "if (_activeTraffic < _maxtraffic && {_town distance _x < _trafficDisMin} count _players > 0) then {" \n
+                         "	_activeTraffic = _activeTraffic + 1;" \n
+                         "	_town setvariable [""ALICE_active_traffic"",_activeTraffic];" \n
+                         "	textLogFormat [""Log: [ALICE 2]: %1-%2 traffic start."",_name,_activeTraffic];" \n
+                         "	_fsmTraffic = [_logic,_town] execfsm (BIS_Alice2_path + ""fsms\alice2_traffic.fsm"");" \n
+                         "};" \n
+                         "" \n
+                         "//--- End" \n
+                         "if (_activeTraffic > 0 && {_town distance _x < _trafficDisMax} count _players == 0) then {" \n
+                         "	_activeTraffic = _activeTraffic - 1;" \n
+                         "	_town setvariable [""ALICE_active_traffic"",_activeTraffic];" \n
+                         "	textLogFormat [""Log: [ALICE 2]: %1-%2 traffic end."",_name,_activeTraffic];" \n
+                         "};" \n
+                         "////////////////////////////////////////////////////////////////////////////////////////////////" \n
+                         "" \n
+                         "_n = _n + 1;" \n
+                         "" \n
+                         "" \n
+                         "" \n
+                         "" \n
+                         "if (_debug) then {" \n
+                         "	if (_town in _debuglist) exitwith {};" \n
+                         "	_twnclass = _town getvariable ""class"";" \n
+                         "" \n
+                         "	_markerx = createmarker [_twnclass+""_spawn"",position _town];" \n
+                         "	_markerx setmarkersize [_spawnDisMin,_spawnDisMin];" \n
+                         "	_markerx setmarkershape ""ellipse"";" \n
+                         "	_markerx setmarkerbrush ""border"";" \n
+                         "	_markerx setmarkercolor ""colorred"";" \n
+                         "	_markerx setmarkeralpha 0.5;" \n
+                         "" \n
+                         "	_markerx = createmarker [_twnclass+""_traffic"",position _town];" \n
+                         "	_markerx setmarkersize [_trafficDisMin,_trafficDisMin];" \n
+                         "	_markerx setmarkershape ""ellipse"";" \n
+                         "	_markerx setmarkerbrush ""border"";" \n
+                         "	_markerx setmarkercolor ""colorblue"";" \n
+                         "	_markerx setmarkeralpha 0.5;" \n
+                         "" \n
+                         "	_debuglist = _debuglist + [_town];" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "True">*/
+                                class True
+                                {
+                                        itemno = 6;
+                                        priority = 0.000000;
+                                        to="Loop";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+        };
+        initState="ALICE_2";
+        finalStates[] =
+        {
+        };
+};
+/*%FSM</COMPILE>*/

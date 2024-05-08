@@ -1,0 +1,209 @@
+/*%FSM<COMPILE "scriptedFSM.cfg, zbe_statCaching">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"init",0,250,-193.483002,-91.140106,-103.483002,-41.140106,0.000000,"init"};
+item1[] = {"ready_",8,218,-191.749756,-19.800257,-101.749763,30.199743,0.000000,"ready?"};
+item2[] = {"begin",2,250,-195.216248,65.128845,-105.216232,115.128853,0.000000,"begin"};
+item3[] = {"Cache",8,218,-306.548492,126.416489,-216.548492,176.416489,0.000000,"Cache"};
+item4[] = {"cache",2,250,-310.194702,220.582443,-220.194672,270.582397,0.000000,"cache"};
+item5[] = {"Cancelled_",4,218,-273.139587,372.420471,-183.139618,422.420471,3.000000,"Cancelled?"};
+item6[] = {"end",1,250,-519.399902,383.839478,-429.399597,433.839447,0.000000,"end"};
+item7[] = {"Uncache",8,218,-118.596474,136.075577,-28.596466,186.075577,0.000000,"Uncache"};
+item8[] = {"uncache",2,250,-172.633362,216.901367,-82.633240,266.901367,0.000000,"uncache"};
+item9[] = {"Dead_",4,4314,-147.635010,441.206665,-57.635040,491.206604,3.000000,"Dead?"};
+link0[] = {0,1};
+link1[] = {1,2};
+link2[] = {2,3};
+link3[] = {2,7};
+link4[] = {3,4};
+link5[] = {4,5};
+link6[] = {4,7};
+link7[] = {4,9};
+link8[] = {5,6};
+link9[] = {7,8};
+link10[] = {8,3};
+link11[] = {8,5};
+link12[] = {8,9};
+link13[] = {9,6};
+globals[] = {0.000000,0,0,0,0,640,480,1,48,6316128,1,-509.113647,-14.335785,679.213806,57.724483,820,1030,1};
+window[] = {2,-1,-1,-1,-1,920,156,1270,156,3,838};
+*//*%FSM</HEAD>*/
+class FSM
+{
+        fsmName = "zbe_statCaching";
+        class States
+        {
+                /*%FSM<STATE "init">*/
+                class init
+                {
+                        name = "init";
+                        itemno = 0;
+                        init = /*%FSM<STATEINIT""">*/"//I'm a very tall midget" \n
+                         "private[""_delayed"",""_distance"",""_group"",""_leader"",""_toCache"",""_fps"",""_debug"",""_t"",""_groupcount"",""_trandomc"",""_trandomu""];" \n
+                         "_distance = _this select 0;" \n
+                         "_obj = _this select 1;" \n
+                         "_fps = _this select 2;" \n
+                         "_debug = _this select 3;" \n
+                         "_trandomc = 10;" \n
+                         "_trandomu = 10;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "ready_">*/
+                                class ready_
+                                {
+                                        itemno = 1;
+                                        priority = 0.000000;
+                                        to="begin";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "begin">*/
+                class begin
+                {
+                        name = "begin";
+                        itemno = 2;
+                        init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Uncache">*/
+                                class Uncache
+                                {
+                                        itemno = 7;
+                                        priority = 0.000000;
+                                        to="uncache";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(call zbe_ObjcacheEvent);"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_objunCache2"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Cache">*/
+                                class Cache
+                                {
+                                        itemno = 3;
+                                        priority = 0.000000;
+                                        to="cache";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"!(call zbe_ObjcacheEvent);"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_objCache2"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "cache">*/
+                class cache
+                {
+                        name = "cache";
+                        itemno = 4;
+                        init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Dead_">*/
+                                class Dead_
+                                {
+                                        itemno = 9;
+                                        priority = 3.000000;
+                                        to="end";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"!(alive _obj)"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_objunCache2"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Cancelled_">*/
+                                class Cancelled_
+                                {
+                                        itemno = 5;
+                                        priority = 3.000000;
+                                        to="end";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"!(zbe_ObjCacheLite)"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_objunCache2"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Uncache">*/
+                                class Uncache
+                                {
+                                        itemno = 7;
+                                        priority = 0.000000;
+                                        to="uncache";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(call zbe_ObjcacheEvent);"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_objunCache2"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "end">*/
+                class end
+                {
+                        name = "end";
+                        itemno = 6;
+                        init = /*%FSM<STATEINIT""">*/"//_group setVariable [""zbe_cacheDisabled"",true];"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "uncache">*/
+                class uncache
+                {
+                        name = "uncache";
+                        itemno = 8;
+                        init = /*%FSM<STATEINIT""">*/""/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Cancelled_">*/
+                                class Cancelled_
+                                {
+                                        itemno = 5;
+                                        priority = 3.000000;
+                                        to="end";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"!(zbe_ObjCacheLite)"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_objunCache2"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Dead_">*/
+                                class Dead_
+                                {
+                                        itemno = 9;
+                                        priority = 3.000000;
+                                        to="end";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"!(alive _obj)"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_objunCache2"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Cache">*/
+                                class Cache
+                                {
+                                        itemno = 3;
+                                        priority = 0.000000;
+                                        to="cache";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"!(call zbe_ObjcacheEvent);"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/"call zbe_objCache2"/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+        };
+        initState="init";
+        finalStates[] =
+        {
+                "end",
+        };
+};
+/*%FSM</COMPILE>*/

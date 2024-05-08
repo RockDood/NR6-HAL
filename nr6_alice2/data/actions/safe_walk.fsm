@@ -1,0 +1,451 @@
+/*%FSM<COMPILE "scriptedFSM.cfg, ALICE Action - Walk">*/
+/*%FSM<HEAD>*/
+/*
+item0[] = {"SAFE___WALK",0,250,-425.000000,-300.000000,-325.000000,-250.000000,0.000000,"SAFE - WALK"};
+item1[] = {"Ready",4,4314,25.000000,-150.000000,125.000000,-100.000000,2.000000,"Ready"};
+item2[] = {"End",1,250,25.000000,-300.000000,125.000000,-250.000000,0.000000,"End"};
+item3[] = {"Delay",4,218,-300.000000,75.000000,-200.000000,125.000000,0.000000,"Delay"};
+item4[] = {"Loop",2,250,-300.000000,-150.000000,-200.000000,-100.000000,0.000000,"Loop"};
+item5[] = {"Talk",4,218,-75.000000,0.000000,25.000000,50.000000,1.000000,"Talk"};
+item6[] = {"Talk",2,250,150.000000,225.000000,250.000000,275.000000,0.000000,"Talk"};
+item7[] = {"Come_here",2,250,25.000000,75.000000,125.000000,125.000000,0.000000,"Come here"};
+item8[] = {"Near_enough",4,218,25.000000,150.000000,125.000000,200.000000,0.000000,"Near enough"};
+item9[] = {"Expired",4,218,-75.000000,225.000000,25.000000,275.000000,1.000000,"Expired"};
+item10[] = {"Conversation_End",2,250,-300.000000,225.000000,-200.000000,275.000000,0.000000,"Conversation" \n "End"};
+item11[] = {"Delay",4,218,-75.000000,-75.000000,25.000000,-25.000000,0.000000,"Delay"};
+item12[] = {"Check",2,250,-200.000000,0.000000,-100.000000,50.000000,0.000000,"Check"};
+item13[] = {"Return",8,218,-200.000000,-75.000000,-100.000000,-25.000000,0.000000,"Return"};
+link0[] = {0,1};
+link1[] = {0,3};
+link2[] = {1,2};
+link3[] = {3,4};
+link4[] = {4,1};
+link5[] = {4,11};
+link6[] = {5,7};
+link7[] = {6,1};
+link8[] = {6,3};
+link9[] = {6,9};
+link10[] = {7,1};
+link11[] = {7,3};
+link12[] = {7,8};
+link13[] = {8,6};
+link14[] = {9,10};
+link15[] = {10,3};
+link16[] = {11,12};
+link17[] = {12,5};
+link18[] = {12,13};
+link19[] = {13,4};
+globals[] = {0.000000,0,0,0,0,640,480,1,16,6316128,1,-519.024048,408.892853,565.994263,-538.902954,754,1030,1};
+window[] = {2,-1,-1,-1,-1,912,182,1442,182,3,772};
+*//*%FSM</HEAD>*/
+class FSM
+{
+        fsmName = "ALICE Action - Walk";
+        class States
+        {
+                /*%FSM<STATE "SAFE___WALK">*/
+                class SAFE___WALK
+                {
+                        name = "SAFE___WALK";
+                        itemno = 0;
+                        init = /*%FSM<STATEINIT""">*/"/////////////////////////////////////////////////////////////////////////////////////////////" \n
+                         "// WALK" \n
+                         "// Unit will travel to random position in town" \n
+                         "/////////////////////////////////////////////////////////////////////////////////////////////" \n
+                         "" \n
+                         "_logic = bis_alice_mainscope;" \n
+                         "_unit = _this select 0;" \n
+                         "_twn = _this select 1;" \n
+                         "_neighbours = (_twn getvariable ""ALICE_population"") - [_unit];" \n
+                         "_neighboursUsed = [];" \n
+                         "_debug = _logic getvariable ""debug"";" \n
+                         "//_isWoman = _unit iskindof ""Woman_EP1"";" \n
+                         "" \n
+                         "_destination = if (count _neighbours > 0 && (random 1 > 0.5)) then {" \n
+                         "	_neighbours call BIS_fnc_selectRandom;" \n
+                         "} else {" \n
+                         "	_twnSize = _twn getvariable ""ALICE_townsize"";" \n
+                         "	_houses =  (position _twn) nearobjects [""House"",_twnSize];" \n
+                         "	_houses call BIS_fnc_selectRandom;" \n
+                         "};" \n
+                         "_unit setspeedmode ""limited"";" \n
+                         "_unit domove position _destination;" \n
+                         "" \n
+                         "_unit setbehaviour ""safe"";" \n
+                         "_unit forcewalk true;" \n
+                         "" \n
+                         "_delay = 5;" \n
+                         "_delayConversation = 120;" \n
+                         "_timeNow = time;" \n
+                         "_timeConversation = time - _delayConversation;" \n
+                         "" \n
+                         "_marker = """";" \n
+                         "if (bis_alice_mainscope getvariable ""debug"") then {" \n
+                         "	_marker = _unit getvariable ""ALICE_marker"";" \n
+                         "	if(!isNil ""_marker"") then {" \n
+                         "		_marker setmarkertype ""mil_end"";" \n
+                         "	};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Ready">*/
+                                class Ready
+                                {
+                                        itemno = 1;
+                                        priority = 2.000000;
+                                        to="End";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(unitready _unit && isnil ""_neighbour"") || ((_unit getvariable ""ALICE_action"") == """") || (_unit getvariable [""DangerNow"",false])"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Delay">*/
+                                class Delay
+                                {
+                                        itemno = 3;
+                                        priority = 0.000000;
+                                        to="Loop";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(time - _timeNow) >= _delay"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "End">*/
+                class End
+                {
+                        name = "End";
+                        itemno = 2;
+                        init = /*%FSM<STATEINIT""">*/"if ((bis_alice_mainscope getvariable ""debug"") && (_unit getvariable ""ALICE_action"") == """" ) then {" \n
+                         "	debuglog str [""Log::::::TERMINATED"",_unit getvariable ""ALICE_id""];" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Loop">*/
+                class Loop
+                {
+                        name = "Loop";
+                        itemno = 4;
+                        init = /*%FSM<STATEINIT""">*/"_delay = 5;" \n
+                         "_timeNow = time;" \n
+                         "" \n
+                         "/*" \n
+                         "_neigbourCandidates = [];" \n
+                         "{" \n
+                         "	//_isNeighbourWoman = _x iskindof ""Woman_EP1"";" \n
+                         "	if (_x distance _unit < 15 && faction _unit == faction _x) then {" \n
+                         "		_actionLocked = _x getvariable ""ALICE_action_locked"";" \n
+                         "		if !(isnil ""_actionLocked"") then {" \n
+                         "			if (_actionLocked == 0) then {" \n
+                         "				_neigbourCandidates = _neigbourCandidates + [_x];" \n
+                         "			};" \n
+                         "		};" \n
+                         "	};" \n
+                         "} foreach _neighbours;" \n
+                         "*/" \n
+                         "" \n
+                         "//--- Reset" \n
+                         "if !(isnil ""_neighbour"") then {" \n
+                         "	_neighbour setvariable [""ALICE_action_fsm"",-1];" \n
+                         "	_neighbour = nil;" \n
+                         "	_unit setspeedmode ""limited"";" \n
+                         "	_unit domove position _destination;" \n
+                         "" \n
+                         "	if (bis_alice_mainscope getvariable ""debug"") then {" \n
+                         "		_marker = _unit getvariable ""ALICE_marker"";" \n
+                         "		if(!isNil ""_marker"") then {" \n
+                         "			_marker setmarkertype ""mil_end"";" \n
+                         "		};" \n
+                         "	};" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Ready">*/
+                                class Ready
+                                {
+                                        itemno = 1;
+                                        priority = 2.000000;
+                                        to="End";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(unitready _unit && isnil ""_neighbour"") || ((_unit getvariable ""ALICE_action"") == """") || (_unit getvariable [""DangerNow"",false])"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Delay">*/
+                                class Delay
+                                {
+                                        itemno = 11;
+                                        priority = 0.000000;
+                                        to="Check";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(time - _timeNow) > 5 && (time - _timeConversation) > _delayConversation"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Talk">*/
+                class Talk
+                {
+                        name = "Talk";
+                        itemno = 6;
+                        init = /*%FSM<STATEINIT""">*/"_unit setspeedmode ""limited"";" \n
+                         "_unit domove position _unit;" \n
+                         "_neighbour domove position _neighbour;" \n
+                         "" \n
+                         "/*" \n
+                         "//--- Speak" \n
+                         "_conversations = _logic getvariable ""ALICE_conversations"";" \n
+                         "//_ran = floor random (count _conversations);" \n
+                         "_ran = 0;" \n
+                         "_typeList = _conversations select _ran;" \n
+                         "" \n
+                         "_sentenceList = _typeList call bis_fnc_selectrandom;" \n
+                         "_topic =  ""ALICE_"" + (_sentencelist select 0);" \n
+                         "_sentenceId = _sentencelist select 1;" \n
+                         "_endSentences = _sentencelist select 2;" \n
+                         "" \n
+                         "_unit kbtell [_neighbour,_topic,_sentenceId];" \n
+                         "*/" \n
+                         "if (_debug) then {" \n
+                         "//	debuglog str [""Log:::::::START"",_unit getvariable ""ALICE_id"",[_neighbour,_topic,_sentenceId]];" \n
+                         "};" \n
+                         "" \n
+                         "" \n
+                         "_delay = random [10,20,30]; //--- Emergency exit" \n
+                         "_timeNow = time;" \n
+                         "" \n
+                         "//player setpos position _unit;" \n
+                         "//setacctime 1;" \n
+                         "" \n
+                         "/*" \n
+                         "//--- TODO: Not same anims" \n
+                         "_moves = _unit getvariable ""ALICE_moves"";" \n
+                         "_movesList = getarray (configfile >> _moves >> ""ALICE_anims"" >> (_sentencelist select 0) >> format [""moves%1"",_ran]);" \n
+                         "_move = _movesList call bis_fnc_selectrandom;" \n
+                         "_unit playmove _move;" \n
+                         "" \n
+                         "" \n
+                         "_moves = _neighbour getvariable ""ALICE_moves"";" \n
+                         "_movesList = getarray (configfile >> _moves >> ""ALICE_anims"" >> (_sentencelist select 0) >> format [""moves%1"",_ran]);" \n
+                         "_move = _movesList call bis_fnc_selectrandom;" \n
+                         "_neighbour playmove _move;" \n
+                         "*/" \n
+                         "" \n
+                         "_timeNow = time;" \n
+                         "" \n
+                         "" \n
+                         "if (bis_alice_mainscope getvariable ""debug"") then {" \n
+                         "	_marker = _unit getvariable ""ALICE_marker"";" \n
+                         "	_marker setmarkertype ""mil_join"";" \n
+                         "	_marker setmarkercolor ""colorpink"";" \n
+                         "	_marker2 = _neighbour getvariable ""ALICE_marker"";" \n
+                         "	_marker2 setmarkertype ""mil_join"";" \n
+                         "	_marker2 setmarkercolor ""colorpink"";" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Ready">*/
+                                class Ready
+                                {
+                                        itemno = 1;
+                                        priority = 2.000000;
+                                        to="End";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(unitready _unit && isnil ""_neighbour"") || ((_unit getvariable ""ALICE_action"") == """") || (_unit getvariable [""DangerNow"",false])"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Expired">*/
+                                class Expired
+                                {
+                                        itemno = 9;
+                                        priority = 1.000000;
+                                        to="Conversation_End";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"/*" \n
+                                         "{" \n
+                                         "	_unit kbwassaid [_neighbour,_topic,_x,1]" \n
+                                         "	 || " \n
+                                         "	_neighbour kbwassaid [_unit,_topic,_x,1]" \n
+                                         "} count _endSentences > 0;" \n
+                                         "*/" \n
+                                         "" \n
+                                         "(time - _timeNow) >= _delay"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Delay">*/
+                                class Delay
+                                {
+                                        itemno = 3;
+                                        priority = 0.000000;
+                                        to="Loop";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(time - _timeNow) >= _delay"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Come_here">*/
+                class Come_here
+                {
+                        name = "Come_here";
+                        itemno = 7;
+                        init = /*%FSM<STATEINIT""">*/"_neighbour = _neigbourCandidates select 0;" \n
+                         "_neighboursUsed = _neighboursUsed + [_neighbour];" \n
+                         "" \n
+                         "//--- Copy params" \n
+                         "_neighbour setvariable [""ALICE_action"",""<WALK>""];" \n
+                         "_neighbour setvariable [""ALICE_action_fsm"",_unit getvariable ""ALICE_action_fsm""];" \n
+                         "_neighbour setvariable [""ALICE_action_locked"",1];" \n
+                         "//_neighbour setvariable [""ALICE_action_locked"",_unit getvariable ""ALICE_action_locked""];" \n
+                         "" \n
+                         "_unit setvariable [""ALICE_action_locked"",1];" \n
+                         "" \n
+                         "_unit setspeedmode ""limited"";" \n
+                         "_unit domove position _unit;" \n
+                         "_unit dowatch _neighbour;" \n
+                         "_unit domove position _neighbour;" \n
+                         "_neighbour dowatch _unit;" \n
+                         "" \n
+                         "_randis = 2 + random 2;" \n
+                         "_delay = 60;" \n
+                         "_timeNow = time;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Ready">*/
+                                class Ready
+                                {
+                                        itemno = 1;
+                                        priority = 2.000000;
+                                        to="End";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(unitready _unit && isnil ""_neighbour"") || ((_unit getvariable ""ALICE_action"") == """") || (_unit getvariable [""DangerNow"",false])"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Near_enough">*/
+                                class Near_enough
+                                {
+                                        itemno = 8;
+                                        priority = 0.000000;
+                                        to="Talk";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"_unit distance _neighbour < _ranDis"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Delay">*/
+                                class Delay
+                                {
+                                        itemno = 3;
+                                        priority = 0.000000;
+                                        to="Loop";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(time - _timeNow) >= _delay"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Conversation_End">*/
+                class Conversation_End
+                {
+                        name = "Conversation_End";
+                        itemno = 10;
+                        init = /*%FSM<STATEINIT""">*/"_delay = 0;" \n
+                         "_timeNow = time;" \n
+                         "_timeConversation = time;" \n
+                         "" \n
+                         "_neighbour setvariable [""ALICE_action"",""""];" \n
+                         "" \n
+                         "if (_debug) then {" \n
+                         "//	debuglog str [""Log:::::::END"",_unit getvariable ""ALICE_id"",[_neighbour,_topic,_sentenceId]];" \n
+                         "};"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Delay">*/
+                                class Delay
+                                {
+                                        itemno = 3;
+                                        priority = 0.000000;
+                                        to="Loop";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"(time - _timeNow) >= _delay"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+                /*%FSM<STATE "Check">*/
+                class Check
+                {
+                        name = "Check";
+                        itemno = 12;
+                        init = /*%FSM<STATEINIT""">*/"_neighbours = (_twn getvariable ""ALICE_population"") - [_unit] - _neighboursUsed;" \n
+                         "_neigbourCandidates = [];" \n
+                         "{" \n
+                         "	if (_x distance _unit < 15) then {" \n
+                         "		if (faction _unit == faction _x) then {" \n
+                         "			_actionLocked = _x getvariable ""ALICE_action_locked"";" \n
+                         "			if !(isnil ""_actionLocked"") then {" \n
+                         "				if (_actionLocked == 0) then {" \n
+                         "					_neigbourCandidates = _neigbourCandidates + [_x];" \n
+                         "				};" \n
+                         "			};" \n
+                         "		};" \n
+                         "	};" \n
+                         "} foreach _neighbours;"/*%FSM</STATEINIT""">*/;
+                        precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
+                        class Links
+                        {
+                                /*%FSM<LINK "Talk">*/
+                                class Talk
+                                {
+                                        itemno = 5;
+                                        priority = 1.000000;
+                                        to="Come_here";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/"count _neigbourCandidates > 0 && (time - _timeConversation) > _delayConversation"/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                                /*%FSM<LINK "Return">*/
+                                class Return
+                                {
+                                        itemno = 13;
+                                        priority = 0.000000;
+                                        to="Loop";
+                                        precondition = /*%FSM<CONDPRECONDITION""">*/""/*%FSM</CONDPRECONDITION""">*/;
+                                        condition=/*%FSM<CONDITION""">*/""/*%FSM</CONDITION""">*/;
+                                        action=/*%FSM<ACTION""">*/""/*%FSM</ACTION""">*/;
+                                };
+                                /*%FSM</LINK>*/
+                        };
+                };
+                /*%FSM</STATE>*/
+        };
+        initState="SAFE___WALK";
+        finalStates[] =
+        {
+                "End",
+        };
+};
+/*%FSM</COMPILE>*/
