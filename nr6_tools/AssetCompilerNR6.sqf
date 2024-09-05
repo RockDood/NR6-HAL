@@ -32,7 +32,7 @@ _ArrVar = _logic getvariable ["_ArrVar",""];
 
 {
 
-    if ((crew _x) isNotEqualTo  []) then {_SyncedGroups pushBackUnique (group _x)} else {_SyncedEmpties pushBackUnique _x};
+    if ((crew _x) isNotEqualTo []) then {_SyncedGroups pushBackUnique (group _x)} else {_SyncedEmpties pushBackUnique _x};
 
 } foreach _SyncedAssets;
 
