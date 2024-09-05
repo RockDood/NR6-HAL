@@ -37,7 +37,6 @@ params [
 ];
 
 private _New = true;
-
 if ((count _this) >= 7) then {_New = (_this select 6)};
 
 // Input validation stuff here
@@ -52,7 +51,7 @@ if (_patrol isEqualType true) then {
 };
 
 if (_hold isEqualType true) then {
-    _hold = [0,1] select _hold;
+    _hold = parseNumber _hold;
 };
 
 // Start of the actual function
@@ -151,7 +150,7 @@ private _BclassesGen = [
 private _Bclasses = _BclassesGen + _BclassesOP;
 
 // Filter out occupied statics and non military buildings
-_statics = _statics select {(_x emptyPositions "Gunner") > 0};
+_statics = _statics select {locked _x != 2 && {(_x emptyPositions "Gunner") > 0}};
 
 // Filter out buildings below the size threshold (and store positions for later use) and remove non military buildings
 _buildings = _buildings select {
@@ -172,7 +171,7 @@ if (_patrol > 0 && {count _units > 1}) then {
 
 {
     // 31% chance to occupy nearest free static weapon
-    if ((random 1 < 0.31) && { !(_statics isEqualto []) }) then {
+    if ((random 1 < 0.31) && {_statics isNotEqualTo []}) then {
         _x assignAsGunner (_statics deleteAt 0);
         [_x] orderGetIn true;
     } else {
@@ -185,7 +184,7 @@ if (_patrol > 0 && {count _units > 1}) then {
             _building = selectRandom _building;
             private _array = _building getVariable ["CBA_taskDefend_positions", []];
 
-            if !(_array isEqualTo []) then {
+            if (_array isNotEqualTo []) then {
                 private _pos = _array deleteAt (floor (random (count _array)));
 
                 // If building positions are all taken remove from possible buildings
@@ -224,3 +223,4 @@ if (_patrol > 0 && {count _units > 1}) then {
 
 // Unassigned (or combat reacted) units will patrol
 [_group, _position, _radius, 5, "sad", "safe", "red", "limited"] call CBA_fnc_taskPatrol;
+
