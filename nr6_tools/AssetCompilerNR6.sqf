@@ -32,7 +32,7 @@ _ArrVar = _logic getvariable ["_ArrVar",""];
 
 {
 
-    if not ((crew _x) isEqualTo []) then {_SyncedGroups pushBackUnique (group _x)} else {_SyncedEmpties pushBackUnique _x};
+    if ((crew _x) isNotEqualTo []) then {_SyncedGroups pushBackUnique (group _x)} else {_SyncedEmpties pushBackUnique _x};
 
 } foreach _SyncedAssets;
 
@@ -105,4 +105,4 @@ _ArrVar = _logic getvariable ["_ArrVar",""];
 
 } foreach _PoolModules;
 
-if not (_ArrVar isEqualTo "") then {call compile (_ArrVar + " = " + (str _MainPool))};
+if (_ArrVar isNotEqualTo "") then {call compile (_ArrVar + " = " + (str _MainPool))};
