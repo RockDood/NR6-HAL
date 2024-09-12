@@ -142,6 +142,3 @@ _all = _ReconAv + _attackAv;
 foreach [_airRecon,_armored,_mechanized,_static,_air,_onFoot];
 
 _enRoute = _ReconAv + _attackAv;
-
-foreach 
-
