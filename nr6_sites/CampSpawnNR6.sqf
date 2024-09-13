@@ -42,14 +42,14 @@ if (isNil ("LeaderHQF")) then {LeaderHQF = objNull};
 if (isNil ("LeaderHQG")) then {LeaderHQG = objNull};
 if (isNil ("LeaderHQH")) then {LeaderHQH = objNull};
 
-if (isNil ("RydHQ_ExcludedG")) then {RydHQ_ExcludedG = []};
-if (isNil ("RydHQB_ExcludedG")) then {RydHQB_ExcludedG = []};
-if (isNil ("RydHQC_ExcludedG")) then {RydHQC_ExcludedG = []};
-if (isNil ("RydHQD_ExcludedG")) then {RydHQD_ExcludedG = []};
-if (isNil ("RydHQE_ExcludedG")) then {RydHQE_ExcludedG = []};
-if (isNil ("RydHQF_ExcludedG")) then {RydHQF_ExcludedG = []};
-if (isNil ("RydHQG_ExcludedG")) then {RydHQG_ExcludedG = []};
-if (isNil ("RydHQH_ExcludedG")) then {RydHQH_ExcludedG = []};
+if (isNil ("RydHQ_Excluded")) then {RydHQ_Excluded = []};
+if (isNil ("RydHQB_Excluded")) then {RydHQB_Excluded = []};
+if (isNil ("RydHQC_Excluded")) then {RydHQC_Excluded = []};
+if (isNil ("RydHQD_Excluded")) then {RydHQD_Excluded = []};
+if (isNil ("RydHQE_Excluded")) then {RydHQE_Excluded = []};
+if (isNil ("RydHQF_Excluded")) then {RydHQF_Excluded = []};
+if (isNil ("RydHQG_Excluded")) then {RydHQG_Excluded = []};
+if (isNil ("RydHQH_Excluded")) then {RydHQH_Excluded = []};
 
 //pick
 
