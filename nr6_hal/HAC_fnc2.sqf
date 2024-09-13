@@ -140,14 +140,10 @@ RYD_StatusQuo =
 	_HQ setVariable ["RydHQ_Enemies",_enemies];
 
 	_excl = [];
-
 		{
-		if not ((group _x) in _excl) then 
-			{
-			_excl pushBack (group _x)
-			} 
+		_excl pushBack _x
 		}
-	foreach (_HQ getVariable ["RydHQ_Excluded",[]]);
+		foreach (_HQ getVariable ["RydHQ_Excluded",[]]);
 	
 	_HQ setVariable ["RydHQ_Excl",_excl];
 	
@@ -188,7 +184,7 @@ RYD_StatusQuo =
 		
 	_HQ setVariable ["RydHQ_Subordinated",_subOrd];
 
-	_friends = _friends + _subOrd + (_HQ getVariable ["RydHQ_Included",[]]) - ((_HQ getVariable ["RydHQ_ExcludedG",[]]) + _excl + [_HQ]);
+	_friends = _friends + _subOrd + (_HQ getVariable ["RydHQ_Included",[]]) - ((_HQ getVariable ["RydHQ_Excluded",[]]) + _excl + [_HQ]);
 	_HQ setVariable ["RydHQ_NoWayD",allGroups - (_HQ getVariable ["RydHQ_LastFriends",[]])];
 	
 	_channel = _HQ getVariable ["RydHQ_myChannel",-1];
@@ -225,7 +221,7 @@ RYD_StatusQuo =
 		{
 		[_x] call RYD_WPdel;
 		}
-	foreach (((_HQ getVariable ["RydHQ_ExcludedG",[]]) + _excl) - (_HQ getVariable ["RydHQ_NoWayD",[]]));
+	foreach (((_HQ getVariable ["RydHQ_Excluded",[]]) + _excl) - (_HQ getVariable ["RydHQ_NoWayD",[]]));
 	
 	if (_HQ getVariable ["RydHQ_Init",true]) then 
 		{
@@ -260,7 +256,7 @@ RYD_StatusQuo =
 
 	if (_HQ getVariable ["RydHQ_ExInfo",false]) then 
 		{
-		_Ex = _excl + (_HQ getVariable ["RydHQ_ExcludedG",[]])
+		_Ex = _excl + (_HQ getVariable ["RydHQ_Excluded",[]])
 		};
 		
 	_knownE = [];
@@ -3180,7 +3176,7 @@ RYD_deployUAV =
 						}
 					foreach (units _gpUAV);
 					
-					_excl = _HQ getVariable ["RydHQ_ExcludedG",[]];
+					_excl = _HQ getVariable ["RydHQ_Excluded",[]];
 					_excl pushBack _gpUAV;
 					
 					_alt = _HQ getVariable ["RydHQ_UAVAlt",150];
