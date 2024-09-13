@@ -62,21 +62,21 @@ if (isNil ("RydBB_LRelocating_Instant")) then {RydBB_LRelocating_Instant = false
 
 if (isNil ("RydHQ_GroupMarks")) then {RydHQ_GroupMarks = []};
 if (isNil ("RydHQ_ChatDebug")) then {RydHQ_ChatDebug = false};
-if (isNil "RydHQ_HQChat") then {RydHQ_HQChat = true};
+if (isNil ("RydHQ_HQChat")) then {RydHQ_HQChat = true};
 if (isNil ("RydHQ_PathFinding")) then {RydHQ_PathFinding = 100};
-if (isNil "RydxHQ_SynchroAttack") then {RydxHQ_SynchroAttack = false};
-if (isNil "RydHQ_TimeM") then {RydHQ_TimeM = false};
-if (isNil "RydHQ_CamV") then {RydHQ_CamV = false};
-if (isNil "RydHQ_CamVIncluded") then {RydHQ_CamVIncluded = []};
-if (isNil "RydHQ_CamVExcluded") then {RydHQ_CamVExcluded = []};
-if (isNil "RydxHQ_GPauseActive") then {RydxHQ_GPauseActive = false};
+if (isNil ("RydxHQ_SynchroAttack")) then {RydxHQ_SynchroAttack = false};
+if (isNil ("RydHQ_TimeM")) then {RydHQ_TimeM = false};
+if (isNil ("RydHQ_CamV")) then {RydHQ_CamV = false};
+if (isNil ("RydHQ_CamVIncluded")) then {RydHQ_CamVIncluded = []};
+if (isNil ("RydHQ_CamVExcluded")) then {RydHQ_CamVExcluded = []};
+if (isNil ("RydxHQ_GPauseActive")) then {RydxHQ_GPauseActive = false};
 if (isNil ("RydHQ_DbgMon")) then {RydHQ_DbgMon = true};
 if (isNil ("RydHQ_RHQAutoFill")) then {RydHQ_RHQAutoFill = true};
 
-if (isNil "RydxHQ_MagicHeal") then {RydxHQ_MagicHeal = false};
-if (isNil "RydxHQ_MagicRepair") then {RydxHQ_MagicRepair = false};
-if (isNil "RydxHQ_MagicRearm") then {RydxHQ_MagicRearm = false};
-if (isNil "RydxHQ_MagicRefuel") then {RydxHQ_MagicRefuel = false};
+if (isNil {"RydxHQ_MagicHeal"}) then {RydxHQ_MagicHeal = false};
+if (isNil {"RydxHQ_MagicRepair"}) then {RydxHQ_MagicRepair = false};
+if (isNil {"RydxHQ_MagicRearm"}) then {RydxHQ_MagicRearm = false};
+if (isNil {"RydxHQ_MagicRefuel"}) then {RydxHQ_MagicRefuel = false};
 
 if (isNil ("RHQ_SpecFor")) then {RHQ_SpecFor = []};
 if (isNil ("RHQ_Recon")) then {RHQ_Recon = []};
