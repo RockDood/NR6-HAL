@@ -330,8 +330,8 @@ while {true} do
 	_HQ setVariable ["RydHQ_Subordinated",RydHQH_Subordinated];
 	if (isNil ("RydHQH_Included")) then {RydHQH_Included = []};
 	_HQ setVariable ["RydHQ_Included",RydHQH_Included];
-	if (isNil ("RydHQH_ExcludedG")) then {RydHQH_ExcludedG = []};
-	_HQ setVariable ["RydHQ_ExcludedG",RydHQH_ExcludedG];
+	if (isNil ("RydHQH_Excluded")) then {RydHQH_Excluded = []};
+	_HQ setVariable ["RydHQ_Excluded",RydHQH_Excluded];
 	if (isNil ("RydHQH_SubAll")) then {RydHQH_SubAll = true};
 	_HQ setVariable ["RydHQ_SubAll",RydHQH_SubAll];
 	if (isNil ("RydHQH_SubSynchro")) then {RydHQH_SubSynchro = false};
