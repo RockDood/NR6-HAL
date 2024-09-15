@@ -14,9 +14,9 @@ _MedPoints = _HQ getVariable ["RydHQ_MedPoints",[]];
 _MedPoints pushBack _Trg;
 
 _unitG = group _unit;
-
 _unitvar = str (_unitG);
-_startpos = _unitG getVariable ("START" + _unitvar);
+_startpos = getPosASL _unit;
+
 if (isNil ("_startpos")) then {_unitG setVariable [("START" + _unitvar),(position _unit)]};
 
 _amb = assignedvehicle (leader (_unitG));

@@ -14,9 +14,9 @@ _RepPoints = _HQ getVariable ["RydHQ_RepPoints",[]];
 _RepPoints pushBack _Trg;
 
 _unitG = group (assigneddriver _unit);
-
 _unitvar = str (_unitG);
-_startpos = _unitG getVariable ("START" + _unitvar);
+_startpos = getPosASL _unit;
+
 if (isNil ("_startpos")) then {_unitG setVariable [("START" + _unitvar),(position _unit)]};
 
 _rtr = _unit;

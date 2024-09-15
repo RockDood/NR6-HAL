@@ -18,8 +18,8 @@ _AmmoPoints pushBack _Trg;
 
 _unitG = group (assigneddriver _unit);
 _unitvar = str (_unitG);
+_startpos = getPosASL _unit;
 
-_startpos = _unitG getVariable ("START" + _unitvar);
 if (isNil ("_startpos")) then {_unitG setVariable [("START" + _unitvar),(position _unit)]};
 
 if (_unit in _soldiers) then {_unitG = group _unit};
@@ -53,7 +53,7 @@ while {((_isWater) and (_cnt <= 20))} do
 	
 [_unitG,[_posX,_posY,0],"HQ_ord_ammoS",_HQ] call RYD_OrderPause;
 
-if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New orders from HQ!";setAccTime 1};
+if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New orders from HQ!"; setAccTime 1};
 
 _UL = leader _unitG;
 
@@ -493,7 +493,7 @@ else
 
 		if ((_request) and not (_mtr getVariable ["HAL_Requested",false])) then {_counter = 5};
 		
-		_UL = leader _unitG;if not (isPlayer _UL) then {if ((_timer <= 24) and (_counter == 1)) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
+		_UL = leader _unitG; if not (isPlayer _UL) then {if ((_timer <= 24) and (_counter == 1)) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
 
 		if ((damage _Trg) >= 0.9) then {_Hollow = _Hollow - [_Trg]};
 		}
@@ -526,7 +526,7 @@ if (_drop) then
 	{
 	_AmmoPoints = _AmmoPoints - [_Trg];
 	_pos = _startpos;
-	if not (_task isEqualTo taskNull) then
+	if (_task isNotEqualTo taskNull) then
 		{
 		
 		[_task,(leader _unitG),["Return to base.", "Return To Base", ""],_pos,"ASSIGNED",0,false,true] call BIS_fnc_SetTask;
@@ -576,7 +576,7 @@ if (_timer > 24) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [p
 
 _AmmoPoints = _AmmoPoints - [_Trg];
 _HQ setVariable ["RydHQ_AmmoPoints",_AmmoPoints];
-if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {if not (_task isEqualTo taskNull) then {[_task,"SUCCEEDED",true] call BIS_fnc_taskSetState}};
+if not (_HQ getVariable ["RydHQ_SupportRTB",false]) then {if (_task isNotEqualTo taskNull) then {[_task,"SUCCEEDED",true] call BIS_fnc_taskSetState}};
 
 _mtr enableAI "TARGET";_mtr enableAI "AUTOTARGET";
 _unitG setVariable [("Busy" + _unitvar), false];
@@ -586,8 +586,8 @@ if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 _lastOne = true;
 
 	{
-	if (((group (assigneddriver _x)) == (group (assigneddriver _Trg))) and not (_x == _Trg)) exitwith {_lastOne = false};
-	if (((group _x) == (group _Trg)) and not (_x == _Trg)) exitwith {_lastOne = false};
+	if (((group (assigneddriver _x)) == (group (assigneddriver _Trg))) and (_x != _Trg)) exitwith {_lastOne = false};
+	if (((group _x) == (group _Trg)) and (_x != _Trg)) exitwith {_lastOne = false};
 	}
 foreach _Hollow;
 
@@ -598,4 +598,4 @@ if (_lastOne) then
 	_HQ setVariable ["RydHQ_ASupportedG",_aSupp]
 	};
 
-_UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
+_UL = leader _unitG; if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
