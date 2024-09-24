@@ -1,4 +1,3 @@
-
 if (isNil ("RydHQ_Included")) then {RydHQ_Included = []};
 if (isNil ("RydHQB_Included")) then {RydHQB_Included = []};
 if (isNil ("RydHQC_Included")) then {RydHQC_Included = []};
@@ -10,7 +9,7 @@ if (isNil ("RydHQH_Included")) then {RydHQH_Included = []};
 
 SpawnARGroupA = {
 
-    private ["_grp","_selectedPos","_flight","_birds","_GoodPads","_side","_Pool","_Leaders","_VC","_selectedDir","_relpos","_sel","_pylons","_bridssettings","_settings"];
+    private ["_grp","_selectedPos","_flight","_birds","_GoodPads","_side","_Pool","_Leaders","_VC","_selectedDir","_relpos","_sel","_pylons","_bridssettings","_settings","_pylload"];
 
 	_GoodPads = _this select 0;
 	_side = _this select 1;
@@ -27,6 +26,7 @@ SpawnARGroupA = {
     _birds = [];
     _bridssettings = [];
     _relpos = [];
+    _pylload = [];
 
     for "_i" from 1 to _flight do {
 
@@ -58,14 +58,16 @@ SpawnARGroupA = {
     {
         _VC pushBackUnique (vehicle _x);
     } foreach (units _grp);
-
+    
     {
         _bird = _x;
         _settings = _bridssettings select _forEachIndex;
-        {_bird setPylonLoadOut [(_forEachIndex + 1),_x]} foreach (_settings select 2);
+        private _pylonPaths = (configProperties [configFile >> "CfgVehicles" >> typeOf _bird >> "Components" >> "TransportPylonsComponent" >> "Pylons", "isClass _x"]) apply { getArray (_x >> "turret") };
+        { _bird removeWeaponGlobal getText (configFile >> "CfgMagazines" >> _x >> "pylonWeapon") } forEach getPylonMagazines _bird;
+        { _bird setPylonLoadout [_forEachIndex + 1, _x, true, _pylonPaths select _forEachIndex] } forEach _pylons;
         {((crew _bird) select _forEachIndex) setUnitLoadout _x} foreach (_settings select 0);
     } foreach _VC;
-/*
+    /*
     if (_VC isKindof "Plane") then {
         _VC FlyInHeight (random [100,1000,3500]);
     };
@@ -89,7 +91,7 @@ SpawnARGroupA = {
         _grp setBehaviour "CARELESS";
 
     };
-*/
+    */
     {  
         if (_side==(side _x)) then 
             {
