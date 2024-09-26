@@ -10,7 +10,7 @@ _unitvar = str _unitG;
 _busy = false;
 _busy = _unitG getvariable ("Busy" + _unitvar);
 
-_startpos = getPosASL _unitG;
+_startpos = getPosASL (leader _unitG);
 if (isNil ("_StartPos")) then {_unitG setVariable [("START" + _unitvar),(position (vehicle (leader _unitG)))]};
 
 if (isNil ("_busy")) then {_busy = false};
