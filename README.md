@@ -10,3 +10,6 @@ This fork constains experimental fixes and updates alongside sqfc files [binariz
 Currently only a mission maker, or a host / server require modified version without a need of forcing each user to fix, however it might change in the future when the all known bugs will be fixed and a new possible icons / features would be implemented. 
 
 Then it might get a new steam workshop release [with a new signed files]. 
+
+If you can't 'pbo' the files, or you are getting some kind of the error, then there is an alternative link here: 
+https://drive.google.com/drive/folders/1pc61Y4kCjsOnQ4cUHgk_m2CRMPPhDP3D?usp=sharing 
