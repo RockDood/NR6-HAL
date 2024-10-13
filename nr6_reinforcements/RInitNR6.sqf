@@ -10,7 +10,7 @@ if (isNil ("RydHQH_Included")) then {RydHQH_Included = []};
 
 SpawnRGroup = {
 
-    private ["_grp","_vharr","_class","_crewGear","_unit","_SelGroup","_grpi","_selectedPos","_SpawnPos","_SpawnRadius","_side","_Pool","_Leaders","_RejoinPoint","_sentence","_ExtraArgs"];
+    private ["_grp","_vharr","_class","_crewGear","_unit","_SelGroup","_grpi","_selectedPos","_SpawnPos","_SpawnRadius","_side","_Pool","_Leaders","_RejoinPoint","_sentence","_ExtraArgs","_pylons"];
 
 	_SpawnPos = _this select 0;
 	_SpawnRadius = _this select 1;
@@ -19,35 +19,43 @@ SpawnRGroup = {
 	_Leaders = _this select 4;
     _RejoinPoint = _this select 5;
     _ExtraArgs = _this select 6;
-    _SelGroup =  selectRandom _Pool;
+    _SelGroup = (selectRandom _Pool);
     _selectedPos = selectRandom _SpawnPos;
 
     _grp = grpNull;
+    if ((typeName (_SelGroup select 0)) isNotEqualTo "ARRAY") then {
 
-    if ((typeName _SelGroup) isEqualTo "ARRAY") then {
-
-        if not ((typeName (_SelGroup select 0)) isEqualTo "ARRAY") then {
-
-            {_SelGroup set [_foreachindex,[_x,[],[],[]]]} foreach _SelGroup;
-
-        };
+       {_SelGroup set [_foreachindex,[_x,[],[],[]]]} foreach _SelGroup;
+    
+    };
+    if ((typeName (_SelGroup select 0)) isEqualTo "ARRAY") then {
 
         _grp = createGroup _side;
         _selectedPos = ([_selectedPos,0,_SpawnRadius,10] call BIS_fnc_findSafePos);
+
         {
             _class = _x select 0;
-            if (_class isKindOf "Man") then {
+            if (_class isKindOf "Man") then 
+            {
                _unit = _grp createUnit [_class, ([_selectedPos,0,30,1] call BIS_fnc_findSafePos), [], 0, "NONE"];
-               if not ((_x select 1) isEqualTo []) then {_unit setUnitLoadout (_x select 1)};
-
-            } else {
+               if ((_x select 1) isNotEqualTo []) then {_unit setUnitLoadout (_x select 1)};
+            } else 
+            {
                 _crewGear = _x select 1;
+                _pylons = _x select 3;
                 _vharr = [([_selectedPos,0,75,10] call BIS_fnc_findSafePos),0,_class,_grp] call BIS_fnc_spawnVehicle;
-                if not ((_x select 3) isEqualTo []) then {{_vharr setPylonLoadOut [(_forEachIndex + 1),_x]} foreach (_x select 3)};
-                {((_vharr select 1) select _foreachindex) setUnitLoadout _x} foreach _crewGear;
+                private _vh = [];
+                _vh = _vharr select 0;
+                {((crew _vh) select _foreachindex) setUnitLoadout _x} foreach (_crewgear); 
+                if ((isClass (configFile >> "CfgVehicles" >> _class >> "Components" >> "TransportPylonsComponent" >> "Pylons"))) then 
+                    {
+                        private _pylonPaths = (configProperties [configFile >> "CfgVehicles" >> _class >> "Components" >> "TransportPylonsComponent" >> "Pylons", "isClass _x"]) apply { getArray (_x >> "turret") };
+                        {_vh removeWeaponGlobal getText (configFile >> "CfgMagazines" >> _x >> "pylonWeapon") };
+                        {_vh setPylonLoadout [_forEachIndex + 1, _x, true, _pylonPaths select _forEachIndex] } forEach _pylons;
+                        {((crew _vh) select _foreachindex) setUnitLoadout _x} foreach (_crewgear);                        
+                    };    
             };
         } foreach _SelGroup;
-
     } else {
 
         _grp = [([_selectedPos,0,_SpawnRadius,10] call BIS_fnc_findSafePos),_side,_SelGroup] call BIS_fnc_spawnGroup;
