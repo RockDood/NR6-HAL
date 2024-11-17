@@ -223,4 +223,10 @@ _HQ setVariable ["RydHQ_Def",_def];
 //_unitG setVariable [("Busy" + _unitvar), false];
 _unitG setVariable ["Defending", false];
 
-_UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
+};
+_UL = leader _unitG; 
+if not (isPlayer _UL) then 
+	{
+		if ((random 100) < RydxHQ_AIChatDensity) then 
+			{[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}
+	};

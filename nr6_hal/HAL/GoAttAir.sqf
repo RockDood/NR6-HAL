@@ -13,7 +13,7 @@ _unitvar = str (_unitG);
 
 _UL = leader _unitG;
 
-_PosLand = _unitG getvariable ("START" + _unitvar); 
+_PosLand = getPosASL (leader _unitG);
 if (isNil ("_PosLand")) then {_unitG setVariable [("START" + _unitvar),(position (vehicle (leader _unitG)))]};
 
 [_unitG] call RYD_WPdel;

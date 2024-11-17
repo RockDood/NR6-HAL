@@ -94,7 +94,7 @@ _LCU = (_HQ getVariable ["RydHQ_Friends",[]]) - ((_HQ getVariable ["RydHQ_NavalG
 				{
 				_dst = (vehicle _UL) distance (vehicle (leader _x));
 				_eCount = ({alive _x} count (units _x));
-				if (_dst < 1000) then {_danger = _danger + ((_eCount * _eCount / _fCount)/(_dst/3))}
+				if (_dst < 1000) then {_danger = _danger + ((_eCount * _eCount / _fCount)/((_dst+1)/3))}
 				}
 			}
 		}

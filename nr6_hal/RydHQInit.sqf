@@ -1,11 +1,16 @@
 
 if not (isServer) exitWith {};
 
+private ["_logic"];
+
+_logic = (_this select 0);
+RydHQ_Wait = (_logic getvariable "RydHQ_Wait"); 
+
 if (isNil ("RydHQ_Wait")) then {RydHQ_Wait = 15};
 
 sleep RydHQ_Wait;
 
-_hi = "HAL 1.25.0 RC2 [NR6 Pack] Initialized";
+_hi = "HAL 1.25.0 RC2 - modified [NR6 Pack] Initialized";
 
 if ((random 100) < 1) then {_hi = "Good morning, Dave."};
 
@@ -29,12 +34,12 @@ if (isNil ("RydHQ_TaskActions")) then {RydHQ_TaskActions = false};
 if (isNil ("RydHQ_SupportActions")) then {RydHQ_SupportActions = false};
 if (isNil ("RydHQ_ActionsAceOnly")) then {RydHQ_ActionsAceOnly = false};
 
-if (isNil "RydxHQ_NoRestPlayers") then {RydxHQ_NoRestPlayers = false};
-if (isNil "RydxHQ_NoCargoPlayers") then {RydxHQ_NoCargoPlayers = false};
-if (isNil "RYD_WS_ArtyMarks") then {RYD_WS_ArtyMarks = false};
-if (isNil "RydxHQ_InfoMarkersID") then {RydxHQ_InfoMarkersID = false};
+if (isNil {"RydxHQ_NoRestPlayers"}) then {RydxHQ_NoRestPlayers = false};
+if (isNil {"RydxHQ_NoCargoPlayers"}) then {RydxHQ_NoCargoPlayers = false};
+if (isNil {"RYD_WS_ArtyMarks"}) then {RYD_WS_ArtyMarks = false};
+if (isNil {"RydxHQ_InfoMarkersID"}) then {RydxHQ_InfoMarkersID = false};
 
-if (isNil "RydxHQ_ReconCargo") then {RydxHQ_ReconCargo = false};
+if (isNil {"RydxHQ_ReconCargo"}) then {RydxHQ_ReconCargo = false};
 
 publicVariable "RYD_MP_Sidechat";
 publicVariable "RYD_MP_SideRadio";
@@ -147,15 +152,15 @@ _clB = [(profilenamespace getvariable ['Map_BLUFOR_R',0]),(profilenamespace getv
 _clO = [(profilenamespace getvariable ['Map_OPFOR_R',0]),(profilenamespace getvariable ['Map_OPFOR_G',1]),(profilenamespace getvariable ['Map_OPFOR_B',1]),(profilenamespace getvariable ['Map_OPFOR_A',0.8])];
 _clI = [(profilenamespace getvariable ['Map_Independent_R',0]),(profilenamespace getvariable ['Map_Independent_G',1]),(profilenamespace getvariable ['Map_Independent_B',1]),(profilenamespace getvariable ['Map_Independent_A',0.8])];
 _clU = [(profilenamespace getvariable ['Map_Unknown_R',0]),(profilenamespace getvariable ['Map_Unknown_G',1]),(profilenamespace getvariable ['Map_Unknown_B',1]),(profilenamespace getvariable ['Map_Unknown_A',0.8])];
-
-/*RydHQ_CallSignsA = [RydHQ_CallSignsA] call RYD_RandomOrdB;
+/*
+RydHQ_CallSignsA = [RydHQ_CallSignsA] call RYD_RandomOrdB;
 
 	{
 	_nouns = [_x] call RYD_RandomOrdB;
 	RydHQ_CallSignsN set [_foreachIndex,_nouns]
 	}
-foreach RydHQ_CallSignsN;*/
-
+foreach RydHQ_CallSignsN; 
+*/
 if not (isNull leaderHQ) then 
 	{
 	_gp = group leaderHQ;
@@ -299,14 +304,14 @@ if (RydBB_Active) then
 
 if (((RydHQ_Debug) or (RydHQB_Debug) or (RydHQC_Debug) or (RydHQD_Debug) or (RydHQE_Debug) or (RydHQF_Debug) or (RydHQG_Debug) or (RydHQH_Debug)) and (RydHQ_DbgMon)) then {[[],RYD_DbgMon] call RYD_Spawn};
 
-if not (isNull leaderHQ) then {publicVariable "leaderHQ";[[(group leaderHQ)],A_HQSitRep] call RYD_Spawn;[[(group leaderHQ)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQ)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQB) then {publicVariable "leaderHQB";[[(group leaderHQB)],B_HQSitRep] call RYD_Spawn;[[(group leaderHQB)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQB)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQC) then {publicVariable "leaderHQC";[[(group leaderHQC)],C_HQSitRep] call RYD_Spawn;[[(group leaderHQC)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQC)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQD) then {publicVariable "leaderHQD";[[(group leaderHQD)],D_HQSitRep] call RYD_Spawn;[[(group leaderHQD)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQD)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQE) then {publicVariable "leaderHQE";[[(group leaderHQE)],E_HQSitRep] call RYD_Spawn;[[(group leaderHQE)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQE)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQF) then {publicVariable "leaderHQF";[[(group leaderHQF)],F_HQSitRep] call RYD_Spawn;[[(group leaderHQF)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQF)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQG) then {publicVariable "leaderHQG";[[(group leaderHQG)],G_HQSitRep] call RYD_Spawn;[[(group leaderHQG)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQG)],HAL_SecTasks] call RYD_Spawn; sleep 5};
-if not (isNull leaderHQH) then {publicVariable "leaderHQH";[[(group leaderHQH)],H_HQSitRep] call RYD_Spawn;[[(group leaderHQH)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQH)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if not (isNull leaderHQ) then {publicVariable "leaderHQ"; [[(group leaderHQ)],A_HQSitRep] call RYD_Spawn; [[(group leaderHQ)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQ)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if not (isNull leaderHQB) then {publicVariable "leaderHQB"; [[(group leaderHQB)],B_HQSitRep] call RYD_Spawn; [[(group leaderHQB)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQB)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if not (isNull leaderHQC) then {publicVariable "leaderHQC"; [[(group leaderHQC)],C_HQSitRep] call RYD_Spawn; [[(group leaderHQC)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQC)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if not (isNull leaderHQD) then {publicVariable "leaderHQD"; [[(group leaderHQD)],D_HQSitRep] call RYD_Spawn; [[(group leaderHQD)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQD)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if not (isNull leaderHQE) then {publicVariable "leaderHQE"; [[(group leaderHQE)],E_HQSitRep] call RYD_Spawn; [[(group leaderHQE)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQE)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if not (isNull leaderHQF) then {publicVariable "leaderHQF"; [[(group leaderHQF)],F_HQSitRep] call RYD_Spawn; [[(group leaderHQF)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQF)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if not (isNull leaderHQG) then {publicVariable "leaderHQG"; [[(group leaderHQG)],G_HQSitRep] call RYD_Spawn; [[(group leaderHQG)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQG)],HAL_SecTasks] call RYD_Spawn; sleep 5};
+if not (isNull leaderHQH) then {publicVariable "leaderHQH"; [[(group leaderHQH)],H_HQSitRep] call RYD_Spawn; [[(group leaderHQH)],HAL_FBFTLOOP] call RYD_Spawn; [[(group leaderHQH)],HAL_SecTasks] call RYD_Spawn; sleep 5};
 
 if ((count RydHQ_GroupMarks) > 0) then
 	{	
