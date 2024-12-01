@@ -1,6 +1,6 @@
 _SCRname = "SCargo";
 
-private ["_request","_Rdest","_reqdone","_firstlead"];
+private ["_request","_Rdest","_reqdone","_firstlead","_ESpace"];
 
 _unitG = _this select 0;
 _HQ = _this select 1;
@@ -26,23 +26,47 @@ _emptyV = true;
 if (isNil "RydHQx_CargoDist") then {RydHQx_CargoDist = 100000};
 
 
+
+
 if ( not (_withdraw) and not (_request)) then
 	{
 	_CP = nearestObjects [_GL, ["Car","Tank","Motorcycle","Air"], (_HQ getVariable ["RydHQ_CargoFind",0])];
-
+	private _hiredchk = {serverNamespace getVariable [("hal"+ str _x), "free"]} ForEachReversed _CP;		
+	private _NGi = _NG;	
 		{
-		if not (_x getVariable ["Hired",false]) then
+		{
+		if (isNil "_hiredchk") then 
 			{
-			_ESpace = (_x emptyPositions "Cargo") + (_x emptyPositions "Driver") + (_x emptyPositions "Gunner") + (_x emptyPositions "Commander");
-			if ((_ESpace >= _NG) and ((count (assignedCargo _x)) == 0) and ((count (crew _x)) == 0) and ((fuel _x) >= 0.2) and (damage _x <= 0.8) and (canMove _x)) exitwith 
+				missionNamespace setVariable [("hal"+ str _x), "free"];
+				_hiredchk = "free";	
+			};
+		if (_hiredchk isEqualTo "free") then 
+			{
+			_ESpace = (_x emptyPositions "");
+			if ((_ESpace == _NGi) and (_hiredchk isEqualTo "free") and ((count (assignedCargo _x)) == 0) and ((count (crew _x)) == 0) and ((fuel _x) >= 0.2) and (damage _x <= 0.8) and (canMove _x)) exitwith 
 				{
 				_ChosenOne = _x;
-				_unitG setVariable ["CargoChosen",true];
-				_x setVariable ["Hired",true]
+				_unitG setVariable ["CargoChosen", true];
+				serverNamespace setVariable [("hal"+ str _x), "hired"];
+				_hiredchk = "hired";
+				_CP deleteAt (_CP find _x);
 				}
-			}
-		}
-	foreach _CP;
+			};
+		if (_hiredchk isEqualTo "hired") then 
+			{
+				_CP deleteAt (_CP find _x);
+			};
+		if (_ESpace < _NGi) then 
+			{
+				_CP deleteAt (_CP find _x);
+			};
+		if (_ChosenOne isEqualTo _x) exitWith {};
+		} ForEachReversed _CP;
+
+		if (_ChosenOne isEqualTo _x) exitWith {};
+		if (count _CP == 0) exitWith {};
+		_NGi = _NGi + 1;
+		} ForEachReversed _CP;
 	};
 
 _actV = ObjNull;
@@ -97,9 +121,9 @@ if (isNull _ChosenOne) then
 			_prefV = ObjNull;
 
 				{
-					if (_SizeCargo < (((assignedvehicle _x) emptyPositions "Cargo") + ((assignedvehicle _x) emptyPositions "Gunner") + ((assignedvehicle _x) emptyPositions "Commander"))) then {
-						_SizeCargo = (((assignedvehicle _x) emptyPositions "Cargo") + ((assignedvehicle _x) emptyPositions "Gunner") + ((assignedvehicle _x) emptyPositions "Commander"));
-						_prefV = (assignedvehicle _x);
+					if (_SizeCargo < (((assignedVehicle _x) emptyPositions "Cargo") + ((assignedVehicle _x) emptyPositions "Gunner") + ((assignedVehicle _x) emptyPositions "Commander"))) then {
+						_SizeCargo = (((assignedVehicle _x) emptyPositions "Cargo") + ((assignedVehicle _x) emptyPositions "Gunner") + ((assignedVehicle _x) emptyPositions "Commander"));
+						_prefV = (assignedVehicle _x);
 					};
 				}
 			foreach (units _x);
@@ -112,7 +136,7 @@ if (isNull _ChosenOne) then
 				_unable = (group _x) getvariable "Unable";
 				if (isNil ("_busy")) then {_busy = false};
 				if (isNil ("_unable")) then {_unable = false};
-				if (_actV == (assignedvehicle _x)) then 
+				if (_actV == (assignedVehicle _x)) then 
 					{
 					_Elast = 0;
 					}
@@ -121,35 +145,35 @@ if (isNull _ChosenOne) then
 					_Elast = _ESpace;
 					};
 
-				_ESpace = _ELast + ((assignedvehicle _x) emptyPositions "Cargo") + ((assignedvehicle _x) emptyPositions "Gunner") + ((assignedvehicle _x) emptyPositions "Commander");
-				_actV = (assignedvehicle _x);
+				_ESpace = _ELast + ((assignedVehicle _x) emptyPositions "");
+				_actV = (assignedVehicle _x);
 				if ((group _x) in (_HQ getVariable ["RydHQ_AirG",[]])) then {_mpl = 100} else {_mpl = 1};
 				_noenemy = true;
 				_halfway = [(((position _actV) select 0) + ((position _GL) select 0))/2,(((position _actV) select 1) + ((position _GL) select 1))/2];
-				_hired = (assignedvehicle _x) getVariable "Hired";
-				if (isNil ("_hired")) then {_hired = false};
+				_hired = serverNamespace getVariable [("hal"+ str (assignedVehicle _x))];
+				if (isNil ("_hired")) then {_hired = "free"};
 				
 				_mpl2 = 500;
 				if (_withdraw) then {_mpl2 = 0};
 				if (_request) then {_mpl2 = 0; _mpl = 10000};
 				
 				if (((((_vHQ findNearestEnemy _vGL) distance _vGL) <= (_mpl2*_mpl)) or (((_vHQ findNearestEnemy _halfway) distance _halfway) <= (_mpl2*_mpl))) and ((random 100) > (20*(0.5 + (2*(_HQ getVariable ["RydHQ_Recklessness",0.5])))))) then {_noenemy = false};
-				if ((_ESpace >= _NG) and (_prefV == (assignedvehicle _x)) and 
-					((count (assignedCargo (assignedvehicle _x))) == 0) and not 
-						((_busy) or (_unable) or (_hired)) and not
+				if ((_ESpace >= _NG) and (_prefV == (assignedVehicle _x)) and 
+					((count (assignedCargo (assignedVehicle _x))) == 0) and not 
+						((_busy) or (_unable) or (_hired isKindOf "hired")) and not
 							((_x in (_HQ getVariable ["RydHQ_NCrewInfG",[]])) and (count (units _x) > 1)) and
 								(((vehicle (leader _x)) distance (vehicle _GL)) < (2000*_mpl)) and 
-									((fuel (assignedvehicle _x)) >= 0.2) and 
-										(damage (assignedvehicle _x) <= 0.8) and 
-											(canMove (assignedvehicle _x)) and
+									((fuel (assignedVehicle _x)) >= 0.2) and 
+										(damage (assignedVehicle _x) <= 0.8) and 
+											(canMove (assignedVehicle _x)) and
 												(_noenemy) and
 													(not ((group _x) in (_HQ getVariable ["RydHQ_AirG",[]])) or (((count ((_HQ getVariable ["RydHQ_AAthreat",[]]) + (_HQ getVariable ["RydHQ_Airthreat",[]]))) == 0) or (random 100 > (85/(0.5 + (2*(_HQ getVariable ["RydHQ_Recklessness",0.5])))))))) exitwith 
 					{
-					_ChosenOne = (assignedvehicle _x)
+					_ChosenOne = (assignedVehicle  _x)
 					}
 				}
 			foreach (units _x);
-			if not (isNull _ChosenOne) exitwith {_unitG setVariable ["CargoChosen",true]};
+			if not (isNull _ChosenOne) exitwith {_unitG setVariable ["CargoChosen", true]};
 			}
 		foreach _x;
 		
@@ -160,9 +184,10 @@ if (isNull _ChosenOne) then
 
 _unitvar = str _unitG;
 if (isNull _ChosenOne) exitwith {{[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]} foreach (units _unitG);_unitG setVariable [("CC" + _unitvar), true, true];_unitG setVariable ["CargoChosen",false];};
-_GD = (group (assigneddriver _ChosenOne));
+_GD = (group (assignedDriver _ChosenOne));
+private _DR = assignedDriver _ChosenOne;
 _unitvar2 = str _GD;
-_Vpos = _GD getvariable ("START" + _unitvar2); 
+_Vpos = getPosASL _DR;
 
 _lz = objNull;
 _alive = true;
@@ -375,7 +400,6 @@ if not (_emptyV) then
 // if not (_task isEqualTo taskNull) then {[_task,"SUCCEEDED",true] call BIS_fnc_taskSetState};
 
 if not (_alive) exitWith {_unitG setVariable [("CC" + _unitvar), true, true]; _GD setVariable ["Busy" + (str _GD),false];};
-
 
 if not (_request) then {
 	_asCargo = units _unitG;
