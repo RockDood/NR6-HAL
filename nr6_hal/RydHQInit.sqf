@@ -1,18 +1,18 @@
 
 if not (isServer) exitWith {};
 
-private ["_logic"];
 
-_logic = (_this select 0);
-RydHQ_Wait = (_logic getvariable "RydHQ_Wait"); 
-
-if (isNil ("RydHQ_Wait")) then {RydHQ_Wait = 15};
+if (isNil ("RydHQ_Wait")) then 
+{
+	RydHQ_Wait = ((_this select 0) getvariable "RydHQ_Wait"); 
+	if (isNil ("RydHQ_Wait")) then {RydHQ_Wait = 15};
+};
 
 sleep RydHQ_Wait;
 
-_hi = "HAL 1.25.0 RC2 - modified [NR6 Pack] Initialized";
+_hi = "HAL 1.3.0 RC1 - [modified NR6 Pack] Initialized";
 
-if ((random 100) < 1) then {_hi = "Good morning, Dave."};
+if ((random 100) < 1) then {_hi = "Gooooood moooorning Dave!."};
 
 _hi remoteExecCall ["systemChat"];
 
