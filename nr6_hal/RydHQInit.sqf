@@ -10,7 +10,7 @@ if (isNil ("RydHQ_Wait")) then
 
 sleep RydHQ_Wait;
 
-_hi = "HAL 1.3.0 RC1 - [modified NR6 Pack] Initialized";
+_hi = "HAL 1.25.0 RC2 - [modified NR6 Pack] Initialized";
 
 if ((random 100) < 1) then {_hi = "Gooooood moooorning Dave!."};
 
