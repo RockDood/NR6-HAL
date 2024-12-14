@@ -30,43 +30,45 @@ if (isNil "RydHQx_CargoDist") then {RydHQx_CargoDist = 100000};
 
 if ( not (_withdraw) and not (_request)) then
 	{
-	_CP = nearestObjects [_GL, ["Car","Tank","Motorcycle","Air"], (_HQ getVariable ["RydHQ_CargoFind",0])];
-	private _hiredchk = {serverNamespace getVariable [("hal"+ str _x), "free"]} ForEachReversed _CP;		
+	_CP = nearestObjects [_GL, ["Car","Tank","Motorcycle","Air"], (_HQ getVariable ["RydHQ_CargoFind",0])];	
 	private _NGi = _NG;	
+	while {count _CP > 0}
+	do
 		{
-		{
-		if (isNil "_hiredchk") then 
+			private _hir = false;
 			{
-				missionNamespace setVariable [("hal"+ str _x), "free"];
-				_hiredchk = "free";	
-			};
-		if (_hiredchk isEqualTo "free") then 
-			{
-			_ESpace = (_x emptyPositions "");
-			if ((_ESpace == _NGi) and (_hiredchk isEqualTo "free") and ((count (assignedCargo _x)) == 0) and ((count (crew _x)) == 0) and ((fuel _x) >= 0.2) and (damage _x <= 0.8) and (canMove _x)) exitwith 
+			private _hiredchk = missionNamespace getVariable ("hal"+(str (vehicle _x)));
+			if (isNil "_hiredchk") then 
 				{
-				_ChosenOne = _x;
-				_unitG setVariable ["CargoChosen", true];
-				serverNamespace setVariable [("hal"+ str _x), "hired"];
-				_hiredchk = "hired";
-				_CP deleteAt (_CP find _x);
-				}
-			};
-		if (_hiredchk isEqualTo "hired") then 
-			{
-				_CP deleteAt (_CP find _x);
-			};
-		if (_ESpace < _NGi) then 
-			{
-				_CP deleteAt (_CP find _x);
-			};
-		if (_ChosenOne isEqualTo _x) exitWith {};
-		} ForEachReversed _CP;
-
-		if (_ChosenOne isEqualTo _x) exitWith {};
-		if (count _CP == 0) exitWith {};
-		_NGi = _NGi + 1;
-		} ForEachReversed _CP;
+					missionNamespace setVariable [("hal"+(str (vehicle _x))), "free"];
+					_hiredchk = "free";	
+				};
+			if (_hiredchk isEqualTo "free") then 
+				{
+				_ESpace = ((vehicle _x) emptyPositions "");
+				if (_ESpace < _NGi) exitwith 
+					{
+						_CP deleteAt (_CP find _x);
+					};
+				if ((_ESpace == _NGi) and (_hiredchk isEqualTo "free") and ((count (assignedCargo (vehicle _x))) == 0) and ((count (crew _x)) == 0) and ((fuel _x) >= 0.2) and (damage _x <= 0.8) and (canMove _x)) exitwith 
+					{
+						_ChosenOne = _x;
+						_unitG setVariable ["CargoChosen", true];
+						missionNamespace setVariable [("hal"+(str (vehicle _x))), "hired"];
+						_hiredchk = "hired";
+						_CP deleteAt (_CP find (vehicle _x));
+					}
+				};
+			if (_hiredchk isEqualTo "hired") then 
+				{
+					_CP deleteAt (_CP find (vehicle _x));
+				};
+			if (_ChosenOne isEqualTo (vehicle _x)) exitWith {_hir = true};
+			uiSleep 0.0001; 
+			} ForEachReversed _CP;
+			if (_hir) exitWith {};
+			_NGi = _NGi + 1;
+		};
 	};
 
 _actV = ObjNull;
@@ -150,7 +152,7 @@ if (isNull _ChosenOne) then
 				if ((group _x) in (_HQ getVariable ["RydHQ_AirG",[]])) then {_mpl = 100} else {_mpl = 1};
 				_noenemy = true;
 				_halfway = [(((position _actV) select 0) + ((position _GL) select 0))/2,(((position _actV) select 1) + ((position _GL) select 1))/2];
-				_hired = serverNamespace getVariable [("hal"+ str (assignedVehicle _x))];
+				_hired = missionNamespace getVariable [("hal"+ str (assignedVehicle _x))];
 				if (isNil ("_hired")) then {_hired = "free"};
 				
 				_mpl2 = 500;
