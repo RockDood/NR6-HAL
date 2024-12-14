@@ -66,7 +66,7 @@ if ( not (_withdraw) and not (_request)) then
 			if (_ChosenOne isEqualTo (vehicle _x)) exitWith {_hir = true};
 			uiSleep 0.0001; 
 			} ForEachReversed _CP;
-			if (_hir) exitWith {};
+			if (_hir) exitWith {private _hiredchk = "hired";};
 			_NGi = _NGi + 1;
 		};
 	};
@@ -152,8 +152,6 @@ if (isNull _ChosenOne) then
 				if ((group _x) in (_HQ getVariable ["RydHQ_AirG",[]])) then {_mpl = 100} else {_mpl = 1};
 				_noenemy = true;
 				_halfway = [(((position _actV) select 0) + ((position _GL) select 0))/2,(((position _actV) select 1) + ((position _GL) select 1))/2];
-				_hired = missionNamespace getVariable [("hal"+ str (assignedVehicle _x))];
-				if (isNil ("_hired")) then {_hired = "free"};
 				
 				_mpl2 = 500;
 				if (_withdraw) then {_mpl2 = 0};
@@ -162,7 +160,7 @@ if (isNull _ChosenOne) then
 				if (((((_vHQ findNearestEnemy _vGL) distance _vGL) <= (_mpl2*_mpl)) or (((_vHQ findNearestEnemy _halfway) distance _halfway) <= (_mpl2*_mpl))) and ((random 100) > (20*(0.5 + (2*(_HQ getVariable ["RydHQ_Recklessness",0.5])))))) then {_noenemy = false};
 				if ((_ESpace >= _NG) and (_prefV == (assignedVehicle _x)) and 
 					((count (assignedCargo (assignedVehicle _x))) == 0) and not 
-						((_busy) or (_unable) or (_hired isKindOf "hired")) and not
+						((_busy) or (_unable) or ((missionNamespace getVariable [("hal"+(str (assignedVehicle _x))), "free"]) isKindOf "hired")) and not
 							((_x in (_HQ getVariable ["RydHQ_NCrewInfG",[]])) and (count (units _x) > 1)) and
 								(((vehicle (leader _x)) distance (vehicle _GL)) < (2000*_mpl)) and 
 									((fuel (assignedVehicle _x)) >= 0.2) and 
