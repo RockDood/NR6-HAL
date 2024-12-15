@@ -453,7 +453,7 @@ while {true} do
 		
 	if (isNil ("RydHQE_RCAS")) then {RydHQE_RCAS = []};
 	_HQ setVariable ["RydHQ_RCAS",RydHQE_RCAS];
-	if (isNil ("RydHQE_RCAP")) then {RydHE_RCAP = []};
+	if (isNil ("RydHQE_RCAP")) then {RydHQE_RCAP = []};
 	_HQ setVariable ["RydHQ_RCAP",RydHQE_RCAP];
 	
 	if (isNil ("RydHQE_SFuel")) then {RydHQE_SFuel = true};
