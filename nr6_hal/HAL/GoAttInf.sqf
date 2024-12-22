@@ -325,7 +325,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer))
 			if not (isNull _unitG) then {_unitG setVariable [("CC" + _unitvar), false]};
 			};
 
-		if (not (_unitG getVariable ["CargoChosen",false]) not (_unitG getVariable ["CargoCheckPending" + (str _unitG),false])) then 
+		if (not (_unitG getVariable ["CargoChosen",false]) and not (_unitG getVariable ["CargoCheckPending" + (str _unitG),false])) then 
 			{
 				if (_wp0 isEqualTo []) then {_wp0 = [_unitG,[_posX,_posY],"MOVE",_beh,"YELLOW",_spd,["true","deletewaypoint [(group this), 0];"],true,0,_TO] call RYD_WPadd;}
 			} else {
