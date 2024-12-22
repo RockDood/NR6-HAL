@@ -59,7 +59,7 @@ if (_HQ getVariable ["RydHQ_Debug",false]) then
 
 _task = [(leader _unitG),["Perform combat air patrol and intercept any hostile airborne assets.", "Perform Combat Air Patrol", ""],[_posX,_posY],"plane"] call RYD_AddTask;
 
-_wp = [_unitG,[_posX,_posY],"SAD","COMBAT","RED","NORMAL",["true", "deletewaypoint [(group this), 0]"],true,0.001] call RYD_WPadd;
+_wp = [_unitG,[_posX,_posY],"SAD","COMBAT","RED","NORMAL",["true", "deletewaypoint [(group this), 0]"],true,0,[0,0,0],"COLUMN"] call RYD_WPadd;
 
 _lasT = ObjNull;
 
@@ -94,7 +94,7 @@ _rrr = (_unitG getVariable ["Ryd_RRR",false]);
 _radd = "";
 if (_rrr) then {_radd = "; {(vehicle _x) setFuel 1; (vehicle _x) setVehicleAmmo 1; (vehicle _x) setDamage 0;} foreach (units (group _this))"};
 
-_wp = [_unitG,_Posland,"MOVE","SAFE","GREEN","NORMAL",["true", "if not ((group this) getVariable ['AirNoLand',false]) then {{(vehicle _x) land 'LAND'} foreach (units (group this))}; deletewaypoint [(group this), 0]" + _radd],true,0.001] call RYD_WPadd;
+_wp = [_unitG,_Posland,"MOVE","SAFE","GREEN","NORMAL",["true", "if not ((group this) getVariable ['AirNoLand',false]) then {{(vehicle _x) land 'LAND'} foreach (units (group this))}; deletewaypoint [(group this), 0]" + _radd],true,0,[0,0,0],"COLUMN"] call RYD_WPadd;
 
 _cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
 _timer = _cause select 0;

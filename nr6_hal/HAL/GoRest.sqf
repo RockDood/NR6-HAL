@@ -249,7 +249,7 @@ if not (isNull _nE) then
 				case (isNull _unitG) : {_alive = false};
 				case (({alive _x} count (units _unitG)) < 1) : {_alive = false};
 				case ((_this select 0) getVariable ["RydHQ_MIA",false]) : {_alive = false;(_this select 0) setVariable ["RydHQ_MIA",nil]};
-				case (_unitG getVariable ["Break",false]) : {_alive = false; _unitG setVariable ["Break",false]; _unitG setVariable [("Busy" + (str _unitG)),false]; _unitG setVariable [("Resting" + (str _unitG)),false]}
+				case (_unitG getVariable ["Break",false]) : {_alive = false; _unitG setVariable ["Break",false];}
 				};
 				
 			_cc = false;
@@ -268,7 +268,7 @@ if not (isNull _nE) then
 			};
 		};
 
-	if not (_alive) exitWith {_unitG setVariable [("Busy" + (str _unitG)),false];};
+	if not (_alive) exitWith {_unitG setVariable [("Busy" + (str _unitG)),false]; _unitG setVariable [("Resting" + (str _unitG)),false]};
 
 	_AV = assignedVehicle _UL;
 
@@ -377,25 +377,27 @@ _wp = [_gp,[_posX,_posY],"MOVE",_beh,_cm,"FULL",_sts] call RYD_WPadd;
 _DAV = assigneddriver _AV;
 _OtherGroup = false;
 _GDV = group _DAV;
-_alive = false;
+_alive = true;
 _enemy = false;
 _timer = 0;
 
-if not (((group _DAV) == (group _UL)) or (isNull (group _DAV))) then 
-	{
-	_OtherGroup = true;
+if not (_IsAPlayer) then {
+	if not (((group _DAV) == (group _UL)) or (isNull (group _DAV))) then 
+		{
+		_OtherGroup = true;
 
-	_cause = [_GDV,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1;
-	_enemy = _cause select 2
-	}
-else 
-	{
-	_cause = [_unitG,_counts,true,0,60,[],false] call RYD_Wait;
-	_timer = _cause select 0;
-	_alive = _cause select 1
-	};
+		_cause = [_GDV,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
+		_timer = _cause select 0;
+		_alive = _cause select 1;
+		_enemy = _cause select 2;
+		}
+	else 
+		{
+		_cause = [_unitG,_counts,true,0,60,[],false] call RYD_Wait;
+		_timer = _cause select 0;
+		_alive = _cause select 1;
+		};
+};
 
 _DAV = assigneddriver _AV;
 if (((_timer > 30) or (_enemy)) and (_OtherGroup)) then {if not (isNull _GDV) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0]}};
@@ -420,7 +422,7 @@ switch (true) do
 	case (isNull (_this select 0)) : {_alive = false};
 	case (({alive _x} count (units (_this select 0))) < 1) : {_alive = false};
 	case ((_this select 0) getVariable ["RydHQ_MIA",false]) : {_alive = false;(_this select 0) setVariable ["RydHQ_MIA",nil]};
-	case (_unitG getVariable ["Break",false]) : {_alive = false; _unitG setVariable ["Break",false]; _unitG setVariable [("Busy" + (str _unitG)),false]; _unitG setVariable [("Resting" + (str _unitG)),false]}
+	case (_unitG getVariable ["Break",false]) : {_alive = false; _unitG setVariable ["Break",false];}
 	};
 
 if not (_alive) exitwith 
@@ -504,7 +506,7 @@ if ((isNull (leader (_this select 0))) or (_timer > 240)) exitwith
 
 if not (_Ctask isEqualTo taskNull) then {[_Ctask,"SUCCEEDED",true] call BIS_fnc_taskSetState};
 
-if (not (isNull _GDV) and (_GDV in (_HQ getVariable ["RydHQ_AirG",[]])) and not (isPlayer (leader _GDV))) then
+if (not (isNull _GDV) and (_GDV in (_HQ getVariable ["RydHQ_AirG",[]])) and not (isPlayer (leader _GDV)) and not (_IsAPlayer)) then
 	{
 	_wp = [_GDV,[((getPosATL _AV) select 0) + (random 200) - 100,((getPosATL _AV) select 1) + (random 200) - 100,1000],"MOVE","STEALTH","YELLOW","NORMAL"] call RYD_WPadd;
 
@@ -513,7 +515,7 @@ if (not (isNull _GDV) and (_GDV in (_HQ getVariable ["RydHQ_AirG",[]])) and not 
 	if (_timer > 8) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0]};
 	};
 
-_GDV setVariable [("CargoM" + _unitvar), false];
+if not (_IsAPlayer) then {_GDV setVariable [("CargoM" + _unitvar), false]};
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if (_timer <= 60) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};
 

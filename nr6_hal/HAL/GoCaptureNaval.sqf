@@ -194,7 +194,7 @@ if (not (_alive) and not (_OtherGroup)) exitwith
 		}
 	};
 
-if (isNull (leader (_this select 0))) exitwith 
+if (({alive _x} count (units _unitG)) < 1) exitwith 
 	{
 	_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 	_amountC = _isAttacked select 1;
@@ -216,9 +216,9 @@ _UL = leader _unitG;if not (isPlayer _UL) then {if (not (_halfway) and (_timer <
 //if not (isNull _lz) then {deleteVehicle _lz};
 
 
-if ((isNull (leader (_this select 0))) or (_timer > 240)) exitwith 
+if ((({alive _x} count (units _unitG)) < 1) or (_timer > 240)) exitwith 
 	{
-	if not (isNull (leader (_this select 0))) then {_unitG setVariable [("Capt" + (str _unitG)),false]};
+	if not (({alive _x} count (units _unitG)) < 1) then {_unitG setVariable [("Capt" + (str _unitG)),false]};
 	_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 	_amountC = _isAttacked select 1;
 	_amountC = _amountC - _amountG;
