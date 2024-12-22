@@ -122,7 +122,7 @@ while {true} do
     _CLiveForces = _LiveForces;
 
     {
-        if (!alive _x) then {_LiveForces = (_LiveForces - [_x])}
+        if (not (alive _x) or not (canMove _x) or ((damage _x) > 0.8) or ((fuel _x) < 0.2)) then {_LiveForces = (_LiveForces - [_x])}
     } forEach _CLiveForces;
 
     _CurrentForces = count _LiveForces;
