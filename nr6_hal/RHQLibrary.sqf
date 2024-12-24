@@ -2484,7 +2484,7 @@ RHQ_Crew_PMC =
 	"soldier_pilot_pmc"
 	];
 	
-if (RydHQ_RHQAutoFill) then
+if (RydxHQ_RHQAutoFill) then
 	{
 	[] call RYD_PresentRHQ;
 //	[] spawn RYD_PresentRHQLoop;

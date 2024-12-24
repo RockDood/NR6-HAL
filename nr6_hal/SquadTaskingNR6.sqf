@@ -24,11 +24,11 @@ while {true} do {
 			_IsHal = false;
 		};
 
-		if (RydHQ_ActionsMenu) then {
+		if (RydxHQ_ActionsMenu) then {
 
 			if ((_x == leader _x) and (not (_x getVariable ["HAL_TaskMenuAdded",false]) or not (_x == (_x getVariable ["HAL_PlayerUnit",objnull]))) and (_IsHal)) then {
 
-					if not (RydHQ_ActionsAceOnly) then {
+					if not (RydxHQ_ActionsAceOnly) then {
 
 						[_x] remoteExecCall ["ActionMfnc",_x];
 						
@@ -45,7 +45,7 @@ while {true} do {
 
 			if ((not (_x == leader _x) and (_x getVariable ["HAL_TaskMenuAdded",false])) or (not (_IsHal) and (_x getVariable ["HAL_TaskMenuAdded",false]))) then {
 
-					if not (RydHQ_ActionsAceOnly) then {
+					if not (RydxHQ_ActionsAceOnly) then {
 
 						[_x] remoteExecCall ["ActionMfncR",_x];
 						
@@ -64,11 +64,11 @@ while {true} do {
 
 		//Tasking
 
-		if (RydHQ_TaskActions) then {
+		if (RydxHQ_TaskActions) then {
 		
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task1Added",false]) and (_IsHal)) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action1fnc",_x];
 				};
@@ -83,7 +83,7 @@ while {true} do {
 
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task2Added",false]) and (_IsHal)) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action2fnc",_x];
 					
@@ -100,7 +100,7 @@ while {true} do {
 
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task3Added",false]) and (_IsHal)) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action3fnc",_x];
 					
@@ -117,7 +117,7 @@ while {true} do {
 
 			if ((not (_x == leader _x) and (_x getVariable ["HAL_Task1Added",false])) or (not (_IsHal) and (_x getVariable ["HAL_Task1Added",false]))) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action1fncR",_x];
 
@@ -133,7 +133,7 @@ while {true} do {
 
 			if ((not (_x == leader _x) and (_x getVariable ["HAL_Task2Added",false])) or (not (_IsHal) and (_x getVariable ["HAL_Task2Added",false]))) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action2fncR",_x];
 					
@@ -149,7 +149,7 @@ while {true} do {
 
 			if ((not (_x == leader _x) and (_x getVariable ["HAL_Task3Added",false])) or (not (_IsHal) and (_x getVariable ["HAL_Task3Added",false]))) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action3fncR",_x];
 					
@@ -167,11 +167,11 @@ while {true} do {
 
 		//Supports
 
-		if (RydHQ_SupportActions) then {
+		if (RydxHQ_SupportActions) then {
 
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task4Added",false]) and (_IsHal)) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action4fnc",_x];
 					
@@ -188,7 +188,7 @@ while {true} do {
 
 			if ((not (_x == leader _x) and (_x getVariable ["HAL_Task4Added",false])) or (not (_IsHal) and (_x getVariable ["HAL_Task4Added",false]))) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action4fncR",_x];
 					
@@ -204,7 +204,7 @@ while {true} do {
 
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task5Added",false]) and (_IsHal)) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action5fnc",_x];
 					
@@ -221,7 +221,7 @@ while {true} do {
 
 			if ((not (_x == leader _x) and (_x getVariable ["HAL_Task5Added",false])) or (not (_IsHal) and (_x getVariable ["HAL_Task5Added",false]))) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action5fncR",_x];
 					
@@ -237,7 +237,7 @@ while {true} do {
 
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task6Added",false]) and (_IsHal)) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action6fnc",_x];
 					
@@ -254,7 +254,7 @@ while {true} do {
 
 			if ((not (_x == leader _x) and (_x getVariable ["HAL_Task6Added",false])) or (not (_IsHal) and (_x getVariable ["HAL_Task6Added",false]))) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action6fncR",_x];
 					
@@ -270,7 +270,7 @@ while {true} do {
 
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task7Added",false]) and (_IsHal)) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action7fnc",_x];
 					
@@ -287,7 +287,7 @@ while {true} do {
 
 			if ((not (_x == leader _x) and (_x getVariable ["HAL_Task7Added",false])) or (not (_IsHal) and (_x getVariable ["HAL_Task7Added",false]))) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action7fncR",_x];
 					
@@ -305,7 +305,7 @@ while {true} do {
 
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task8Added",false]) and (_IsHal)) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action8fnc",_x];
 					
@@ -322,7 +322,7 @@ while {true} do {
 
 			if ((not (_x == leader _x) and (_x getVariable ["HAL_Task8Added",false])) or (not (_IsHal) and (_x getVariable ["HAL_Task8Added",false]))) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action8fncR",_x];
 					
@@ -338,7 +338,7 @@ while {true} do {
 
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task9Added",false]) and (_IsHal)) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action9fnc",_x];
 					
@@ -355,7 +355,7 @@ while {true} do {
 
 			if ((not (_x == leader _x) and (_x getVariable ["HAL_Task9Added",false])) or (not (_IsHal) and (_x getVariable ["HAL_Task9Added",false]))) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action9fncR",_x];
 					
@@ -371,7 +371,7 @@ while {true} do {
 
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task10Added",false]) and (_IsHal)) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action10fnc",_x];
 					
@@ -388,7 +388,7 @@ while {true} do {
 
 			if ((not (_x == leader _x) and (_x getVariable ["HAL_Task10Added",false])) or (not (_IsHal) and (_x getVariable ["HAL_Task10Added",false]))) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action10fncR",_x];
 					
@@ -404,7 +404,7 @@ while {true} do {
 
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task11Added",false]) and (_IsHal)) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action11fnc",_x];
 					
@@ -421,7 +421,7 @@ while {true} do {
 
 			if ((not (_x == leader _x) and (_x getVariable ["HAL_Task11Added",false])) or (not (_IsHal) and (_x getVariable ["HAL_Task11Added",false]))) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action11fncR",_x];
 					
@@ -437,7 +437,7 @@ while {true} do {
 
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task12Added",false]) and (_IsHal)) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action12fnc",_x];
 					
@@ -454,7 +454,7 @@ while {true} do {
 
 			if ((not (_x == leader _x) and (_x getVariable ["HAL_Task12Added",false])) or (not (_IsHal) and (_x getVariable ["HAL_Task12Added",false]))) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action12fncR",_x];
 					
@@ -470,7 +470,7 @@ while {true} do {
 
 			if ((_x == leader _x) and not (_x getVariable ["HAL_Task13Added",false]) and (_IsHal)) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action13fnc",_x];
 					
@@ -487,7 +487,7 @@ while {true} do {
 
 			if ((not (_x == leader _x) and (_x getVariable ["HAL_Task13Added",false])) or (not (_IsHal) and (_x getVariable ["HAL_Task13Added",false]))) then {
 
-				if not (RydHQ_ActionsAceOnly) then {
+				if not (RydxHQ_ActionsAceOnly) then {
 
 					[_x] remoteExecCall ["Action13fncR",_x];
 					

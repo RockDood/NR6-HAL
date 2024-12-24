@@ -680,7 +680,7 @@ RYD_WPadd =
 		_rds = 0
 		};
 
-	if ((RydHQ_PathFinding > 0) and (_pfAll)) then
+	if ((RydxHQ_PathFinding > 0) and (_pfAll)) then
 		{
 		_assVeh = assignedVehicle (leader _gp);
 		if (isNull _assVeh) then
@@ -717,12 +717,12 @@ RYD_WPadd =
 
 			_lastDistance = _dst;
 
-			if (_dst > RydHQ_PathFinding) then
+			if (_dst > RydxHQ_PathFinding) then
 				{
 				_dstFirst = _dst;
 				_mPoints = [];
 
-				while {(_dst > RydHQ_PathFinding)} do
+				while {(_dst > RydxHQ_PathFinding)} do
 					{
 					_dst = floor (_dst/2)
 					};
@@ -758,7 +758,7 @@ RYD_WPadd =
 
 						for "_i" from 1 to _count do
 							{
-							_samplePos = [_sPosX + ((random (RydHQ_PathFinding * _mpl)) - ((RydHQ_PathFinding * _mpl)/2)),_sPosY + ((random (RydHQ_PathFinding * _mpl)) - ((RydHQ_PathFinding * _mpl)/2))];
+							_samplePos = [_sPosX + ((random (RydxHQ_PathFinding * _mpl)) - ((RydxHQ_PathFinding * _mpl)/2)),_sPosY + ((random (RydxHQ_PathFinding * _mpl)) - ((RydxHQ_PathFinding * _mpl)/2))];
 
 							_topArr = [_samplePos,1] call RYD_TerraCognita;
 
@@ -850,6 +850,7 @@ RYD_WPadd =
 
 	_wp = _gp addWaypoint [_pos, _rds];
 	_wp setWaypointType _tp;
+	if ((_tp == "HOOK") and not (isNull (_gp getVariable ["AmmBox" + (str _gp),objNull]))) then {_wp waypointAttachVehicle (_gp getVariable ["AmmBox" + (str _gp),objNull]);_gp setVariable ["AmmBox" + (str _gp),objNull]};
 	_wp setWaypointStatements _sts;
 	_wp setWaypointTimeout _TO;
 	
@@ -1983,10 +1984,10 @@ RYD_Wait =
 
 	if (_Break) then {
 		_alive = false;
-		_gp setVariable [("Busy" + (str _gp)),false];
-		_gp setVariable [("Capt" + (str _gp)),false];
-		_gp setVariable [("Deployed" + (str _gp)),false];
-		_gp setVariable ["Defending", false];
+//		_gp setVariable [("Busy" + (str _gp)),false];
+//		_gp setVariable [("Capt" + (str _gp)),false];
+//		_gp setVariable [("Deployed" + (str _gp)),false];
+//		_gp setVariable ["Defending", false];
 
 		_gp setVariable ["Break",false];
 		_timer = _tolerance + 10;
@@ -4538,7 +4539,7 @@ RYD_FireCount =
 	};
 	
 RYD_HQChatter = 
-	{//if (RydHQ_HQChat) then {[_unitG,"HQ_ord_attack",_pos,_HQ] call RYD_HQChatter};
+	{//if (RydxHQ_HQChat) then {[_unitG,"HQ_ord_attack",_pos,_HQ] call RYD_HQChatter};
 	private ["_gp","_sentence","_pos","_HQ","_unit","_comm","_who","_where","_nL"];
 	
 	_gp = _this select 0;
@@ -4607,7 +4608,7 @@ RYD_OrderPause =
 		
 	_HQ setVariable ["RydHQ_MyLastOrder",time];
 		
-	if (RydHQ_HQChat) then 
+	if (RydxHQ_HQChat) then 
 		{
 		[_unitG,_sentence,_pos,_HQ] call RYD_HQChatter
 		};

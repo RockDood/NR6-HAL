@@ -16,12 +16,12 @@ class CfgPatches
 			"NR6_HAL_BBLeader_Module",
 			"NR6_HAL_Front_Module"
 		};
-		requiredVersion=4.02;
+		requiredVersion=4.1;
 		requiredAddons[]=
 		{
 
 		};
-		version="4.02";
+		version="4.1";
 		authors[]=
 		{
 			"NinjaRider600"
@@ -94,7 +94,7 @@ class CfgVehicles
 			class RydHQ_Wait
 			{
 				displayName="Startup Delay";
-				description="";
+				description="Time in seconds that HAL will wait before initializing.";
 				typeName="NUMBER";
 				defaultValue = "15";
 			};
@@ -149,6 +149,13 @@ class CfgVehicles
 				typeName="BOOL";
 				defaultValue = "False";
 			};
+			class RydxHQ_HQChat
+			{
+				displayName="Commander Chat Orders";
+				description="Commander orders visivle in side chat.";
+				typeName="BOOL";
+				defaultValue = "True";
+			};
 			class RydxHQ_AIChatDensity
 			{
 				displayName="Radio Comms";
@@ -161,37 +168,37 @@ class CfgVehicles
 				displayName="Add Group ID for BFT";
 				description="Friendly forces will have their Squad ID show up on info markers.";
 				typeName="BOOL";
-				defaultValue = "False";
+				defaultValue = "true";
 			};
-			class RydHQ_Actions
+			class RydxHQ_Actions
 			{
 				displayName="Squad Leader Actions";
 				description="Player squad leaders will have HAL actions enabled.";
 				typeName="BOOL";
 				defaultValue = "True";
 			};
-			class RydHQ_ActionsMenu
+			class RydxHQ_ActionsMenu
 			{
 				displayName="Actions Menu";
 				description="Player squad leaders will have HAL actions enabled as a menu.";
 				typeName="BOOL";
 				defaultValue = "True";
 			};
-			class RydHQ_TaskActions
+			class RydxHQ_TaskActions
 			{
 				displayName="Tasking Actions (Deprecated)";
 				description="Player squad leaders will have tasking related actions. Deprecated by menu.";
 				typeName="BOOL";
 				defaultValue = "False";
 			};
-			class RydHQ_SupportActions
+			class RydxHQ_SupportActions
 			{
 				displayName="Support Actions (Deprecated)";
 				description="Player squad leaders will have support related actions. Deprecated by menu.";
 				typeName="BOOL";
 				defaultValue = "False";
 			};
-			class RydHQ_ActionsAceOnly
+			class RydxHQ_ActionsAceOnly
 			{
 				displayName="Only Use ACE Actions";
 				description="Player squad leaders will only use ACE self-interactions for their HAL actions.";
@@ -200,14 +207,14 @@ class CfgVehicles
 			};
 			class RydxHQ_NoRestPlayers
 			{
-				displayName="Disable Withdraw Players";
+				displayName="Disable Withdraw For Players Squad Leader";
 				description="Players will not receive forced retreat orders (Recommended).";
 				typeName="BOOL";
 				defaultValue = "True";
 			};
 			class RydxHQ_NoCargoPlayers
 			{
-				displayName="Disable Cargo Players";
+				displayName="Disable Cargo Players Squad Leaders";
 				description="Players will not be provided with forced lifts (Recommended).";
 				typeName="BOOL";
 				defaultValue = "True";
@@ -224,26 +231,26 @@ class CfgVehicles
 				displayName="Squad Info Share Range";
 				description="How far do squads communicate enemy positions to other nearby squads. Set to 0 to disable.";
 				typeName="NUMBER";
-				defaultValue = "0";
+				defaultValue = "500";
 			};
-			class RydHQ_SlingDrop
+			class RydxHQ_SlingDrop
 			{
 				displayName="Sling Load Ammo Drop";
-				description="";
+				description="(Feature inconsistent at this time)";
 				typeName="BOOL";
 				defaultValue = "False";
 			};
-			class RydHQ_RHQAutoFill
+			class RydxHQ_RHQAutoFill
 			{
 				displayName="RHQ Auto Mode";
-				description="";
+				description="Classifies units to be used by HAL automatically";
 				typeName="BOOL";
 				defaultValue = "True";
 			};
-			class RydHQ_PathFinding
+			class RydxHQ_PathFinding
 			{
 				displayName="Pathfinding Increments";
-				description="Set to 0 to disable";
+				description="Set to 0 to disable. Adds several waypoints to squads instead of a single straight line waypoint to account for terrain. May cause more issues with mobility. (Recommended disabled)";
 				typeName="NUMBER";
 				defaultValue = "0";
 			};
@@ -451,13 +458,6 @@ class CfgVehicles
 				description="Coefficient of speed for orders dispatching. (ex: 2 for double delay) Avoid values under 1.";
 				typeName="NUMBER";
 				defaultValue = "1";
-			};
-			class RydHQ_HQChat
-			{
-				displayName="Commander Chat Orders";
-				description="Commander orders visivle in side chat.";
-				typeName="BOOL";
-				defaultValue = "True";
 			};
 			class RydHQ_ChatDebug
 			{

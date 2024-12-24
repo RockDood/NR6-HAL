@@ -23,7 +23,6 @@ _Commanders = [];
 
 	_logic call compile (_prefix + "Fast" + " = " + str (_logic getvariable "RydHQ_Fast"));
 	_logic call compile (_prefix + "CommDelay" + " = " + str (_logic getvariable "RydHQ_CommDelay"));
-	_logic call compile (_prefix + "HQChat" + " = " + str (_logic getvariable "RydHQ_HQChat"));
 	_logic call compile (_prefix + "ChatDebug" + " = " + str (_logic getvariable "RydHQ_ChatDebug"));
 	_logic call compile (_prefix + "ExInfo" + " = " + str (_logic getvariable "RydHQ_ExInfo"));
 	_logic call compile (_prefix + "ResetTime" + " = " + str (_logic getvariable "RydHQ_ResetTime"));

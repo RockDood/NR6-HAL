@@ -1,18 +1,71 @@
-
 if not (isServer) exitWith {};
 
+private ["_logic"];
 
-if (isNil ("RydHQ_Wait")) then 
-{
-	RydHQ_Wait = ((_this select 0) getvariable "RydHQ_Wait"); 
-	if (isNil ("RydHQ_Wait")) then {RydHQ_Wait = 15};
-};
+_logic = (_this select 0);
+
+RydHQ_Wait = (_logic getvariable "RydHQ_Wait"); 
+
+if (isNil ("RydHQ_Wait")) then {RydHQ_Wait = 15};
 
 sleep RydHQ_Wait;
 
-_hi = "HAL 1.25.0 RC2 - [modified NR6 Pack] Initialized";
+RydxHQ_ReconCargo = missionNamespace getvariable ["RydxHQ_ReconCargo",true];
+publicVariable "RydxHQ_ReconCargo";
+RydxHQ_SynchroAttack = missionNamespace getvariable ["RydxHQ_SynchroAttack",false];
+publicVariable "RydxHQ_SynchroAttack";
+RydxHQ_InfoMarkersID = missionNamespace getvariable ["RydxHQ_InfoMarkersID",true];
+publicVariable "RydxHQ_InfoMarkersID";
 
-if ((random 100) < 1) then {_hi = "Gooooood moooorning Dave!."};
+RydxHQ_Actions = missionNamespace getvariable ["RydxHQ_Actions",true];
+publicVariable "RydxHQ_Actions";
+RydxHQ_ActionsMenu = missionNamespace getvariable ["RydxHQ_ActionsMenu",true];
+publicVariable "RydxHQ_ActionsMenu";
+
+RydxHQ_TaskActions = missionNamespace getvariable ["RydxHQ_TaskActions",false];
+publicVariable "RydxHQ_TaskActions";
+RydxHQ_SupportActions = missionNamespace getvariable ["RydxHQ_SupportActions",false];
+publicVariable "RydxHQ_SupportActions";
+RydxHQ_ActionsAceOnly = missionNamespace getvariable ["RydxHQ_ActionsAceOnly",false];
+publicVariable "RydxHQ_ActionsAceOnly";
+
+RydxHQ_NoRestPlayers = missionNamespace getvariable ["RydxHQ_NoRestPlayers",true];
+publicVariable "RydxHQ_NoRestPlayers";
+RydxHQ_NoCargoPlayers = missionNamespace getvariable ["RydxHQ_NoCargoPlayers",true];
+publicVariable "RydxHQ_NoCargoPlayers";
+
+RydxHQ_HQChat = missionNamespace getvariable ["RydxHQ_HQChat",true];
+publicVariable "RydxHQ_HQChat";
+RydxHQ_AIChatDensity = missionNamespace getvariable ["RydxHQ_AIChatDensity",100];
+publicVariable "RydxHQ_AIChatDensity";
+RydxHQ_GarrisonV2 = missionNamespace getvariable ["RydxHQ_GarrisonV2",true];
+publicVariable "RydxHQ_GarrisonV2";
+RydxHQ_NEAware = missionNamespace getvariable ["RydxHQ_NEAware",500];
+publicVariable "RydxHQ_NEAware";
+RydxHQ_SlingDrop = missionNamespace getvariable ["RydxHQ_SlingDrop",false];
+publicVariable "RydxHQ_SlingDrop";
+RydxHQ_RHQAutoFill = missionNamespace getvariable ["RydxHQ_RHQAutoFill",true];
+publicVariable "RydxHQ_RHQAutoFill";
+
+RydxHQ_PathFinding = missionNamespace getvariable ["RydxHQ_PathFinding",0];
+publicVariable "RydxHQ_PathFinding";
+
+RydxHQ_MagicHeal = missionNamespace getvariable ["RydxHQ_MagicHeal",false];
+publicVariable "RydxHQ_MagicHeal";
+RydxHQ_MagicRepair = missionNamespace getvariable ["RydxHQ_MagicRepair",false];
+publicVariable "RydxHQ_MagicRepair";
+RydxHQ_MagicRearm = missionNamespace getvariable ["RydxHQ_MagicRearm",false];
+publicVariable "RydxHQ_MagicRearm";
+RydxHQ_MagicRefuel = missionNamespace getvariable ["RydxHQ_MagicRefuel",false];
+publicVariable "RydxHQ_MagicRefuel";
+
+if (isNil {"RYD_WS_ArtyMarks"}) then {RYD_WS_ArtyMarks = false};
+
+if (isNil {"RydxHQ_ReconCargo"}) then {RydxHQ_ReconCargo = false};
+
+_hi = "HAL 1.26.0 RC1 - [NR6 Pack] Initialized";
+
+if ((random 100) < 1) then {_hi = "Good evening, Dave. Everything's running smoothly - and you?"};
 
 _hi remoteExecCall ["systemChat"];
 
@@ -27,19 +80,6 @@ call compile preprocessfile (RYD_Path + "TaskMenu.sqf");
 call compile preprocessfile (RYD_Path + "TaskInitNR6.sqf");
 HAL_fnc_getType = compile preprocessFileLineNumbers "A3\modules_f\marta\data\scripts\fnc_getType.sqf";
 HAL_fnc_getSize = compile preprocessFileLineNumbers "A3\modules_f\marta\data\scripts\fnc_getSize.sqf";
-
-if (isNil ("RydHQ_Actions")) then {RydHQ_Actions = true};
-if (isNil ("RydHQ_ActionsMenu")) then {RydHQ_ActionsMenu = true};
-if (isNil ("RydHQ_TaskActions")) then {RydHQ_TaskActions = false};
-if (isNil ("RydHQ_SupportActions")) then {RydHQ_SupportActions = false};
-if (isNil ("RydHQ_ActionsAceOnly")) then {RydHQ_ActionsAceOnly = false};
-
-if (isNil {"RydxHQ_NoRestPlayers"}) then {RydxHQ_NoRestPlayers = false};
-if (isNil {"RydxHQ_NoCargoPlayers"}) then {RydxHQ_NoCargoPlayers = false};
-if (isNil {"RYD_WS_ArtyMarks"}) then {RYD_WS_ArtyMarks = false};
-if (isNil {"RydxHQ_InfoMarkersID"}) then {RydxHQ_InfoMarkersID = false};
-
-if (isNil {"RydxHQ_ReconCargo"}) then {RydxHQ_ReconCargo = false};
 
 publicVariable "RYD_MP_Sidechat";
 publicVariable "RYD_MP_SideRadio";
@@ -318,6 +358,6 @@ if ((count RydHQ_GroupMarks) > 0) then
 	[RydHQ_GroupMarks,RYD_GroupMarkerLoop] call RYD_Spawn
 	};
 
-if (RydHQ_Actions) then {
+if (RydxHQ_Actions) then {
 nul = [] execVM  (RYD_Path + "SquadTaskingNR6.sqf");
 };
