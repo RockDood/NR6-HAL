@@ -66,7 +66,6 @@ _isWater = surfaceIsWater [_posX,_posY];
 
 if not (_isWater) exitwith 
 	{
-	_unitG setVariable [("Capt" + (str _unitG)),false];
 	_isAttacked = _Trg getVariable ("Capturing" + (str _Trg) + (str _HQ));
 	_amountC = _isAttacked select 1;
 	_amountC = _amountC - _amountG;
@@ -76,7 +75,8 @@ if not (_isWater) exitwith
 	_attAv = _HQ getVariable ["RydHQ_AttackAv",[]];
 	_attAv pushBack _unitG;
 	_HQ setVariable ["RydHQ_AttackAv",_attAv];
-	_unitG setVariable [("Busy" + (str _unitG)),false]
+	_unitG setVariable [("Busy" + (str _unitG)),false];
+	_unitG setVariable [("Capt" + (str _unitG)),false];
 	};
 	
 [_unitG,[_posX,_posY,0],"HQ_ord_captureNav",_HQ] call RYD_OrderPause;
@@ -187,6 +187,7 @@ if (not (_alive) and not (_OtherGroup)) exitwith
 	_isAttacked = _isAttacked select 0;
 	_isAttacked = _isAttacked - 1;
 	_unitG setVariable [("Busy" + (str _unitG)),false];
+	_unitG setVariable [("Capt" + (str _unitG)),false];
 	_Trg setVariable [("Capturing" + (str _Trg) + (str _HQ)),[_isAttacked,_amountC]];
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
@@ -202,6 +203,7 @@ if (({alive _x} count (units _unitG)) < 1) exitwith
 	_isAttacked = _isAttacked select 0;
 	_isAttacked = _isAttacked - 1;
 	_unitG setVariable [("Busy" + (str _unitG)),false];
+	_unitG setVariable [("Capt" + (str _unitG)),false];
 	_Trg setVariable [("Capturing" + (str _Trg) + (str _HQ)),[_isAttacked,_amountC]];
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
@@ -225,6 +227,7 @@ if ((({alive _x} count (units _unitG)) < 1) or (_timer > 240)) exitwith
 	_isAttacked = _isAttacked select 0;
 	_isAttacked = _isAttacked - 1;
 	_unitG setVariable [("Busy" + (str _unitG)),false];
+	_unitG setVariable [("Capt" + (str _unitG)),false];
 	_Trg setVariable [("Capturing" + (str _Trg) + (str _HQ)),[_isAttacked,_amountC]];
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
@@ -264,6 +267,7 @@ if not (_alive) exitwith
 	_isAttacked = _isAttacked select 0;
 	_isAttacked = _isAttacked - 1;
 	_unitG setVariable [("Busy" + (str _unitG)),false];
+	_unitG setVariable [("Capt" + (str _unitG)),false];
 	_Trg setVariable [("Capturing" + (str _Trg) + (str _HQ)),[_isAttacked,_amountC]];
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{

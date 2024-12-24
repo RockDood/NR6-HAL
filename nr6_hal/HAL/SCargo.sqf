@@ -13,7 +13,7 @@ if ((count _this) > 3) then {_withdraw = _this select 3};
 if ((count _this) > 4) then {_request = _this select 4};
 if ((count _this) > 5) then {_requestG = _this select 5};
 
-if ((_withdraw) and not (_HQ getVariable ["RydHQ_AirEvac",false])) exitwith {_unitG setVariable ["CargoChosen",false];_unitG setVariable [("CC" + (str _unitG)), true, true]};
+if ((_withdraw) and not (_HQ getVariable ["RydHQ_AirEvac",true])) exitwith {_unitG setVariable ["CargoChosen",false];_unitG setVariable [("CC" + (str _unitG)), true, true]};
 
 _CheckInProgress = (_unitG getVariable ["CargoCheckPending" + (str _unitG),false]);
 if (_CheckInProgress) exitwith {_unitG setVariable ["CargoChosen",false];_unitG setVariable [("CC" + (str _unitG)), true, true]};
@@ -291,7 +291,7 @@ if not (_emptyV) then
 		};
 
 	_taskTxt = "Wait and get into vehicle.";
-	if (_withdraw) then 
+/*	if (_withdraw) then 
 		{
 		_pos1 = getPosATL _vGL;
 		_pos2 = _posT;
@@ -328,7 +328,7 @@ if not (_emptyV) then
 		_taskTxt = "Reach LZ, wait for evacuation.";
 
 		_wp = [_unitG,([_Lpos,30] call RYD_RandomAround)] call RYD_WPadd;
-		};
+		};*/
 		
 	if not (_request) then {
 		
@@ -362,6 +362,8 @@ if not (_emptyV) then
 		if (_alive) then {if ((speed _ChosenOne) < 0.5) then {_timer = _timer + 5}};
 		if (_alive) then {if (((damage (_ChosenOne)) > 0.8) or ((fuel (_ChosenOne)) < 0.2) or not (canMove _ChosenOne) or (isNull (assignedVehicle (leader _GD)))) then {_alive = false}};
 		if (_GD getVariable ["Break",false]) then {_endThis = true;_alive = false; _GD setVariable ["Break",false];};
+
+		If (_withdraw) then {[_GD, (currentWaypoint _GD)] setWaypointPosition [getPosATL (vehicle (leader _unitG)), 0];};
 		sleep 6;
 
 		((((count (waypoints _GD)) < 1)) or (_timer > 120) or (_request) or not (_alive));
