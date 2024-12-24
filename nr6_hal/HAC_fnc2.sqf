@@ -916,8 +916,7 @@ RYD_StatusQuo =
 				if (_HQ getVariable ["RydHQ_Surr",false]) then
 					{
 					if (_dngr < (0.5 + (random 0.5))) exitWith {};
-					
-					if ((random 100) > 50) then
+					if ((random 100) > 0) then
 						{
 						if (_HQ getVariable ["RydHQ_DebugII",false]) then 
 							{
@@ -953,10 +952,11 @@ RYD_StatusQuo =
 										for [{_a = 0},{_a < (count (weapons _unit))},{_a = _a + 1}] do
 											{
 											_weapon = (weapons _unit) select _a;
-											_unit Action ["dropWeapon", _unit, _weapon] 
+											private _weaponHolder = "GroundWeaponHolder" createVehicle getPosATL _unit;
+											_unit Action ["dropWeapon", _weaponHolder, _weapon] 
 											};
 
-										_unit PlayAction "Surrender"
+										_unit PlayAction "Surrender";
 										}
 									}
 								foreach (units _gp)
@@ -3107,7 +3107,7 @@ RYD_PresentRHQLoop =
 
 	{
 		sleep 60;
-		while {RydHQ_RHQAutoFill} do {
+		while {RydxHQ_RHQAutoFill} do {
 
 			waitUntil {sleep 5; (({(_x getVariable ["RydHQ_Pending",false])} count RydxHQ_AllHQ) == 0)};
 			[] spawn RYD_PresentRHQ;
