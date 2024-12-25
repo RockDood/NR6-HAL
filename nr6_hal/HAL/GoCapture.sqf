@@ -107,8 +107,6 @@ if (_HQ getVariable ["RydHQ_Debug",false]) then
 
 _alive = true;
 _timer = 0;
-_CargoCheck = _unitG getvariable ("CC" + _unitvar);
-if (isNil ("_CargoCheck")) then {_unitG setVariable [("CC" + _unitvar), false]};
 _AV = assignedVehicle _UL;
 
 if not (isNull _AV) then { 
@@ -293,7 +291,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer))
 
 		_alive = true;
 		_CargoCheck = _unitG getvariable ("CC" + _unitvar);
-		if (isNil ("_CargoCheck")) then {_unitG setVariable [("CC" + _unitvar), false]};
+		if (isNil ("_CargoCheck")) then {_unitG setVariable [("CC" + _unitvar), true]};
 		_AV = assignedVehicle _UL;
 
 		if not (isNull _AV) then { 
