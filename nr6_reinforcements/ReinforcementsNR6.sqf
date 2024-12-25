@@ -6,7 +6,7 @@
 
 private 
     [
-    "_side","_logic","_playerRange","_Commanders","_rStrgt","_SpawnPos","_StartForces","_sidetick","_faction","_CurrentForces","_Pool","_Threshold","_SpawnRadius","_Leaders","_SpawnRGroup","_CTR","_ObjSource","_CanSpawn","_RejoinPoint","_SpawnMode"
+    "_side","_logic","_playerRange","_Commanders","_rStrgt","_SpawnPos","_StartForces","_sidetick","_faction","_CurrentForces","_Pool","_Threshold","_SpawnRadius","_Leaders","_SpawnRGroup","_CTR","_ObjSource","_CanSpawn","_RejoinPoint","_SpawnMode","_sidetickHold","_sideEn","_sideEn2"
     ];
 
 _logic = _this select 0;
@@ -24,6 +24,7 @@ _SpawnRadius = _logic getvariable "_SpawnRadius";
 _sidetick = _logic getvariable "_sidetick";
 _faction = _logic getvariable "_faction";
 _Threshold = _logic getvariable "_Threshold";
+_HalReinf = _logic getvariable "_HalReinf";
 _Leaders = _Commanders;
 _ObjSource = _logic;
 _RejoinPoint = call compile (_logic getvariable "_RejoinPoint");
@@ -722,6 +723,56 @@ if (_faction == "OPTRE_Ins") then {
         ]
 };
 
+if (isNil "_sidetickHold") then 
+    {
+        _sidetickHold = 0;
+    };
+
+if (isNil "_sideEn") then 
+    {
+        _sideEn = civilian;
+    };
+if (isNil "_sideEn2") then 
+    {
+        _sideEn2 = civilian;
+    };
+
+if ((_HalReinf isEqualTo "KillSwitch") or (_HalReinf isEqualTo "ReCapture")) then 
+{
+if (_sideEn == civilian) then {
+    if ((_sideEn == civilian) and ([west, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    {
+        _sideEn = west;
+    }; 
+    if ((_sideEn == civilian) and ([east, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    {
+        _sideEn = east;
+    }; 
+    if ((_sideEn == civilian) and ([resistance, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    {
+        _sideEn = resistance;
+    }; 
+    if (_sideEn == civilian) then {_sideEn = sideEnemy};
+};
+
+if (_sideEn2 == civilian) then {
+    if ((_sideEn2 == civilian) and not (_sideEn == west) and ([west, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    {
+        _sideEn2 = west;
+    }; 
+    if ((_sideEn2 == civilian) and not (_sideEn == east) and ([east, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    {
+        _sideEn2 = east;
+    }; 
+    if ((_sideEn2 == civilian) and not (_sideEn == resistance) and ([resistance, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    {
+        _sideEn2 = resistance;
+    }; 
+    if (_sideEn2 == civilian) then {_sideEn2 = sideEnemy};
+};
+};
+
+
 if (_SpawnMode) exitwith {
     for "_i" from 1 to _rStrgt do
         {
@@ -752,7 +803,28 @@ while {true} do
         };
     };
 
-    
+    if ((_HalReinf isEqualTo "KillSwitch") and ({_x distance (_SpawnPos select 0) < _playerRange} count allplayers > 0) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0)) then 
+    {
+        _sidetick = 0;
+    };
+
+    if ((_HalReinf isEqualTo "ReCapture") and (_sidetick != 0) and ((_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0) or (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0)) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0)) then 
+    {
+        if (_sidetick > 0) then 
+        {
+            _sidetickHold = _sidetick;
+        };
+        _sidetick = 0;
+    };
+    if ((_HalReinf isEqualTo "ReCapture") and (_sidetickHold != 0) and (_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0) and (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0)) then 
+    {
+        if (_sidetick == 0) then 
+        {
+            _sidetick = _sidetickHold;
+        };
+        _sidetickHold = 0;
+    };
+
     _CurrentForces = (_side countSide allUnits);
 
     if (((_CurrentForces) < (_Threshold*_StartForces)) and not ({_x distance (_SpawnPos select 0) < _playerRange} count allplayers > 0) and (_CanSpawn)) then 
@@ -776,6 +848,6 @@ while {true} do
             sleep 3;
             };
         };
-    if (_sidetick <= 0) exitwith {};
+    if ((_sidetick <= 0) and (_sidetickHold <= 0)) exitwith {};
     sleep 5;
     };

@@ -89,6 +89,31 @@ class CfgVehicles
 				};
 			};
 
+			class _HalReinf
+			{
+				displayName="Disable Type";
+				description="Select the way the reinforcements module will stop working when players enter the range";
+				class values 
+				{
+					class vanilla
+					{
+						name="Disable only temporarily when players in range - players only
+						value="vanilla"
+						default=1;	
+					};
+					class KillSwitch
+					{
+						name="Disable completely - players only"
+						value="KillSwitch"
+					};
+					class ReCapture
+					{
+						name="Commander needs to recapture the area - AI and players"
+						value="ReCapture"
+					};
+				};
+			};
+
 			class _rStrgt
 			{
 				displayName="Spawns Per Wave";
