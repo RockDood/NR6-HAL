@@ -540,7 +540,7 @@ ACEAction6fncR = {
 
 Action7ct = {
 
-	private ["_unitvar","_chosen","_HQ","_dist"];
+	private ["_unitvar","_chosen","_HQ","_dist","_TransportPriority","_timer"];
 
 	_HQ = grpNull;
 
@@ -557,17 +557,59 @@ Action7ct = {
 
 	_unitvar = str (group (_this select 0));
 
-	if not ((group (_this select 0)) getVariable [("CC" + _unitvar), true]) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. air transport already assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if not ((group (_this select 0)) getVariable [("CC" + _unitvar), true]) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. Air transport already assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if ((group (_this select 0)) getVariable ["CargoCheckLoopActive", false]) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', request pending. You are already on a waiting list for transport - Over'] remoteExecCall ["RYD_MP_Sidechat"]};
+
+	(group (_this select 0)) setVariable ["CargoCheckLoopActive", true,true];
 
 	(group (_this select 0)) setVariable [("CC" + _unitvar), false, true];
+
+	_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityAir",[]];
+	_TransportPriority pushBackUnique (group (_this select 0));
+	(leader _HQ) setVariable ["RydHQ_TransportPriorityAir",_TransportPriority,true];
 
 	[[(group (_this select 0)),_HQ,getpos (_this select 0),false,true],HAL_SCargo] call RYD_Spawn;
 
 	sleep 15;
 
-	if ((group (_this select 0)) getVariable [("CC" + _unitvar), false]) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No air assets are available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (not ((group (_this select 0)) getVariable [("CC" + _unitvar), false])) exitwith {
+		[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. Air transport has been assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"];
+		_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityAir",[]];
+		_TransportPriority = _TransportPriority - [(group (_this select 0))];
+		(leader _HQ) setVariable ["RydHQ_TransportPriorityAir",_TransportPriority,true];
 
-	[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. Air transport has been assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"];
+		(group (_this select 0)) setVariable ["CargoCheckLoopActive", false,true];
+		};
+
+	if ((group (_this select 0)) getVariable [("CC" + _unitvar), false]) then {
+
+		[leader _HQ, (groupId (group (_this select 0))) + ', copy. No air assets are available at this time. If transport becomes available in the next two minutes, it will be assigned to you - Over'] remoteExecCall ["RYD_MP_Sidechat"];
+
+		_timer = 0;
+
+		waitUntil {
+			if not (((group (_this select 0)) getVariable ["CargoCheckPending" + _unitvar,false]) and ((group (_this select 0)) getVariable [("CC" + _unitvar), false])) then {
+				(group (_this select 0)) setVariable [("CC" + _unitvar), false, true];
+				[[(group (_this select 0)),_HQ,getpos (_this select 0),false,true],HAL_SCargo] call RYD_Spawn;
+				};
+
+			sleep 10;
+
+			_timer = _timer + 10;
+
+			((not ((group (_this select 0)) getVariable [("CC" + _unitvar), false])) and not ((group (_this select 0)) getVariable ["CargoCheckPending" + _unitvar,false])) or (_timer > 120);
+		};
+
+	};
+
+	_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityAir",[]];
+	_TransportPriority = _TransportPriority - [(group (_this select 0))];
+	(leader _HQ) setVariable ["RydHQ_TransportPriorityAir",_TransportPriority,true];
+
+	(group (_this select 0)) setVariable ["CargoCheckLoopActive", false,true];
+
+	if (not ((group (_this select 0)) getVariable [("CC" + _unitvar), false])) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', update on your request. Air transport has been assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"];};
+	if ((group (_this select 0)) getVariable [("CC" + _unitvar), false]) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', update on your request. No air assets became available. - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 };
 
@@ -1243,7 +1285,7 @@ ACEActionMfncR = {
 
 ActionGTct = {
 
-	private ["_unitvar","_chosen","_HQ","_dist"];
+	private ["_unitvar","_chosen","_HQ","_dist","_TransportPriority","_timer"];
 
 	_HQ = grpNull;
 
@@ -1256,21 +1298,63 @@ ActionGTct = {
 	if not (isnil "LeaderHQG") then {if ((group (_this select 0)) in ((group LeaderHQG) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQG)}};
 	if not (isnil "LeaderHQH") then {if ((group (_this select 0)) in ((group LeaderHQH) getVariable ["RydHQ_Friends",[]])) then {_HQ = (group LeaderHQH)}};
 
-	[(_this select 0), 'Command, requesting transport at our position - Over'] remoteExecCall ["RYD_MP_Sidechat"];
+	[(_this select 0), 'Command, requesting ground transport at our position - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
 	_unitvar = str (group (_this select 0));
 
 	if not ((group (_this select 0)) getVariable [("CC" + _unitvar), true]) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. Transport already assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if ((group (_this select 0)) getVariable ["CargoCheckLoopActive", false]) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', request pending. You are already on a waiting list for transport - Over'] remoteExecCall ["RYD_MP_Sidechat"]};
+
+	(group (_this select 0)) setVariable ["CargoCheckLoopActive", true,true];
 
 	(group (_this select 0)) setVariable [("CC" + _unitvar), false, true];
+
+	_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityGnd",[]];
+	_TransportPriority pushBackUnique (group (_this select 0));
+	(leader _HQ) setVariable ["RydHQ_TransportPriorityGnd",_TransportPriority,true];
 
 	[[(group (_this select 0)),_HQ,getpos (_this select 0),false,true,true],HAL_SCargo] call RYD_Spawn;
 
 	sleep 15;
 
-	if ((group (_this select 0)) getVariable [("CC" + _unitvar), false]) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No cargo assets are available - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
+	if (not ((group (_this select 0)) getVariable [("CC" + _unitvar), false])) exitwith {
+		[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. Ground transport has been assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"];
+		_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityGnd",[]];
+		_TransportPriority = _TransportPriority - [(group (_this select 0))];
+		(leader _HQ) setVariable ["RydHQ_TransportPriorityGnd",_TransportPriority,true];
 
-	[leader _HQ, (groupId (group (_this select 0))) + ', affirmative. Transport has been assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"];
+		(group (_this select 0)) setVariable ["CargoCheckLoopActive", false,true];
+		};
+
+	if ((group (_this select 0)) getVariable [("CC" + _unitvar), false]) then {
+
+		[leader _HQ, (groupId (group (_this select 0))) + ', copy. No ground transports are available at this time. If transport becomes available in the next two minutes, it will be assigned to you - Over'] remoteExecCall ["RYD_MP_Sidechat"];
+
+		_timer = 0;
+
+		waitUntil {
+			if not (((group (_this select 0)) getVariable ["CargoCheckPending" + _unitvar,false]) and ((group (_this select 0)) getVariable [("CC" + _unitvar), false])) then {
+				(group (_this select 0)) setVariable [("CC" + _unitvar), false, true];
+				[[(group (_this select 0)),_HQ,getpos (_this select 0),false,true,true],HAL_SCargo] call RYD_Spawn;
+				};
+
+			sleep 10;
+
+			_timer = _timer + 10;
+
+			((not ((group (_this select 0)) getVariable [("CC" + _unitvar), false])) and not ((group (_this select 0)) getVariable ["CargoCheckPending" + _unitvar,false])) or (_timer > 120);
+		};
+
+	};
+
+	_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityGnd",[]];
+	_TransportPriority = _TransportPriority - [(group (_this select 0))];
+	(leader _HQ) setVariable ["RydHQ_TransportPriorityGnd",_TransportPriority,true];
+
+	(group (_this select 0)) setVariable ["CargoCheckLoopActive", false,true];
+
+	if (not ((group (_this select 0)) getVariable [("CC" + _unitvar), false])) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', update on your request. Ground transport has been assigned - Out'] remoteExecCall ["RYD_MP_Sidechat"];};
+	if ((group (_this select 0)) getVariable [("CC" + _unitvar), false]) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', update on your request. No ground transport became available. - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
 };
 

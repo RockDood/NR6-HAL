@@ -16,7 +16,7 @@ if ((count _this) > 5) then {_requestG = _this select 5};
 if ((_withdraw) and not (_HQ getVariable ["RydHQ_AirEvac",true])) exitwith {_unitG setVariable ["CargoChosen",false];_unitG setVariable [("CC" + (str _unitG)), true, true]};
 
 _CheckInProgress = (_unitG getVariable ["CargoCheckPending" + (str _unitG),false]);
-if (_CheckInProgress) exitwith {_unitG setVariable ["CargoChosen",false];_unitG setVariable [("CC" + (str _unitG)), true, true]};
+if (_CheckInProgress) exitwith {};
 
 _CheckInProgress = true;
 _unitG setVariable ["CargoCheckPending" + (str _unitG),true];
@@ -122,6 +122,9 @@ if (isNull _ChosenOne) then
 		case (_offRoad) : {_cargos = [_airCargo,_allCargo]};
 		default {_cargos = [_allCargo]};
 		};
+
+		if (((count ((leader _HQ) getVariable ["RydHQ_TransportPriorityAir",[]])) > 0) and not (_withdraw) and not (_request)) then {_cargos = [_GCargo]};
+		if (((count ((leader _HQ) getVariable ["RydHQ_TransportPriorityGnd",[]])) > 0) and not (_withdraw) and not (_request)) then {_cargos = [_airCargo]};
 		
 		{
 			{
@@ -542,6 +545,14 @@ if not (_GD == _unitG) then
 				_firstlead setVariable ["HAL_ReqTraActs",[],true];
 
 				_firstlead = (leader _unitG);
+
+				_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityAir",[]];
+				_TransportPriority = _TransportPriority - [_unitG];
+				(leader _HQ) setVariable ["RydHQ_TransportPriorityAir",_TransportPriority,true];
+
+				_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityGnd",[]];
+				_TransportPriority = _TransportPriority - [_unitG];
+				(leader _HQ) setVariable ["RydHQ_TransportPriorityGnd",_TransportPriority,true];
 				
 
 			};
@@ -592,6 +603,14 @@ if not (_GD == _unitG) then
 		{
 			[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]; 
 		} foreach (units _unitG);
+
+		_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityAir",[]];
+		_TransportPriority = _TransportPriority - [_unitG];
+		(leader _HQ) setVariable ["RydHQ_TransportPriorityAir",_TransportPriority,true];
+
+		_TransportPriority = (leader _HQ) getVariable ["RydHQ_TransportPriorityGnd",[]];
+		_TransportPriority = _TransportPriority - [_unitG];
+		(leader _HQ) setVariable ["RydHQ_TransportPriorityGnd",_TransportPriority,true];
 
 	};
 
