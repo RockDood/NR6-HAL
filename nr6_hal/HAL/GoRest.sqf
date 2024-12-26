@@ -84,8 +84,8 @@ _unitG setVariable [("Busy" + (str _unitG)), true];
 _unitG setVariable [("Deployed" + (str _unitG)),false];
 //_unitG setVariable [("Capt" + (str _unitG)),false];
 
-_Xpos = ((getPosATL (leader _HQ)) select 0) + (random 500) - 250;
-_Ypos = ((getPosATL (leader _HQ)) select 1) + (random 500) - 250;
+_Xpos = ((getPosATL (leader _HQ)) select 0) + (random 300);
+_Ypos = ((getPosATL (leader _HQ)) select 1) + (random 300);
 
 _posX = _Xpos;
 _posY = _Ypos;
@@ -97,15 +97,15 @@ if not (isNull (_HQ getVariable ["RydHQ_RestDecoy",objNull])) then
 	{
 	_isDecoy = true;
 
-	_tRadius = (triggerArea (_HQ getVariable ["RydHQ_RestDecoy",objNull])) select 0;
+	//_tRadius = (triggerArea (_HQ getVariable ["RydHQ_RestDecoy",objNull])) select 0;
 
 	if ((random 100) >= (_HQ getVariable ["RydHQ_RDChance",100])) exitWith {_unitG setVariable [("Busy" + (str _unitG)),false];_isDecoy = false};
 
 	_tPos = getPosATL (_HQ getVariable ["RydHQ_RestDecoy",objNull]);
-	_enemyMatters = (triggerArea (_HQ getVariable ["RydHQ_RestDecoy",objNull])) select 3;
+	//_enemyMatters = (triggerArea (_HQ getVariable ["RydHQ_RestDecoy",objNull])) select 3; - comment here _area = triggerArea sensor1; // result is [200 -0, 120 -1, 45 -2, false -3, -1 -4]; so select 3 would be a check of "isRectangle"....
 
-	_posX = (_tPos select 0) + (random (2 * _tRadius)) - (_tRadius);
-	_posY = (_tPos select 1) + (random (2 * _tRadius)) - (_tRadius);
+	_posX = (_tPos select 0) + (random (_tPos select 0));
+	_posY = (_tPos select 1) + (random (_tPos select 0));
 	};
 
 if not (_isDecoy) then 
@@ -164,7 +164,7 @@ waituntil
 		_posY = _posY + (random 500) - 250;
 		};
 
-	(not (_isWater) and ((isNull ((leader _HQ) FindNearestEnemy [_posX,_posY])) or ((((leader _HQ) FindNearestEnemy [_posX,_posY]) distance [_posX,_posY]) >= 500) or not (_enemyMatters)) or (_counter > 30))
+	(not (_isWater) and ((isNull ((leader _HQ) FindNearestEnemy [_posX,_posY])) or ((((leader _HQ) FindNearestEnemy [_posX,_posY]) distance [_posX,_posY]) >= 500) or not (_enemyMatters) or (_counter > 30)))
 	};
 
 if ((_counter > 30) or (not (isNull ((leader _HQ) FindNearestEnemy [_posX,_posY])) and ((((leader _HQ) FindNearestEnemy [_posX,_posY]) distance [_posX,_posY]) < 500) and (_enemyMatters))) then {_posX = ((getPosATL (leader _HQ)) select 0) + (random 500) - 250;_posY = ((getPosATL (leader _HQ)) select 1) + (random 500) - 250};
@@ -251,7 +251,6 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer))
 		if (_timer > 30) then {_endThis = true};
 
 		//New Cargo???
-
 		_alive = true;
 		_CargoCheck = _unitG getvariable ("CC" + _unitvar);
 		if (isNil ("_CargoCheck")) then {_unitG setVariable [("CC" + _unitvar), false]};
@@ -319,6 +318,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer))
 				_HQ setVariable ["RydHQ_Exhausted",_exh];
 				_unitG setVariable [("Busy" + (str _unitG)),false];
 				_unitG setVariable [("Resting" + (str _unitG)),false];
+				true;
 				};
 
 		_AV = assignedVehicle _UL;
@@ -378,6 +378,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer))
 				_HQ setVariable ["RydHQ_Exhausted",_exh];
 				_unitG setVariable [("Busy" + (str _unitG)),false];
 				_unitG setVariable [("Resting" + (str _unitG)),false];
+				true;
 				};
 			};
 

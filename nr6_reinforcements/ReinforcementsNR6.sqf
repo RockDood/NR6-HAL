@@ -37,7 +37,7 @@ _ThresholdDecay = _logic getvariable "_TDecay";
 if (isNil "_ThresholdDecay") then {_ThresholdDecay = -1};
 if ((_ThresholdDecay == -1) and not (_SpawnMode)) then  {_ThresholdDecay = (1/_sidetick)};
 
-
+if (isNil ("_HalReinf")) then {_HalReinf = "vanilla"};
 
 if (isNil ("RydHQ_Included")) then {RydHQ_Included = []};
 if (isNil ("RydHQB_Included")) then {RydHQB_Included = []};
@@ -822,7 +822,7 @@ while {true} do
         {
             _sidetick = _sidetickHold;
         };
-        _sidetickHold = 0;
+        _sidetickHold = 0; 
     };
 
     _CurrentForces = (_side countSide allUnits);
