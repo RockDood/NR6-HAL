@@ -2,7 +2,7 @@
 
 private 
     [
-    "_side","_logic","_flight","_Commanders","_coreObj","_SpawnPads","_StartForces","_sidetick","_faction","_CurrentForces","_Pool","_Threshold","_Leaders","_SpawnRGroup","_CTR","_grp", "_GoodPads","_LiveForces","_CLiveForces","_CStartForces","_TickTime","_ExtraArgs"
+    "_side","_logic","_flight","_Commanders","_coreObj","_SpawnPads","_StartForces","_sidetick","_faction","_CurrentForces","_Pool","_Threshold","_Leaders","_SpawnRGroup","_CTR","_grp", "_GoodPads","_LiveForces","_CLiveForces","_CStartForces","_TickTime","_ExtraArgs","_sidetickHold","_sideEn","_sideEn2","_SpawnPos","_playerRange"
     ];
 
 _logic = _this select 0;
@@ -20,10 +20,14 @@ _coreObj = _logic;
 _sidetick = _logic getVariable "_sidetick";
 _faction = _logic getVariable "_faction";
 _Threshold = _logic getVariable "_Threshold";
+_HalReinf = _logic getvariable "_HalReinf";
 _Leaders = _Commanders;
 _TickTime = _logic getVariable "_TickTime";
 _flight = call compile (_logic getVariable "_flight");
 _DontLand = _logic getVariable "_DontLand";
+_SpawnPos = [getPos _logic];
+_playerRange = _logic getvariable "_playerRange";
+
 
 if (_DontLand) then {_DontLand = "; (group _this) setVariable ['AirNoLand',true];"} else {_DontLand = ""};
 
@@ -36,7 +40,6 @@ if (isNil ("_TickTime")) then {_TickTime = 15};
 
 if (_StartForces isequalto []) then {_StartForces = [objNull]};
 if (_SpawnPads isequalto []) then {_SpawnPads = [_coreObj]};
-
 
 
 _LiveForces = _StartForces;
@@ -104,6 +107,59 @@ if (_faction == "custom") then {
 };
 
 
+
+if (isNil "_sidetickHold") then 
+    {
+        _sidetickHold = 0;
+    };
+
+if (isNil "_sideEn") then 
+    {
+        _sideEn = civilian;
+    };
+if (isNil "_sideEn2") then 
+    {
+        _sideEn2 = civilian;
+    };
+
+if ((_HalReinf isEqualTo "KillSwitch") or (_HalReinf isEqualTo "ReCapture")) then 
+{
+if (_sideEn == civilian) then {
+    if ((_sideEn == civilian) and ([west, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    {
+        _sideEn = west;
+    }; 
+    if ((_sideEn == civilian) and ([east, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    {
+        _sideEn = east;
+    }; 
+    if ((_sideEn == civilian) and ([resistance, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    {
+        _sideEn = resistance;
+    }; 
+    if (_sideEn == civilian) then {_sideEn = sideEnemy};
+};
+
+if (_sideEn2 == civilian) then {
+    if ((_sideEn2 == civilian) and not (_sideEn == west) and ([west, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    {
+        _sideEn2 = west;
+    }; 
+    if ((_sideEn2 == civilian) and not (_sideEn == east) and ([east, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    {
+        _sideEn2 = east;
+    }; 
+    if ((_sideEn2 == civilian) and not (_sideEn == resistance) and ([resistance, _side] call BIS_fnc_sideIsEnemy)) exitWith 
+    {
+        _sideEn2 = resistance;
+    }; 
+    if (_sideEn2 == civilian) then {_sideEn2 = sideEnemy};
+};
+};
+
+
+
+
 while {true} do 
 
     {
@@ -121,6 +177,28 @@ while {true} do
 
     _CLiveForces = _LiveForces;
 
+    if ((_HalReinf isEqualTo "KillSwitch") and ({_x distance (_SpawnPos select 0) < _playerRange} count allplayers > 0) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0)) then 
+    {
+        _sidetick = 0;
+    };
+
+    if ((_HalReinf isEqualTo "ReCapture") and (_sidetick != 0) and ((_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0) or (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0)) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0)) then 
+    {
+        if (_sidetick > 0) then 
+        {
+            _sidetickHold = _sidetick;
+        };
+        _sidetick = 0;
+    };
+    if ((_HalReinf isEqualTo "ReCapture") and (_sidetickHold != 0) and (_sideEn countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0) and (_sideEn2 countSide ((_SpawnPos select 0) nearEntities _playerRange) == 0) and (_side countSide ((_SpawnPos select 0) nearEntities _playerRange) > 0)) then 
+    {
+        if (_sidetick == 0) then 
+        {
+            _sidetick = _sidetickHold;
+        };
+        _sidetickHold = 0; 
+    };
+
     {
         if (not (alive _x) or not (canMove _x) or ((damage _x) > 0.8) or ((fuel _x) < 0.2)) then {_LiveForces = (_LiveForces - [_x])}
     } forEach _CLiveForces;
@@ -132,7 +210,7 @@ while {true} do
         {
             _chosenFlight = (selectRandom _flight);
 
-            if ((_sidetick > 0) and not (_GoodPads isequalto [])) then {
+            if ((_sidetick > 0) and not ({_x distance (_SpawnPos select 0) < _playerRange} count allplayers > 0) and not (_GoodPads isequalto [])) then {
 
                 private ["_grp"];
 
@@ -150,7 +228,7 @@ while {true} do
             };  
         };
 
-    if (_sidetick <= 0) exitwith {};
+    if ((_sidetick <= 0) and (_sidetickHold <= 0)) exitwith {};
 
     sleep _TickTime;
     };

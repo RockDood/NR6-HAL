@@ -89,6 +89,31 @@ class CfgVehicles
 				};
 			};
 
+			class _HalReinf
+			{
+				displayName="Disable Type";
+				description="Select the way the reinforcements module will stop working when players enter the range";
+				class values 
+				{
+					class vanilla
+					{
+						name="Disable only temporarily when players in range - players only";
+						value="vanilla";
+						default=1;	
+					};
+					class KillSwitch
+					{
+						name="Disable completely - players only";
+						value="KillSwitch";
+					};
+					class ReCapture
+					{
+						name="Commander needs to recapture the area - AI and players";
+						value="ReCapture";
+					};
+				};
+			};
+
 			class _sidetick
 			{
 				displayName="Pool Size";
@@ -111,6 +136,14 @@ class CfgVehicles
 				description="Coefficient applied to the number of included aircraft at start below which the system will spawn new aircraft to replenish forces. Recommended '1'";
 				typeName="NUMBER";
 				defaultValue = "1";
+			};
+
+			class _playerRange
+			{
+				displayName="Player Disable Range";
+				description="Range in meters within which the script pauses itself if a player is present (to prevent immersion breaking).";
+				typeName="NUMBER";
+				defaultValue = "1000";
 			};
 
 			class _TickTime
