@@ -41,7 +41,7 @@ class CfgVehicles
 		class AttributeValues;
 	};
 
-//General Modules
+	//General Modules
 
 	class NR6_Reiforcements_Module: Module_F
 	{
@@ -97,19 +97,19 @@ class CfgVehicles
 				{
 					class vanilla
 					{
-						name="Disable only temporarily when players in range - players only
-						value="vanilla"
+						name="Disable only temporarily when players in range - players only";
+						value="vanilla";
 						default=1;	
 					};
 					class KillSwitch
 					{
-						name="Disable completely - players only"
-						value="KillSwitch"
+						name="Disable completely - players only";
+						value="KillSwitch";
 					};
 					class ReCapture
 					{
-						name="Commander needs to recapture the area - AI and players"
-						value="ReCapture"
+						name="Commander needs to recapture the area - AI and players";
+						value="ReCapture";
 					};
 				};
 			};
