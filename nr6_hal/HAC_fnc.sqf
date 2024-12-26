@@ -4850,7 +4850,7 @@ RYD_ReqTransport_Actions =
 
 	_VActArr pushBack _actionID;
 	
-	_actionID = _LeaderG addAction ["Terminate Transport Support [RTB]",
+	_actionID = _LeaderG addAction ["Dismiss Transport Support [" + (groupId _GD) + "]",
 	{
 
 	(_this select 3) setvariable ['HALReqDone',true,true];
@@ -4877,7 +4877,7 @@ RYD_ReqLogistics_Actions =
 	
 	_Type = _this select 1;
 	
-	_actionID = _ChosenOne addAction ["Dismiss " + _Type + " Support",
+	_actionID = _ChosenOne addAction ["Dismiss " + _Type + " Support [" + (groupId (group (_ChosenOne))) + "]",
 	{
 
 	(_this select 3) setVariable ["HAL_Requested",false,true];

@@ -219,6 +219,13 @@ class CfgVehicles
 				typeName="BOOL";
 				defaultValue = "True";
 			};
+			class RydHQx_PlayerCargoCheckLoopTime
+			{
+				displayName="Player Transport Check Time";
+				description="Upon request for air or ground transport by player, time (in minutes) during which an AI commander will keep looking for an available transport to assign to the player before aborting the request if no transport is found.";
+				typeName="NUMBER";
+				defaultValue = "2";
+			};
 			class RydxHQ_GarrisonV2
 			{
 				displayName="NR6 Sites Garrisons";

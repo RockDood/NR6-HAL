@@ -57,6 +57,9 @@ publicVariable "RydxHQ_MagicRearm";
 RydxHQ_MagicRefuel = missionNamespace getvariable ["RydxHQ_MagicRefuel",false];
 publicVariable "RydxHQ_MagicRefuel";
 
+RydHQx_PlayerCargoCheckLoopTime = missionNamespace getvariable ["RydHQx_PlayerCargoCheckLoopTime",2];
+publicVariable "RydHQx_PlayerCargoCheckLoopTime";
+
 if (isNil {"RYD_WS_ArtyMarks"}) then {RYD_WS_ArtyMarks = false};
 
 if (isNil {"RydxHQ_ReconCargo"}) then {RydxHQ_ReconCargo = false};
