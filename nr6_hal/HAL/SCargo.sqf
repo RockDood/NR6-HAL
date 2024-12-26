@@ -13,10 +13,10 @@ if ((count _this) > 3) then {_withdraw = _this select 3};
 if ((count _this) > 4) then {_request = _this select 4};
 if ((count _this) > 5) then {_requestG = _this select 5};
 
-if ((_withdraw) and not (_HQ getVariable ["RydHQ_AirEvac",true])) exitwith {_unitG setVariable ["CargoChosen",false];_unitG setVariable [("CC" + (str _unitG)), true, true]};
+if ((_withdraw) and not (_HQ getVariable ["RydHQ_AirEvac",true])) exitwith {_unitG setVariable ["CargoChosen",false,true];_unitG setVariable [("CC" + (str _unitG)), true, true]};
 
 _CheckInProgress = (_unitG getVariable ["CargoCheckPending" + (str _unitG),false]);
-if (_CheckInProgress) exitwith {};
+if ((_CheckInProgress) or (_unitG getVariable ["CargoChosen", false])) exitwith {};
 
 _CheckInProgress = true;
 _unitG setVariable ["CargoCheckPending" + (str _unitG),true];
@@ -60,7 +60,8 @@ if ( not (_withdraw) and not (_request)) then
 				if ((_ESpace == _NGi) and (_hiredchk isEqualTo "free") and ((count (assignedCargo (vehicle _x))) == 0) and ((count (crew _x)) == 0) and ((fuel _x) >= 0.2) and (damage _x <= 0.8) and (canMove _x)) exitwith 
 					{
 						_ChosenOne = _x;
-						_unitG setVariable ["CargoChosen", true];
+						_unitG setVariable ["CargoChosen", true,true];
+						_unitG setVariable ["AssignedCargo" + (str _unitG),_ChosenOne,true];
 						missionNamespace setVariable [("hal"+(str (vehicle _x))), "hired"];
 						_hiredchk = "hired";
 						_CP deleteAt (_CP find (vehicle _x));
@@ -183,7 +184,7 @@ if (isNull _ChosenOne) then
 					}
 				}
 			foreach (units _x);
-			if not (isNull _ChosenOne) exitwith {_unitG setVariable ["CargoChosen", true]};
+			if not (isNull _ChosenOne) exitwith {_unitG setVariable ["CargoChosen",true,true];_unitG setVariable ["AssignedCargo" + (str _unitG),_ChosenOne,true];};
 			}
 		foreach _x;
 		
@@ -193,7 +194,7 @@ if (isNull _ChosenOne) then
 	};
 
 _unitvar = str _unitG;
-if (isNull _ChosenOne) exitwith {{[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]} foreach (units _unitG);_unitG setVariable [("CC" + _unitvar), true, true];_unitG setVariable ["CargoChosen",false];_unitG setVariable ["CargoCheckPending" + (str _unitG),false];};
+if (isNull _ChosenOne) exitwith {{[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]} foreach (units _unitG);_unitG setVariable [("CC" + _unitvar), true, true];_unitG setVariable ["CargoChosen",false,true];_unitG setVariable ["AssignedCargo" + (str _unitG),objNull,true];_unitG setVariable ["CargoCheckPending" + (str _unitG),false];};
 _GD = (group (assignedDriver _ChosenOne));
 private _DR = assignedDriver _ChosenOne;
 _unitvar2 = str _GD;
@@ -245,7 +246,7 @@ if not (_emptyV) then
 			};
 		};
 		
-	if not (_alive) exitWith {{[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]} foreach (units _unitG);_unitG setVariable [("CC" + _unitvar), true, true];_unitG setVariable ["CargoChosen",false];_unitG setVariable ["CargoCheckPending" + (str _unitG),false];};
+	if not (_alive) exitWith {{[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]} foreach (units _unitG);_unitG setVariable [("CC" + _unitvar), true, true];_unitG setVariable ["CargoChosen",false,true];_unitG setVariable ["AssignedCargo" + (str _unitG),objNull,true];_unitG setVariable ["CargoCheckPending" + (str _unitG),false];};
 			
 	_GD setVariable [("Busy" + (str _GD)), true];
 	_GD setVariable [("CargoM" + (str _GD)), true];
@@ -376,7 +377,8 @@ if not (_emptyV) then
 	if not (_alive) exitwith {
 		[_unitG,_ChosenOne] remoteExecCall ["leaveVehicle"];{[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]} foreach (units _unitG);
 		_unitG setVariable [("CC" + _unitvar), true, true];
-		_unitG setVariable ["CargoChosen",false];
+		_unitG setVariable ["CargoChosen",false,true];
+		_unitG setVariable ["AssignedCargo" + (str _unitG),objNull,true];
 		_unitG setVariable ["CargoCheckPending" + (str _unitG),false];
 		_GD setVariable [("CargoM" + (str _GD)), false];
 
@@ -439,14 +441,15 @@ if not (_emptyV) then
 		((_assigned) or not (_alive) or (_request) or (_ct > 300))
 		};
 
-	if (_ct > 300) then {_alive = false;[_unitG,_ChosenOne] remoteExecCall ["leaveVehicle"];{[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]} foreach (units _unitG);_unitG setVariable [("CC" + _unitvar), true, true];_unitG setVariable ["CargoChosen",false]};
+	if (_ct > 300) then {_alive = false;[_unitG,_ChosenOne] remoteExecCall ["leaveVehicle"];{[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]} foreach (units _unitG);_unitG setVariable [("CC" + _unitvar), true, true];_unitG setVariable ["CargoChosen",false,true];_unitG setVariable ["AssignedCargo" + (str _unitG),objNull,true];};
 	};
 
 // if not (_task isEqualTo taskNull) then {[_task,"SUCCEEDED",true] call BIS_fnc_taskSetState};
 
 if not (_alive) exitwith {
 	_unitG setVariable [("CC" + _unitvar), true, true];
-	_unitG setVariable ["CargoChosen",false];
+	_unitG setVariable ["CargoChosen",false,true];
+	_unitG setVariable ["AssignedCargo" + (str _unitG),objNull,true];
 	_unitG setVariable ["CargoCheckPending" + (str _unitG),false];
 	_GD setVariable [("CargoM" + (str _GD)), false];
 
@@ -618,7 +621,8 @@ if not (_GD == _unitG) then
 		
 	if not (_alive) exitWith {
 		_unitG setVariable [("CC" + (str _unitG)), true, true];
-		_unitG setVariable ["CargoChosen",false];
+		_unitG setVariable ["CargoChosen",false,true];
+		_unitG setVariable ["AssignedCargo" + (str _unitG),objNull,true];
 		_unitG setVariable ["CargoCheckPending" + (str _unitG),false];
 		_GD setVariable [("CargoM" + (str _GD)), false]; 
 
@@ -650,7 +654,8 @@ if not (_GD == _unitG) then
 		
 	};
 
-	_unitG setVariable ["CargoChosen",false];
+	_unitG setVariable ["CargoChosen",false,true];
+	_unitG setVariable ["AssignedCargo" + (str _unitG),objNull,true];
 	_unitG setVariable ["CargoCheckPending" + (str _unitG),false];
 
 	if ((_timer > 600) and not (isNull _GD)) then 
