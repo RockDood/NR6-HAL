@@ -26,3 +26,5 @@ missionNamespace setVariable ["RydxHQ_MagicRearm",((_this select 0) getvariable 
 missionNamespace setVariable ["RydxHQ_MagicRefuel",((_this select 0) getvariable "RydxHQ_MagicRefuel")];
 
 missionNamespace setVariable ["RydHQx_PlayerCargoCheckLoopTime",((_this select 0) getvariable "RydHQx_PlayerCargoCheckLoopTime")];
+
+missionNamespace setVariable ["RydxHQ_LZ",((_this select 0) getvariable "RydxHQ_LZ")];
