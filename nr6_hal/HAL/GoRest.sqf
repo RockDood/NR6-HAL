@@ -84,8 +84,8 @@ _unitG setVariable [("Busy" + (str _unitG)), true];
 _unitG setVariable [("Deployed" + (str _unitG)),false];
 //_unitG setVariable [("Capt" + (str _unitG)),false];
 
-_Xpos = ((getPosATL (leader _HQ)) select 0) + (random 300);
-_Ypos = ((getPosATL (leader _HQ)) select 1) + (random 300);
+_Xpos = ((getPosATL (leader _HQ)) select 0) + ((random 500) - 250);
+_Ypos = ((getPosATL (leader _HQ)) select 1) + ((random 500) - 250);
 
 _posX = _Xpos;
 _posY = _Ypos;
@@ -97,13 +97,15 @@ if not (isNull (_HQ getVariable ["RydHQ_RestDecoy",objNull])) then
 	{
 	_isDecoy = true;
 
-	//_tRadius = (triggerArea (_HQ getVariable ["RydHQ_RestDecoy",objNull])) select 0;
+//	_tRadius = (triggerArea (_HQ getVariable ["RydHQ_RestDecoy",objNull])) select 0;
 
 	if ((random 100) >= (_HQ getVariable ["RydHQ_RDChance",100])) exitWith {_unitG setVariable [("Busy" + (str _unitG)),false];_isDecoy = false};
 
 	_tPos = getPosATL (_HQ getVariable ["RydHQ_RestDecoy",objNull]);
-	//_enemyMatters = (triggerArea (_HQ getVariable ["RydHQ_RestDecoy",objNull])) select 3; - comment here _area = triggerArea sensor1; // result is [200 -0, 120 -1, 45 -2, false -3, -1 -4]; so select 3 would be a check of "isRectangle"....
+//_enemyMatters = (triggerArea (_HQ getVariable ["RydHQ_RestDecoy",objNull])) select 3; - comment here _area = triggerArea sensor1; // result is [200 -0, 120 -1, 45 -2, false -3, -1 -4]; so select 3 would be a check of "isRectangle"....
 
+//	_posX = (_tPos select 0) + (random (2 * _tRadius)) - (_tRadius);
+//	_posY = (_tPos select 1) + (random (2 * _tRadius)) - (_tRadius);
 	_posX = (_tPos select 0) + (random (_tPos select 0));
 	_posY = (_tPos select 1) + (random (_tPos select 0));
 	};
@@ -164,7 +166,7 @@ waituntil
 		_posY = _posY + (random 500) - 250;
 		};
 
-	(not (_isWater) and ((isNull ((leader _HQ) FindNearestEnemy [_posX,_posY])) or ((((leader _HQ) FindNearestEnemy [_posX,_posY]) distance [_posX,_posY]) >= 500) or not (_enemyMatters) or (_counter > 30)))
+	(not (_isWater) and ((isNull ((leader _HQ) FindNearestEnemy [_posX,_posY])) or ((((leader _HQ) FindNearestEnemy [_posX,_posY]) distance [_posX,_posY]) >= 500) or not (_enemyMatters)) or (_counter > 30))
 	};
 
 if ((_counter > 30) or (not (isNull ((leader _HQ) FindNearestEnemy [_posX,_posY])) and ((((leader _HQ) FindNearestEnemy [_posX,_posY]) distance [_posX,_posY]) < 500) and (_enemyMatters))) then {_posX = ((getPosATL (leader _HQ)) select 0) + (random 500) - 250;_posY = ((getPosATL (leader _HQ)) select 1) + (random 500) - 250};
@@ -251,6 +253,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer))
 		if (_timer > 30) then {_endThis = true};
 
 		//New Cargo???
+
 		_alive = true;
 		_CargoCheck = _unitG getvariable ("CC" + _unitvar);
 		if (isNil ("_CargoCheck")) then {_unitG setVariable [("CC" + _unitvar), false]};
@@ -276,7 +279,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer))
 			};
 				
 		if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_IsAPlayer) and not (_unitG getVariable ["CargoCheckPending" + (str _unitG),false])) then 
-			{	
+			{
 			waituntil 
 				{
 				sleep 2;
@@ -318,7 +321,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer))
 				_HQ setVariable ["RydHQ_Exhausted",_exh];
 				_unitG setVariable [("Busy" + (str _unitG)),false];
 				_unitG setVariable [("Resting" + (str _unitG)),false];
-				true;
+				(true)
 				};
 
 		_AV = assignedVehicle _UL;
@@ -352,13 +355,14 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer))
 
 			if (isNil "_timer2") then {_timer2 = 0};
 
-			if ((isNull (leader (_this select 0))) or (_timer2 > 300)) exitwith 
+			if ((({alive _x} count (units _unitG)) < 1) or (_timer2 > 300)) exitwith 
 				{
 
 				{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG)) then {[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]; [[_x],false] remoteExecCall ["orderGetIn",0];}} foreach (units _unitG);
 
 				_unitG setVariable [("Resting" + (str _unitG)),false];
 				_unitG setVariable [("Busy" + (str _unitG)), false];
+				_endThis = true;
 					
 				_exh = (_HQ getVariable ["RydHQ_Exhausted",[]]);
 				_exh = _exh - [_unitG];
@@ -368,18 +372,9 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer))
 					{
 					[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0];
 					_GDV setVariable [("CargoM" + (str _GDV)), false];
-					}
-				};
-					
-			if not (_alive) exitWith 
-				{
-				_exh = (_HQ getVariable ["RydHQ_Exhausted",[]]);
-				_exh = _exh - [_unitG];
-				_HQ setVariable ["RydHQ_Exhausted",_exh];
-				_unitG setVariable [("Busy" + (str _unitG)),false];
-				_unitG setVariable [("Resting" + (str _unitG)),false];
-				true;
-				};
+					};
+				(true)
+				};	
 			};
 
 		//New Cargo!!!
@@ -424,7 +419,7 @@ if (_lackAmmo) then
 	};
 	
 _gp = _unitG;
-if not (isNull _AV) then {_gp = _GDV};
+if (not (isNull _AV) and not (_GDV == _unitG) and not (_isAPlayer)) then {_gp = _GDV;};
 _beh = "AWARE";
 _cm = "GREEN";
 if (not (isNull _AV) and not ((_GDV == _unitG) or (_GDV in (_HQ getVariable ["RydHQ_AirG",[]])))) then {_beh = "STEALTH";_cm = "YELLOW"};
@@ -460,6 +455,8 @@ if not (_IsAPlayer) then {
 
 _DAV = assigneddriver _AV;
 if (((_timer > 30) or (_enemy)) and (_OtherGroup)) then {if not (isNull _GDV) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0]}};
+if ((_timer > 60) and not (_otherGroup)) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle _UL), 0]};
+
 if (not (_alive) and not (_OtherGroup)) exitwith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
@@ -473,18 +470,8 @@ if (not (_alive) and not (_OtherGroup)) exitwith
 	_unitG setVariable [("Busy" + (str _unitG)),false];
 	_unitG setVariable [("Resting" + (str _unitG)),false];
 	};
-	
-if ((_timer > 60) and not (_otherGroup)) then {[_unitG, (currentWaypoint _unitG)] setWaypointPosition [getPosATL (vehicle _UL), 0]};
 
-switch (true) do
-	{
-	case (isNull (_this select 0)) : {_alive = false};
-	case (({alive _x} count (units (_this select 0))) < 1) : {_alive = false};
-	case ((_this select 0) getVariable ["RydHQ_MIA",false]) : {_alive = false;(_this select 0) setVariable ["RydHQ_MIA",nil]};
-	case (_unitG getVariable ["Break",false]) : {_alive = false; _unitG setVariable ["Break",false];}
-	};
-
-if not (_alive) exitwith 
+if (({alive _x} count (units _unitG)) < 1) exitwith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{

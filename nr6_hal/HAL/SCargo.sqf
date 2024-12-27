@@ -1,6 +1,6 @@
 _SCRname = "SCargo";
 
-private ["_request","_Rdest","_reqdone","_firstlead","_ESpace","_CheckInProgress"];
+private ["_request","_Rdest","_reqdone","_firstlead","_ESpace","_CheckInProgress","_requestG","_enmyNrb"];
 
 _unitG = _this select 0;
 _HQ = _this select 1;
@@ -14,6 +14,11 @@ if ((count _this) > 4) then {_request = _this select 4};
 if ((count _this) > 5) then {_requestG = _this select 5};
 
 if ((_withdraw) and not (_HQ getVariable ["RydHQ_AirEvac",true])) exitwith {_unitG setVariable ["CargoChosen",false,true];_unitG setVariable [("CC" + (str _unitG)), true, true]};
+
+_enmyNrb = false;
+_enmyNrb = (([(leader _unitG),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),300] call RYD_CloseEnemyB) select 0);
+if ((_enmyNrb) and not (_request)) exitwith {_unitG setVariable ["CargoChosen",false,true];_unitG setVariable [("CC" + (str _unitG)), true, true]};
+
 
 _CheckInProgress = (_unitG getVariable ["CargoCheckPending" + (str _unitG),false]);
 if ((_CheckInProgress) or (_unitG getVariable ["CargoChosen", false])) exitwith {};
@@ -357,12 +362,17 @@ if not (_emptyV) then
 
 	_alive = true;
 	_timer = -5;
+	_enmyNrb = false;
 	waituntil 
 		{
 		_DAV = assigneddriver _ChosenOne;
 		_GD = group _DAV;
+		_enmyNrb = (([(leader _unitG),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),300] call RYD_CloseEnemyB) select 0);
+
 		if (isNull _GD) then {_alive = false} else {if (({alive _x} count (units _GD)) < 1) then {_alive = false;}};;
 		if (_alive) then {if (({alive _x} count (units _GD)) < 1) then {_alive = false}};
+		if (_alive) then {if (({alive _x} count (units _unitG)) < 1) then {_alive = false}};
+		if (_alive) then {if ((_enmyNrb) and not (_request)) then {_endThis = true;_alive = false}};
 		if (_alive) then {if ((speed _ChosenOne) < 0.5) then {_timer = _timer + 5}};
 		if (_alive) then {if (((damage (_ChosenOne)) > 0.8) or ((fuel (_ChosenOne)) < 0.2) or not (canMove _ChosenOne) or (isNull (assignedVehicle (leader _GD)))) then {_alive = false}};
 		if (_GD getVariable ["Break",false]) then {_endThis = true;_alive = false; _GD setVariable ["Break",false];};
@@ -406,7 +416,7 @@ if not (_emptyV) then
 
 		_GD setVariable [("Busy" + (str _GD)), false];
 		_ChosenOne enableAI "TARGET";_ChosenOne enableAI "AUTOTARGET";
-		_UL = leader _GD;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
+		_UL = leader _GD;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdDen"] call RYD_AIChatter}};
 		};
 
 

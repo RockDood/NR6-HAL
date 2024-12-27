@@ -64,7 +64,7 @@ if (isNil {"RYD_WS_ArtyMarks"}) then {RYD_WS_ArtyMarks = false};
 
 if (isNil {"RydxHQ_ReconCargo"}) then {RydxHQ_ReconCargo = false};
 
-_hi = "HAL 1.26.0 RC1 - [NR6 Pack] Initialized";
+_hi = "HAL 1.26.1 RC1 - [NR6 Pack] Initialized";
 
 if ((random 100) < 1) then {_hi = "Good evening, Dave. Everything's running smoothly - and you? - Blame these night owls"};
 
