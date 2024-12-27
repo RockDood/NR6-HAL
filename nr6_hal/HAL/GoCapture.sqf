@@ -426,26 +426,58 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer))
 
 if not (_unitG getVariable [("Busy" + (str _unitG)),false]) exitwith {};
 
-if (_halfway) then {
+_AV = assignedVehicle _UL;
+_DAV = assigneddriver _AV;
+_GDV = group _DAV;
+
+_LX1 = _posX;
+_LY1 = _posY;
+
+_SpX = _posX;
+_SpY = _posY;
+
+_EnNearTrg = false;
+_NeNMode = false;
+_halfway = false;
+_mpl = 1;
+
+_eClose1 = [[_posX,_posY],(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),400] call RYD_CloseEnemyB;
+
+_tooC1 = _eClose1 select 0;
+_dstEM1 = _eClose1 select 1;
+_NeN = _eClose1 select 2;
+
+if not (isNull _NeN) then
+	{
+	_eClose2 = [_UL,(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),600] call RYD_CloseEnemyB;
+	_tooC2 = _eClose2 select 0;
+	_dstEM2 = _eClose2 select 1;
+	_eClose3 = [(leader _HQ),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),600] call RYD_CloseEnemyB;
+	_tooC3 = _eClose3 select 0;
+
+	if ((_tooC1) or (_tooC2) or (_tooC3) or (((_UL distance [_posX,_posY]) - _dstEM2) > _dstEM1)) then {_EnNearTrg = true}
+	};
+
+if (_EnNearTrg) then {_NeNMode = true};
+if (not (isNull _GDV) and (_GDV in ((_HQ getVariable ["RydHQ_NCCargoG",[]]) + (_HQ getVariable ["RydHQ_AirG",[]]))) and (_NeNMode)) then {_LX1 = (getPosATL _UL) select 0;_LY1 = (getPosATL _UL) select 1;_halfway = true};
+
+if ((_halfway) and not (_IsAPlayer)) then {
 
 	_dropposX = (_posX + _LX1)/2;
 	_dropposY = (_posY + _LY1)/2;
 };
 
-_AV = assignedVehicle _UL;
-_DAV = assigneddriver _AV;
-_GDV = group _DAV;
 
 _task = [(leader _unitG),["Secure the objective. Neutralize any hostile forces and hold the objective.", "Secure And Hold Objective", ""],[_posX,_posY],"move"] call RYD_AddTask;
 
 _Ctask = taskNull;
 if (not ((leader _GDV) == (leader _unitG)) and not (_GDV == _unitG)) then
 	{
-	_Ctask = [(leader _GDV),["Disembark " + (groupId _unitG) + " at  their designated destination.", "Drop Off " + (groupId _unitG), ""],[_dropposX,_dropposY],"run"] call RYD_AddTask
+	_Ctask = [(leader _GDV),["Disembark " + (groupId _unitG) + " at  their designated destination.", "Drop Off " + (groupId _unitG), ""],[_dropposX,_dropposY],"getout"] call RYD_AddTask
 	};
 
 _gp = _unitG;
-if (not (isNull _AV) and not (_GDV == _unitG)) then {_gp = _GDV;_posX = _dropposX;_posY = _dropposY};
+if (not (isNull _AV) and not (_GDV == _unitG) and not (_isAPlayer)) then {_gp = _GDV;_posX = _dropposX;_posY = _dropposY};
 _pos = [_posX,_posY];
 _tp = "MOVE";
 
@@ -516,6 +548,10 @@ if not (isNil "_EDPos") then
 
 _wp = [_gp,_pos,_tp,_beh,"YELLOW",_spd,_sts,_crr,0,_TO] call RYD_WPadd;
 if ((isPlayer (leader _gp)) and ((_GDV == _unitG) or (isNull _GDV))) then {deleteWaypoint _wp};
+
+_posX = _SpX;
+_posY = _SpY;
+_pos = [_posX,_posY];
 
 _DAV = assigneddriver _AV;
 _alive = true;
