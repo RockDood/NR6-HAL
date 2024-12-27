@@ -32,6 +32,20 @@ publicVariable "RydxHQ_NoRestPlayers";
 RydxHQ_NoCargoPlayers = missionNamespace getvariable ["RydxHQ_NoCargoPlayers",true];
 publicVariable "RydxHQ_NoCargoPlayers";
 
+RydxHQ_LZ = missionNamespace getvariable ["RydxHQ_LZ",true];
+publicVariable "RydxHQ_LZ";
+
+RydHQ_LZ = RydxHQ_LZ;
+RydHQB_LZ = RydxHQ_LZ;
+RydHQC_LZ = RydxHQ_LZ;
+RydHQD_LZ = RydxHQ_LZ;
+RydHQE_LZ = RydxHQ_LZ;
+RydHQF_LZ = RydxHQ_LZ;
+RydHQG_LZ = RydxHQ_LZ;
+RydHQH_LZ = RydxHQ_LZ;
+
+//LZ setting was coded in entire system as Leader specific despite making far more sense as a general setting. Will clean it up eventually.
+
 RydxHQ_HQChat = missionNamespace getvariable ["RydxHQ_HQChat",true];
 publicVariable "RydxHQ_HQChat";
 RydxHQ_AIChatDensity = missionNamespace getvariable ["RydxHQ_AIChatDensity",100];

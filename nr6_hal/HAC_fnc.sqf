@@ -4076,9 +4076,9 @@ RYD_LZ =
 
 	_isFlat = [];
 
-	while {_rds <= 250} do
+	while {_rds <= 400} do
 		{
-		_isFlat = _pos isFlatEmpty [30,_rds,1.5,30,0,false,objNull];
+		_isFlat = _pos isFlatEmpty [20,_rds,1,15,0,false,objNull];
 
 		if ((count _isFlat) > 1) exitWith
 			{

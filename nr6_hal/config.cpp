@@ -226,6 +226,13 @@ class CfgVehicles
 				typeName="NUMBER";
 				defaultValue = "2";
 			};
+			class RydxHQ_LZ
+			{
+				displayName="Enable LZ System";
+				description="System that will place invisible helipads when helicopter transport is issued to improve the selection of landing sites by AI pilots.";
+				typeName="BOOL";
+				defaultValue = "True";
+			};
 			class RydxHQ_GarrisonV2
 			{
 				displayName="NR6 Sites Garrisons";

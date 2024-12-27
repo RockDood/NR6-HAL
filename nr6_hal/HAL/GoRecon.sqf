@@ -230,7 +230,6 @@ if (not (isNull _AV) and ((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (
 	{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG))  then {_x assignAsCargo _AV; [[_x],true] remoteExecCall ["orderGetIn",0]}} foreach (units _unitG);
 
 	_cause = [_unitG,1,false,0,300,[],true,false,true,false,false,false] call RYD_Wait;
-	if (_HQ getVariable ["RydHQ_LZ",false]) then {deleteVehicle (_AV getVariable ["TempLZ",objNull])};
 	_timer = _cause select 0;
 	_AV land 'NONE';
 	};
@@ -416,7 +415,6 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and (RydxHQ_ReconCarg
 			{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG))  then {_x assignAsCargo _AV; [[_x],true] remoteExecCall ["orderGetIn",0];}} foreach (units _unitG);
 
 			_cause = [_unitG,1,false,0,300,[],true,false,true,false,false,false] call RYD_Wait;
-			if (_HQ getVariable ["RydHQ_LZ",false]) then {deleteVehicle (_AV getVariable ["TempLZ",objNull])};
 			_timer2 = _cause select 0;
 			_AV land 'NONE';
 
@@ -516,7 +514,10 @@ if (not (isNull _AV) and (_GDV in (_HQ getVariable ["RydHQ_AirG",[]]))) then
 	_beh = "STEALTH";
 	if (_HQ getVariable ["RydHQ_LZ",false]) then
 		{
+		if not (isNull (_GDV getVariable ["tempLZ",objNull])) then {deleteVehicle (_GDV getVariable ["tempLZ",objNull])};
+
 		_lz = [[_posX,_posY]] call RYD_LZ;
+		_GDV setVariable ["TempLZ",_lz];
 		if not (isNull _lz) then
 			{
 			_pos = getPosATL _lz;
