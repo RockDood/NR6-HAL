@@ -245,7 +245,6 @@ if ((_ammo > 0) and not (_busy)) then
 		_wp setWaypointCompletionRadius 750;
 		{if (not (isPlayer (leader _unitG)) and not (_GDV == _unitG))  then {_x assignAsCargo _AV; [[_x],true] remoteExecCall ["orderGetIn",0];}} foreach (units _unitG);
 		_cause = [_unitG,1,false,0,300,[],true,false,true,false,false,false] call RYD_Wait;
-		if (_HQ getVariable ["RydHQ_LZ",false]) then {deleteVehicle (_AV getVariable ["TempLZ",objNull])};
 		_timer = _cause select 0;
 		_AV land 'NONE';
 		};
@@ -406,12 +405,15 @@ if ((_ammo > 0) and not (_busy)) then
 		_beh = "STEALTH";
 		if (_HQ getVariable ["RydHQ_LZ",false]) then
 			{
-			_lz = [[_posXWP3,_posYWP3]] call RYD_LZ;
+			if not (isNull (_GDV getVariable ["tempLZ",objNull])) then {deleteVehicle (_GDV getVariable ["tempLZ",objNull])};
+
+			_lz = [[_posX,_posY]] call RYD_LZ;
+			_GDV setVariable ["TempLZ",_lz];
 			if not (isNull _lz) then
 				{
-				_lzPos = getPosATL _lz;
-				_posXWP3 = _lzPos select 0;
-				_posYWP3 = _lzPos select 1
+				_pos = getPosATL _lz;
+				_posX = _pos select 0;
+				_posY = _pos select 1
 				}
 			}
 		};

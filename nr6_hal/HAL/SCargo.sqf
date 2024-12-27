@@ -262,6 +262,8 @@ if not (_emptyV) then
 	_UL = leader _GD;
 	
 	_Lpos = [((position _GL) select 0) + (random 100) - 50,((position _GL) select 1) + (random 100) - 50,0];
+
+	if (_request) then {_Lpos = [(position _GL) select 0,(position _GL) select 1,0];};
 	
 	if (((count _EDpositions) > 1) and not (_request)) then 
 		{
@@ -348,15 +350,18 @@ if not (_emptyV) then
 	} else {
 
 		_wp = [_GD,_Lpos,"MOVE","STEALTH","YELLOW","FULL",["true","{(vehicle _x) land 'GET IN'} foreach (units (group this));deletewaypoint [(group this), 0];"],true,0,[0,0,0],"COLUMN"] call RYD_WPadd;
-
+//		if not (_ChosenOne isKindOf "Air") then {_wp waypointAttachVehicle (vehicle (leader _unitG))};
+		
 	};
 	
 	if (_ChosenOne isKindOf "Air") then 
 		{
 		if ((_HQ getVariable ["RydHQ_LZ",false]) and not (_withdraw)) then 
 			{
+			if not (isNull (_GD getVariable ["tempLZ",objNull])) then {deleteVehicle (_GD getVariable ["tempLZ",objNull])};
+			
 			_lz = [_Lpos] call RYD_LZ;
-			_ChosenOne setVariable ["TempLZ",_lz];
+			_GD setVariable ["TempLZ",_lz];
 			}
 		};
 
@@ -413,6 +418,7 @@ if not (_emptyV) then
 
 		_wp = [_GD,_LandPos,"MOVE",_beh,"YELLOW","FULL",["true","if not ((group this) getVariable ['AirNoLand',false]) then {{(vehicle _x) land 'LAND'} foreach (units (group this))}; deletewaypoint [(group this), 0]" + _radd],true,0,[0,0,0],"COLUMN"] call RYD_WPadd;
 
+		if not (isNull (_GD getVariable ["tempLZ",objNull])) then {deleteVehicle (_GD getVariable ["tempLZ",objNull])};
 
 		_GD setVariable [("Busy" + (str _GD)), false];
 		_ChosenOne enableAI "TARGET";_ChosenOne enableAI "AUTOTARGET";
@@ -484,6 +490,7 @@ if not (_alive) exitwith {
 
 	_wp = [_GD,_LandPos,"MOVE",_beh,"YELLOW","FULL",["true","if not ((group this) getVariable ['AirNoLand',false]) then {{(vehicle _x) land 'LAND'} foreach (units (group this))}; deletewaypoint [(group this), 0]" + _radd],true,0,[0,0,0],"COLUMN"] call RYD_WPadd;
 
+	if not (isNull (_GD getVariable ["tempLZ",objNull])) then {deleteVehicle (_GD getVariable ["tempLZ",objNull])};
 
 	_GD setVariable [("Busy" + (str _GD)), false];
 	_ChosenOne enableAI "TARGET";_ChosenOne enableAI "AUTOTARGET";
@@ -574,6 +581,24 @@ if not (_GD == _unitG) then
 
 			if not (isNil "_Rdest") then {
 
+				if (_GD in (_HQ getVariable ["RydHQ_AirG",[]])) then 
+				{
+
+				if (_HQ getVariable ["RydHQ_LZ",false]) then
+					{
+					if not (isNull (_GD getVariable ["tempLZ",objNull])) then {deleteVehicle (_GD getVariable ["tempLZ",objNull])};
+
+					_lz = objNull;
+					_posX = _Rdest select 0;
+					_posY = _Rdest select 1;
+
+					_lz = [[_posX,_posY]] call RYD_LZ;
+					_GD setVariable ["TempLZ",_lz];
+
+					if not (isNull (_lz)) then {_Rdest = position _lz};
+					};
+				};
+
 				_wp = [_GD,_Rdest,"MOVE",behaviour (leader _GD),combatMode _GD,"NORMAL",["true","(vehicle this) land 'GET IN';deletewaypoint [(group this), 0];"],true,0,[0,0,0],"COLUMN"] call RYD_WPadd;
 
 				[_ChosenOne,"Destination received, we're headed there now."] remoteExecCall ["vehicleChat"];
@@ -657,6 +682,7 @@ if not (_GD == _unitG) then
 
 		_wp = [_GD,_LandPos,"MOVE",_beh,"YELLOW","FULL",["true","if not ((group this) getVariable ['AirNoLand',false]) then {{(vehicle _x) land 'LAND'} foreach (units (group this))}; deletewaypoint [(group this), 0]" + _radd],true,0,[0,0,0],"COLUMN"] call RYD_WPadd;
 
+		if not (isNull (_GD getVariable ["tempLZ",objNull])) then {deleteVehicle (_GD getVariable ["tempLZ",objNull])};
 
 		_GD setVariable [("Busy" + _unitvar), false];
 		_ChosenOne enableAI "TARGET";_ChosenOne enableAI "AUTOTARGET";
@@ -667,6 +693,7 @@ if not (_GD == _unitG) then
 	_unitG setVariable ["CargoChosen",false,true];
 	_unitG setVariable ["AssignedCargo" + (str _unitG),objNull,true];
 	_unitG setVariable ["CargoCheckPending" + (str _unitG),false];
+	if not (isNull (_GD getVariable ["tempLZ",objNull])) then {deleteVehicle (_GD getVariable ["tempLZ",objNull])};
 
 	if ((_timer > 600) and not (isNull _GD)) then 
 		{
@@ -675,7 +702,9 @@ if not (_GD == _unitG) then
 			{
 			if (_HQ getVariable ["RydHQ_LZ",false]) then 
 				{
-				_lz = [position _ChosenOne] call RYD_LZ
+				if not (isNull (_GD getVariable ["tempLZ",objNull])) then {deleteVehicle (_GD getVariable ["tempLZ",objNull])};
+				_lz = [position _ChosenOne] call RYD_LZ;
+				_GD setVariable ["TempLZ",_lz];
 				}
 			};
 
@@ -699,7 +728,7 @@ if not (_GD == _unitG) then
 			};
 
 		_cause = [_unitG,1,false,0,240,[],false,true,false] call RYD_Wait;
-		if (_HQ getVariable ["RydHQ_LZ",false]) then {deleteVehicle _lz};
+		if not (isNull (_GD getVariable ["tempLZ",objNull])) then {deleteVehicle (_GD getVariable ["tempLZ",objNull])};
 		_timer = _cause select 0;
 		_ChosenOne land 'NONE';
 		};
