@@ -4802,11 +4802,14 @@ RYD_MP_Sidechat =
 
 RYD_ReqTransport_Actions = 
 	{
-	private ["_ChosenOne","_unitG","_GD","_actionID","_VActArr","_ActArr"];
+	private ["_ChosenOne","_unitG","_GD","_actionID","_VActArr","_ActArr","_isAir"];
 
 	_ChosenOne = _this select 0;
 	_LeaderG = _this select 1;
 	_GD = _this select 2;
+	_isAir = false;
+	if ((count _this) > 3) then {_isAir = _this select 3};
+
 
 	_ActArr = (_LeaderG getvariable ["HAL_ReqTraActs",[]]);
 	_VActArr = (_LeaderG getvariable ["HAL_ReqTraVActs",[]]);
@@ -4861,7 +4864,21 @@ RYD_ReqTransport_Actions =
 	, 
 	_GD,-1.7,false,false,"","true",0.01];
 
-	_ActArr pushBack _actionID;
+	if (_isAir) then 
+		{
+
+		_actionID = _LeaderG addAction ["Force Immediate Full-Stop Landing [" + (groupId _GD) + "]",
+		{
+
+		[(_this select 3), (currentWaypoint (_this select 3))] setWaypointPosition [getPosATL (vehicle (leader (_this select 3))),0];
+		(vehicle (leader (_this select 3))) land 'LAND';
+
+		}
+		, 
+		_GD,-2,false,false,"","(_this distance ((group _this) getVariable ['AssignedCargo' + (str (group _this)),objNull])) < 250",0.01];
+
+		_ActArr pushBack _actionID;
+	};
 
 	_LeaderG setvariable ["HAL_ReqTraActs",_ActArr,true];
 	_LeaderG setvariable ["HAL_ReqTraVActs",_VActArr,true];
