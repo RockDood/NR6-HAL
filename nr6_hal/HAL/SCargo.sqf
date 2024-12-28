@@ -535,7 +535,7 @@ if not (_GD == _unitG) then
 
 		_firstlead = (leader _unitG);
 
-		[_ChosenOne,leader _unitG,_GD] remoteExecCall ["RYD_ReqTransport_Actions",(leader _unitG)];
+		[_ChosenOne,leader _unitG,_GD,not (_requestG)] remoteExecCall ["RYD_ReqTransport_Actions",(leader _unitG)];
 	};
 
 	waituntil 
@@ -560,7 +560,7 @@ if not (_GD == _unitG) then
 
 			if not ((leader _unitG) isEqualTo _firstlead) then {
 
-				[_ChosenOne,leader _unitG,_GD] remoteExecCall ["RYD_ReqTransport_Actions",(leader _unitG)];
+				[_ChosenOne,leader _unitG,_GD,not (_requestG)] remoteExecCall ["RYD_ReqTransport_Actions",(leader _unitG)];
 
 				{[_firstlead,_x] remoteExecCall ["removeAction",_firstlead]} foreach (_firstlead getVariable ["HAL_ReqTraActs",[]]);
 				{[_ChosenOne,_x] remoteExecCall ["removeAction",_firstlead]} foreach (_firstlead getVariable ["HAL_ReqTraVActs",[]]);
