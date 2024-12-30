@@ -567,6 +567,12 @@ if (not (_alive) and not (_OtherGroup)) exitwith
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
 	if not (_request) then {[_Trg,"InfAttacked"] call RYD_VarReductor};
 	_unitG setVariable [("Busy" + (str _unitG)),false];
+	if not (isNull _GDV) then 
+		{
+		[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0];
+		_GDV setVariable [("CargoM" + (str _GDV)), false];
+		//_pass orderGetIn true;
+		};
 	};
 
 if (({alive _x} count (units _unitG)) < 1) exitwith 
