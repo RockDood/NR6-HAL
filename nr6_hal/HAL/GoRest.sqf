@@ -106,8 +106,8 @@ if not (isNull (_HQ getVariable ["RydHQ_RestDecoy",objNull])) then
 
 //	_posX = (_tPos select 0) + (random (2 * _tRadius)) - (_tRadius);
 //	_posY = (_tPos select 1) + (random (2 * _tRadius)) - (_tRadius);
-	_posX = (_tPos select 0) + (random 200) - 100;
-	_posY = (_tPos select 1) + (random 200) - 100;
+	_posX = (_tPos select 0) + (random (_tPos select 0));
+	_posY = (_tPos select 1) + (random (_tPos select 0));
 	};
 
 if not (_isDecoy) then 
@@ -487,6 +487,12 @@ if (not (_alive) and not (_OtherGroup)) exitwith
 	_HQ setVariable ["RydHQ_Exhausted",_exh];
 	_unitG setVariable [("Busy" + (str _unitG)),false];
 	_unitG setVariable [("Resting" + (str _unitG)),false];
+	if not (isNull _GDV) then 
+		{
+		[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0];
+		_GDV setVariable [("CargoM" + (str _GDV)), false];
+		//_pass orderGetIn true;
+		};
 	};
 
 if (({alive _x} count (units _unitG)) < 1) exitwith 
@@ -506,7 +512,7 @@ if (({alive _x} count (units _unitG)) < 1) exitwith
 		[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0];
 		_GDV setVariable [("CargoM" + (str _GDV)), false];
 		//_pass orderGetIn true;
-		}
+		};
 	};
 
 _UL = leader _unitG;

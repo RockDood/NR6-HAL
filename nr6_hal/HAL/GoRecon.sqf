@@ -585,7 +585,12 @@ if (not (_alive) and not (_OtherGroup)) exitwith
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 		{
 		deleteMarker ("markRecon" + str (_unitG))
-		}
+		};
+	if not (isNull _GDV) then 
+		{
+		[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0];
+		_GDV setVariable [("CargoM" + (str _GDV)), false];
+		};
 	};
 
 if (isNull (leader (_this select 0))) exitwith 
@@ -601,7 +606,7 @@ if (isNull (leader (_this select 0))) exitwith
 		{
 		[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0];
 		_GDV setVariable [("CargoM" + (str _GDV)), false];
-		}
+		};
 	};
 
 _UL = leader _unitG;if not (isPlayer _UL) then {if (not (_halfway) and (_timer <= 30) and not (_enemy)) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdFinal,"OrdFinal"] call RYD_AIChatter}}};

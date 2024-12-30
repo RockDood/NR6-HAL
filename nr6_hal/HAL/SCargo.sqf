@@ -205,6 +205,15 @@ private _DR = assignedDriver _ChosenOne;
 _unitvar2 = str _GD;
 _Vpos = getPosASL _DR;
 
+_enmyNrb = false;
+if ((_ChosenOne isKindOf "Air") and not (_withdraw)) then 
+		{
+			_enmyNrb = (([(leader _unitG),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),600] call RYD_CloseEnemyB) select 0);
+		} else {
+			_enmyNrb = (([(leader _unitG),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),300] call RYD_CloseEnemyB) select 0);
+		};
+if ((_enmyNrb) and not (_request)) exitwith {_unitG setVariable ["CargoChosen",false,true];_unitG setVariable [("CC" + (str _unitG)), true, true]};
+
 _lz = objNull;
 _alive = true;
 _EDpositions = [];
@@ -371,16 +380,23 @@ if not (_emptyV) then
 	_alive = true;
 	_timer = -5;
 	_enmyNrb = false;
+	_PUType = "Pick up point";
 	waituntil 
 		{
 		_DAV = assigneddriver _ChosenOne;
 		_GD = group _DAV;
-		_enmyNrb = (([(leader _unitG),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),300] call RYD_CloseEnemyB) select 0);
+		if ((_ChosenOne isKindOf "Air") and not (_withdraw)) then 
+				{
+					_enmyNrb = (([(leader _unitG),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),600] call RYD_CloseEnemyB) select 0);
+					_PUType = "LZ";
+				} else {
+					_enmyNrb = (([(leader _unitG),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),300] call RYD_CloseEnemyB) select 0);
+				};
 
 		if (isNull _GD) then {_alive = false} else {if (({alive _x} count (units _GD)) < 1) then {_alive = false;}};;
 		if (_alive) then {if (({alive _x} count (units _GD)) < 1) then {_alive = false}};
 		if (_alive) then {if (({alive _x} count (units _unitG)) < 1) then {_alive = false}};
-		if (_alive) then {if ((_enmyNrb) and not (_request)) then {_endThis = true;_alive = false}};
+		if (_alive) then {if ((_enmyNrb) and not (_request)) then {_endThis = true;_alive = false; [leader _GD, (groupId _unitG) + ', negative. ' + _PUType + ' is too hot at this time - Over'] remoteExecCall ["RYD_MP_Sidechat"]}};
 		if (_alive) then {if ((speed _ChosenOne) < 0.5) then {_timer = _timer + 5}};
 		if (_alive) then {if (((damage (_ChosenOne)) > 0.8) or ((fuel (_ChosenOne)) < 0.2) or not (canMove _ChosenOne) or (isNull (assignedVehicle (leader _GD)))) then {_alive = false}};
 		if (_GD getVariable ["Break",false]) then {_endThis = true;_alive = false; _GD setVariable ["Break",false];};
@@ -407,7 +423,7 @@ if not (_emptyV) then
 
 		if not (isNil ("_Vpos")) then {_LandPos = _GD getvariable ("START" + (str _GD))} else {_LandPos = [((position (vehicle (leader _HQ))) select 0) + (random 200) - 100,((position (vehicle (leader _HQ))) select 1) + (random 200) - 100]};
 
-		_task = [(leader _GD),["Return to departure base.", "Return To Base", ""],_LandPos,"land"] call RYD_AddTask;
+		_task = [(leader _GD),["Return to departure base.", "Abort Pick Up, RTB", ""],_LandPos,"land"] call RYD_AddTask;
 
 		_GD = (group (assigneddriver _ChosenOne));
 
@@ -432,7 +448,7 @@ if not (_emptyV) then
 	if (((_ChosenOne emptyPositions "Cargo") > 0) and not (_request)) then 
 		{
 			{
-			_x assignAsCargo _ChosenOne
+			_x assignAsCargo _ChosenOne;			
 			}
 		foreach (units _unitG)
 		};
@@ -446,6 +462,14 @@ if not (_emptyV) then
 		if (isNull _unitG) then {_alive = false;} else {if (({alive _x} count (units _unitG)) < 1) then {_alive = false;}};
 
 		if ((speed (leader _unitG)) < 0.5) then {_ct = _ct + 1};
+
+		if (_GD getVariable ["Break",false]) then {_alive = false; _GD setVariable ["Break",false];};
+
+		if ((_alive) and not (_request)) then
+			{
+			if not (_GD getvariable [("CargoM" + (str _GD)),false]) then {_alive = false;}; 
+			};
+
 		
 		_assigned = true;
 
@@ -554,6 +578,7 @@ if not (_GD == _unitG) then
 			{
 			_busy = _GD getvariable ("CargoM" + (str _GD)); 
 			if ((abs (speed _ChosenOne)) < 0.5) then {_timer = _timer + 5};
+			if ((vehicle (leader _GD)) == _ChosenOne) then {_ChosenOne setEffectiveCommander (leader _GD); _ChosenOne setUnloadInCombat [false, false];};
 			};
 		
 		if (_request) then {
@@ -687,6 +712,22 @@ if not (_GD == _unitG) then
 
 		if not (isNull (_GD getVariable ["tempLZ",objNull])) then {deleteVehicle (_GD getVariable ["tempLZ",objNull])};
 
+		if not ((_GD == _unitG) or (isNull ((group (assigneddriver _ChosenOne))))) then 
+			{
+			_unitvar = str _GD;
+
+			{
+				[_x] remoteExecCall ["RYD_MP_unassignVehicle",0]; 
+				if not (_request) then {[[_x],false] remoteExecCall ["orderGetIn",0]};
+			} foreach (units _unitG);
+
+			[_unitG] call RYD_WPdel;
+			}
+		else
+			{
+			{[[_x],false] remoteExecCall ["orderGetIn",0];} foreach (units _unitG);
+			};
+
 		_GD setVariable [("Busy" + _unitvar), false];
 		_ChosenOne enableAI "TARGET";_ChosenOne enableAI "AUTOTARGET";
 		_UL = leader _GD;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdDen,"OrdDen"] call RYD_AIChatter}};
@@ -729,7 +770,8 @@ if not (_GD == _unitG) then
 			{
 			{[[_x],false] remoteExecCall ["orderGetIn",0];} foreach (units _unitG);
 			};
-
+			
+		_GD setVariable [("CargoM" + _unitvar), false];
 		_cause = [_unitG,1,false,0,240,[],false,true,false] call RYD_Wait;
 		if not (isNull (_GD getVariable ["tempLZ",objNull])) then {deleteVehicle (_GD getVariable ["tempLZ",objNull])};
 		_timer = _cause select 0;
