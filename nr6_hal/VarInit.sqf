@@ -568,6 +568,374 @@ RydxHQ_AIC_ArtFire =
 	"HAC_ArtFire4",
 	"HAC_ArtFire5"
 	];
+
+//40K IMPERIUM OF MAN LINES
+
+RydxHQ_AIC_40KImp_OrdConf = 
+	[
+	"HAC_40KImp_OrdConf1",
+	"HAC_40KImp_OrdConf2",
+	"HAC_40KImp_OrdConf3",
+	"HAC_40KImp_OrdConf4",
+	"HAC_40KImp_OrdConf5"
+	];
+
+RydxHQ_AIC_40KImp_OrdDen = 
+	[
+	"HAC_40KImp_OrdDen1",
+	"HAC_40KImp_OrdDen2",
+	"HAC_40KImp_OrdDen3",
+	"HAC_40KImp_OrdDen4",
+	"HAC_40KImp_OrdDen5"
+	];
+
+RydxHQ_AIC_40KImp_OrdFinal = 
+	[
+	"HAC_40KImp_OrdFinal1",
+	"HAC_40KImp_OrdFinal2",
+	"HAC_40KImp_OrdFinal3",
+	"HAC_40KImp_OrdFinal4"
+	];
+
+RydxHQ_AIC_40KImp_OrdEnd = 
+	[
+	"HAC_40KImp_OrdEnd1",
+	"HAC_40KImp_OrdEnd2",
+	"HAC_40KImp_OrdEnd3",
+	"HAC_40KImp_OrdEnd4"
+	];
+
+RydxHQ_AIC_40KImp_SuppReq = 
+	[
+	"HAC_40KImp_SuppReq1",
+	"HAC_40KImp_SuppReq2",
+	"HAC_40KImp_SuppReq3",
+	"HAC_40KImp_SuppReq4",
+	"HAC_40KImp_SuppReq5"
+	];
+
+RydxHQ_AIC_40KImp_MedReq = 
+	[
+	"HAC_40KImp_MedReq1",
+	"HAC_40KImp_MedReq2",
+	"HAC_40KImp_MedReq3",
+	"HAC_40KImp_MedReq4",
+	"HAC_40KImp_MedReq5"
+	];
+
+RydxHQ_AIC_40KImp_ArtyReq = 
+	[
+	"HAC_40KImp_ArtyReq1",
+	"HAC_40KImp_ArtyReq2",
+	"HAC_40KImp_ArtyReq3",
+	"HAC_40KImp_ArtyReq4",
+	"HAC_40KImp_ArtyReq5"
+	];
+
+RydxHQ_AIC_40KImp_SmokeReq = 
+	[
+	"HAC_40KImp_SmokeReq1",
+	"HAC_40KImp_SmokeReq2",
+	"HAC_40KImp_SmokeReq3",
+	"HAC_40KImp_SmokeReq4"
+	];
+
+RydxHQ_AIC_40KImp_IllumReq = 
+	[
+	"HAC_40KImp_IllumReq1",
+	"HAC_40KImp_IllumReq2",
+	"HAC_40KImp_IllumReq3",
+	"HAC_40KImp_IllumReq4"
+	];
+
+RydxHQ_AIC_40KImp_InDanger = 
+	[
+	"HAC_40KImp_InDanger1",
+	"HAC_40KImp_InDanger2",
+	"HAC_40KImp_InDanger3",
+	"HAC_40KImp_InDanger4",
+	"HAC_40KImp_InDanger5",
+	"HAC_40KImp_InDanger6",
+	"HAC_40KImp_InDanger7",
+	"HAC_40KImp_InDanger8",
+	"HAC_40KImp_InDanger9",
+	"HAC_40KImp_InDanger10",
+	"HAC_40KImp_InDanger11",
+	"HAC_40KImp_InDanger12",
+	"HAC_40KImp_InDanger13"
+	];
+
+RydxHQ_AIC_40KImp_EnemySpot = 
+	[
+	"HAC_40KImp_EnemySpot1",
+	"HAC_40KImp_EnemySpot2",
+	"HAC_40KImp_EnemySpot3",
+	"HAC_40KImp_EnemySpot4",
+	"HAC_40KImp_EnemySpot5"
+	];
+
+RydxHQ_AIC_40KImp_InFear = 
+	[
+	"HAC_40KImp_InFear1",
+	"HAC_40KImp_InFear2",
+	"HAC_40KImp_InFear3",
+	"HAC_40KImp_InFear4",
+	"HAC_40KImp_InFear5",
+	"HAC_40KImp_InFear6",
+	"HAC_40KImp_InFear7",
+	"HAC_40KImp_InFear8"
+	];
+
+RydxHQ_AIC_40KImp_InPanic = 
+	[
+	"HAC_40KImp_InPanic1",
+	"HAC_40KImp_InPanic2",
+	"HAC_40KImp_InPanic3",
+	"HAC_40KImp_InPanic4",
+	"HAC_40KImp_InPanic5",
+	"HAC_40KImp_InPanic6",
+	"HAC_40KImp_InPanic7",
+	"HAC_40KImp_InPanic8"
+	];
+
+RydxHQ_AIC_40KImp_SuppAss = 
+	[
+	"HAC_40KImp_SuppAss1",
+	"HAC_40KImp_SuppAss2",
+	"HAC_40KImp_SuppAss3",
+	"HAC_40KImp_SuppAss4",
+	"HAC_40KImp_SuppAss5"
+	];
+
+RydxHQ_AIC_40KImp_SuppDen = 
+	[
+	"HAC_40KImp_SuppDen1",
+	"HAC_40KImp_SuppDen2",
+	"HAC_40KImp_SuppDen3",
+	"HAC_40KImp_SuppDen4",
+	"HAC_40KImp_SuppDen5"
+	];
+
+RydxHQ_AIC_40KImp_ArtAss = 
+	[
+	"HAC_40KImp_ArtAss1",
+	"HAC_40KImp_ArtAss2",
+	"HAC_40KImp_ArtAss3",
+	"HAC_40KImp_ArtAss4",
+	"HAC_40KImp_ArtAss5"
+	];
+
+RydxHQ_AIC_40KImp_ArtDen = 
+	[
+	"HAC_40KImp_ArtDen1",
+	"HAC_40KImp_ArtDen2",
+	"HAC_40KImp_ArtDen3",
+	"HAC_40KImp_ArtDen4",
+	"HAC_40KImp_ArtDen5"
+	];
+
+RydxHQ_AIC_40KImp_DefStance = 
+	[
+	"HAC_40KImp_DefStance1"
+	];
+
+RydxHQ_AIC_40KImp_OffStance = 
+	[
+	"HAC_40KImp_OffStance1"
+	];
+
+RydxHQ_AIC_40KImp_ArtFire = 
+	[
+	"HAC_40KImp_ArtFire1",
+	"HAC_40KImp_ArtFire2",
+	"HAC_40KImp_ArtFire3",
+	"HAC_40KImp_ArtFire4",
+	"HAC_40KImp_ArtFire5"
+	];
+
+//SILENT LINES
+
+RydxHQ_AIC_SILENTM_OrdConf = 
+	[
+	"HAC_SILENTM_OrdConf1",
+	"HAC_SILENTM_OrdConf2",
+	"HAC_SILENTM_OrdConf3",
+	"HAC_SILENTM_OrdConf4",
+	"HAC_SILENTM_OrdConf5"
+	];
+
+RydxHQ_AIC_SILENTM_OrdDen = 
+	[
+	"HAC_SILENTM_OrdDen1",
+	"HAC_SILENTM_OrdDen2",
+	"HAC_SILENTM_OrdDen3",
+	"HAC_SILENTM_OrdDen4",
+	"HAC_SILENTM_OrdDen5"
+	];
+
+RydxHQ_AIC_SILENTM_OrdFinal = 
+	[
+	"HAC_SILENTM_OrdFinal1",
+	"HAC_SILENTM_OrdFinal2",
+	"HAC_SILENTM_OrdFinal3",
+	"HAC_SILENTM_OrdFinal4"
+	];
+
+RydxHQ_AIC_SILENTM_OrdEnd = 
+	[
+	"HAC_SILENTM_OrdEnd1",
+	"HAC_SILENTM_OrdEnd2",
+	"HAC_SILENTM_OrdEnd3",
+	"HAC_SILENTM_OrdEnd4"
+	];
+
+RydxHQ_AIC_SILENTM_SuppReq = 
+	[
+	"HAC_SILENTM_SuppReq1",
+	"HAC_SILENTM_SuppReq2",
+	"HAC_SILENTM_SuppReq3",
+	"HAC_SILENTM_SuppReq4",
+	"HAC_SILENTM_SuppReq5"
+	];
+
+RydxHQ_AIC_SILENTM_MedReq = 
+	[
+	"HAC_SILENTM_MedReq1",
+	"HAC_SILENTM_MedReq2",
+	"HAC_SILENTM_MedReq3",
+	"HAC_SILENTM_MedReq4",
+	"HAC_SILENTM_MedReq5"
+	];
+
+RydxHQ_AIC_SILENTM_ArtyReq = 
+	[
+	"HAC_SILENTM_ArtyReq1",
+	"HAC_SILENTM_ArtyReq2",
+	"HAC_SILENTM_ArtyReq3",
+	"HAC_SILENTM_ArtyReq4",
+	"HAC_SILENTM_ArtyReq5"
+	];
+
+RydxHQ_AIC_SILENTM_SmokeReq = 
+	[
+	"HAC_SILENTM_SmokeReq1",
+	"HAC_SILENTM_SmokeReq2",
+	"HAC_SILENTM_SmokeReq3",
+	"HAC_SILENTM_SmokeReq4"
+	];
+
+RydxHQ_AIC_SILENTM_IllumReq = 
+	[
+	"HAC_SILENTM_IllumReq1",
+	"HAC_SILENTM_IllumReq2",
+	"HAC_SILENTM_IllumReq3",
+	"HAC_SILENTM_IllumReq4"
+	];
+
+RydxHQ_AIC_SILENTM_InDanger = 
+	[
+	"HAC_SILENTM_InDanger1",
+	"HAC_SILENTM_InDanger2",
+	"HAC_SILENTM_InDanger3",
+	"HAC_SILENTM_InDanger4",
+	"HAC_SILENTM_InDanger5",
+	"HAC_SILENTM_InDanger6",
+	"HAC_SILENTM_InDanger7",
+	"HAC_SILENTM_InDanger8",
+	"HAC_SILENTM_InDanger9",
+	"HAC_SILENTM_InDanger10",
+	"HAC_SILENTM_InDanger11",
+	"HAC_SILENTM_InDanger12",
+	"HAC_SILENTM_InDanger13"
+	];
+
+RydxHQ_AIC_SILENTM_EnemySpot = 
+	[
+	"HAC_SILENTM_EnemySpot1",
+	"HAC_SILENTM_EnemySpot2",
+	"HAC_SILENTM_EnemySpot3",
+	"HAC_SILENTM_EnemySpot4",
+	"HAC_SILENTM_EnemySpot5"
+	];
+
+RydxHQ_AIC_SILENTM_InFear = 
+	[
+	"HAC_SILENTM_InFear1",
+	"HAC_SILENTM_InFear2",
+	"HAC_SILENTM_InFear3",
+	"HAC_SILENTM_InFear4",
+	"HAC_SILENTM_InFear5",
+	"HAC_SILENTM_InFear6",
+	"HAC_SILENTM_InFear7",
+	"HAC_SILENTM_InFear8"
+	];
+
+RydxHQ_AIC_SILENTM_InPanic = 
+	[
+	"HAC_SILENTM_InPanic1",
+	"HAC_SILENTM_InPanic2",
+	"HAC_SILENTM_InPanic3",
+	"HAC_SILENTM_InPanic4",
+	"HAC_SILENTM_InPanic5",
+	"HAC_SILENTM_InPanic6",
+	"HAC_SILENTM_InPanic7",
+	"HAC_SILENTM_InPanic8"
+	];
+
+RydxHQ_AIC_SILENTM_SuppAss = 
+	[
+	"HAC_SILENTM_SuppAss1",
+	"HAC_SILENTM_SuppAss2",
+	"HAC_SILENTM_SuppAss3",
+	"HAC_SILENTM_SuppAss4",
+	"HAC_SILENTM_SuppAss5"
+	];
+
+RydxHQ_AIC_SILENTM_SuppDen = 
+	[
+	"HAC_SILENTM_SuppDen1",
+	"HAC_SILENTM_SuppDen2",
+	"HAC_SILENTM_SuppDen3",
+	"HAC_SILENTM_SuppDen4",
+	"HAC_SILENTM_SuppDen5"
+	];
+
+RydxHQ_AIC_SILENTM_ArtAss = 
+	[
+	"HAC_SILENTM_ArtAss1",
+	"HAC_SILENTM_ArtAss2",
+	"HAC_SILENTM_ArtAss3",
+	"HAC_SILENTM_ArtAss4",
+	"HAC_SILENTM_ArtAss5"
+	];
+
+RydxHQ_AIC_SILENTM_ArtDen = 
+	[
+	"HAC_SILENTM_ArtDen1",
+	"HAC_SILENTM_ArtDen2",
+	"HAC_SILENTM_ArtDen3",
+	"HAC_SILENTM_ArtDen4",
+	"HAC_SILENTM_ArtDen5"
+	];
+
+RydxHQ_AIC_SILENTM_DefStance = 
+	[
+	"HAC_SILENTM_DefStance1"
+	];
+
+RydxHQ_AIC_SILENTM_OffStance = 
+	[
+	"HAC_SILENTM_OffStance1"
+	];
+
+RydxHQ_AIC_SILENTM_ArtFire = 
+	[
+	"HAC_SILENTM_ArtFire1",
+	"HAC_SILENTM_ArtFire2",
+	"HAC_SILENTM_ArtFire3",
+	"HAC_SILENTM_ArtFire4",
+	"HAC_SILENTM_ArtFire5"
+	];
 	
 if (RydHQ_A2Lib) then
 	{

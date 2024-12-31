@@ -158,10 +158,34 @@ class CfgVehicles
 			};
 			class RydxHQ_AIChatDensity
 			{
-				displayName="Radio Comms";
+				displayName="Radio Comms Presence";
 				description="Chance for a communication between AI and commander to be visible and audible.";
 				typeName="NUMBER";
 				defaultValue = "100";
+			};
+			class RydxHQ_AIChat_Type
+			{
+				displayName="Radio Comms Profile";
+				description="Changes the lines used in radio communications to better fit certain contexts for modded content.";
+				class values
+				{
+					class NONE
+					{
+						name="Default (Original recordings from Hetman Artificial Commander)";
+						value="NONE";
+						default=1;
+					};
+					class SILENT_M
+					{
+						name="Only Radio Static (+ Rewritten lines)";
+						value="SILENT_M";
+					};
+					class 40K_IMPERIUM
+					{
+						name="Imperium Of Man (Warhammer 40K)";
+						value="40K_IMPERIUM";
+					};
+				};
 			};
 			class RydxHQ_InfoMarkersID
 			{
@@ -5483,6 +5507,1798 @@ class CfgRadio
 		};
 		
 	class HQ_ord_SF
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Perform tactical operation";
+		};
+
+//40K IMPERIUM OF MAN LINES
+
+	class HAC_40KImp_OrdConf1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "In the name of the Emperor, it shall be done - Out.";
+		};
+
+	class HAC_40KImp_OrdConf2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Affirmative - Out.";
+		};
+
+	class HAC_40KImp_OrdConf3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Acknowledged - Out.";
+		};
+
+	class HAC_40KImp_OrdConf4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Compliance - Out.";
+		};
+
+	class HAC_40KImp_OrdConf5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "In his name, we go onwards with this mission - Out.";
+		};
+
+
+	class HAC_40KImp_OrdDen1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Unable to comply - Over.";
+		};
+
+	class HAC_40KImp_OrdDen2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Not possible - Over.";
+		};
+
+	class HAC_40KImp_OrdDen3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Negative - Over.";
+		};
+
+	class HAC_40KImp_OrdDen4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Compliance impossible - Over.";
+		};
+
+	class HAC_40KImp_OrdDen5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Compliance not possible - Over.";
+		};
+
+
+	class HAC_40KImp_OrdFinal1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Approaching objective - Out.";
+		};
+
+	class HAC_40KImp_OrdFinal2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We are nearing our objective - Out.";
+		};
+
+	class HAC_40KImp_OrdFinal3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "In position - Out.";
+		};
+
+	class HAC_40KImp_OrdFinal4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We have arrived at our objective - Out.";
+		};
+
+
+	class HAC_40KImp_OrdEnd1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Standing by for orders - Over.";
+		};
+
+	class HAC_40KImp_OrdEnd2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Task complete - Over.";
+		};
+
+	class HAC_40KImp_OrdEnd3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "His will has been executed - Over.";
+		};
+
+	class HAC_40KImp_OrdEnd4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Mission objective completed - Over.";
+		};
+
+	class HAC_40KImp_OrdEnd5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Awaiting the Emperor's word! - Over.";
+		};
+
+
+	class HAC_40KImp_SuppReq1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting ammunition - Over.";
+		};
+
+	class HAC_40KImp_SuppReq2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting additional ammunition - Over.";
+		};
+
+	class HAC_40KImp_SuppReq3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Supplies critical - Over.";
+		};
+
+	class HAC_40KImp_SuppReq4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We require additional weaponry - Over.";
+		};
+
+	class HAC_40KImp_SuppReq5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting more ammnition - Over.";
+		};
+
+
+
+	class HAC_40KImp_MedReq1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting medical assistance! - Over.";
+		};
+
+	class HAC_40KImp_MedReq2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting apothecary! - Over.";
+		};
+
+	class HAC_40KImp_MedReq3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We need an apothecary! - Over.";
+		};
+
+	class HAC_40KImp_MedReq4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We need medical support - Over.";
+		};
+
+	class HAC_40KImp_MedReq5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting an apothecary's blessings - Over.";
+		};
+
+
+
+	class HAC_40KImp_ArtyReq1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting the Emperor's wrath on target position - Over.";
+		};
+
+	class HAC_40KImp_ArtyReq2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting artillery on target position - Over.";
+		};
+
+	class HAC_40KImp_ArtyReq3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fire support requested - Over";
+		};
+
+	class HAC_40KImp_ArtyReq4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Shelling requested on target location - Over.";
+		};
+
+	class HAC_40KImp_ArtyReq5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting fire mission on target coordinates - Over.";
+		};
+
+
+
+	class HAC_40KImp_SmokeReq1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting smoke cover for tactical withdrawal - Over.";
+		};
+
+	class HAC_40KImp_SmokeReq2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting smoke deployment on our position - Over.";
+		};
+
+	class HAC_40KImp_SmokeReq3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Smoke cover requested for tactical withdrawal - Over.";
+		};
+
+	class HAC_40KImp_SmokeReq4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting concealement smoke - Over.";
+		};
+
+
+	class HAC_40KImp_IllumReq1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting the Emperor's light at our position - Over.";
+		};
+
+	class HAC_40KImp_IllumReq2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Illumination requested at our coordinates - Over.";
+		};
+
+	class HAC_40KImp_IllumReq3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting illumination on our position - Over.";
+		};
+
+	class HAC_40KImp_IllumReq4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting illumination shells - Over.";
+		};
+
+	class HAC_40KImp_InDanger1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "For the Emperor!";
+		};
+
+	class HAC_40KImp_InDanger2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Under fire! - Over";
+		};
+
+	class HAC_40KImp_InDanger3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Burn the heretic! Kill the mutant! Purge the unclean!";
+		};
+
+	class HAC_40KImp_InDanger4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Onwards Brothers! For the Emperor!";
+		};
+
+	class HAC_40KImp_InDanger5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Sustaining enemy fire - Over";
+		};
+
+	class HAC_40KImp_InDanger6
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Purging the enemies of the Emperor! - Over";
+		};
+
+	class HAC_40KImp_InDanger7
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "The stench of heresy! Burn it all Brothers!";
+		};
+
+	class HAC_40KImp_InDanger8
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Engaging hostiles - over";
+		};
+
+	class HAC_40KImp_InDanger9
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We must smite their resolve, Brothers!";
+		};
+
+	class HAC_40KImp_InDanger10
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Show them the wrath of the Emperor!";
+		};
+
+	class HAC_40KImp_InDanger11
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Show them no mercy for the enemies of the Emperor are to be purged!";
+		};
+ 
+	class HAC_40KImp_InDanger12
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Engage at will, Brothers!";
+		};
+
+	class HAC_40KImp_InDanger13
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Under heavy enemy fire - Over.";
+		};
+
+
+
+	class HAC_40KImp_EnemySpot1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Enemy of the Imperium spotted - Over.";
+		};
+
+	class HAC_40KImp_EnemySpot2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Hostiles spotted - Over.";
+		};
+
+	class HAC_40KImp_EnemySpot3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Enemy of the Emperor spotted - Over.";
+		};
+
+	class HAC_40KImp_EnemySpot4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Hostile presence in the area - Over.";
+		};
+
+	class HAC_40KImp_EnemySpot5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Hostiles spotted near our location - Over.";
+		};
+
+
+	class HAC_40KImp_InFear1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "By the Emperor! Regroup!";
+		};
+
+	class HAC_40KImp_InFear2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Emperor be praised! Glory in death!";
+		};
+
+	class HAC_40KImp_InFear3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Enemy is gaining ground on us! - Over";
+		};
+
+	class HAC_40KImp_InFear4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We are overwhelmed! - Over";
+		};
+
+	class HAC_40KImp_InFear5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Regroup Brothers! Your duty only ends in death!";
+		};
+
+	class HAC_40KImp_InFear6
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Cower and you shall be shot! Get back in line!";
+		};
+
+	class HAC_40KImp_InFear7
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting immediate assistance! - Over";
+		};
+
+	class HAC_40KImp_InFear8
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Emperor protect us!";
+		};
+
+
+
+	class HAC_40KImp_InPanic1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Emperor save us!";
+		};
+
+	class HAC_40KImp_InPanic2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We need to reposition!";
+		};
+
+	class HAC_40KImp_InPanic3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We must follow the Emperor's light!";
+		};
+
+	class HAC_40KImp_InPanic4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Emperor save us all!";
+		};
+
+	class HAC_40KImp_InPanic5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We are soon going to be by his side, Brothers!";
+		};
+
+	class HAC_40KImp_InPanic6
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Run and I will execute you myself!";
+		};
+
+	class HAC_40KImp_InPanic7
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Emperor save us!";
+		};
+
+	class HAC_40KImp_InPanic8
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Glory in death Brothers! For it is upon us!";
+		};
+
+
+	class HAC_40KImp_SuppAss1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Support on the way - Out.";
+		};
+
+	class HAC_40KImp_SuppAss2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Support is inbound. The Emperor protects - Out.";
+		};
+
+	class HAC_40KImp_SuppAss3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Support is directed to your position. The Emperor provides - Out.";
+		};
+
+	class HAC_40KImp_SuppAss4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "The Emperor has blessed you with supplies. Expect them soon - Out.";
+		};
+
+	class HAC_40KImp_SuppAss5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Support en route to you - Out.";
+		};
+
+
+
+	class HAC_40KImp_SuppDen1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Support not possible at the moment - Out.";
+		};
+
+	class HAC_40KImp_SuppDen2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Negative, support is unavailable - Out.";
+		};
+
+	class HAC_40KImp_SuppDen3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Support request denied. Unavailable - Out.";
+		};
+
+	class HAC_40KImp_SuppDen4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Negative, we have no support available - Out.";
+		};
+
+	class HAC_40KImp_SuppDen5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Negative, request denied. Support unavailable - Out.";
+		};
+
+
+
+	class HAC_40KImp_ArtAss1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Artillery support inbound - Out.";
+		};
+
+	class HAC_40KImp_ArtAss2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Prepare for artillery barrage - Out.";
+		};
+
+	class HAC_40KImp_ArtAss3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fire mission dispatched. Brace for the Emperor's wrath - Out.";
+		};
+
+	class HAC_40KImp_ArtAss4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Emperor's wrath inbound - Out.";
+		};
+
+	class HAC_40KImp_ArtAss5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fire mission in progress - Out.";
+		};
+
+
+	class HAC_40KImp_ArtDen1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Negative, fire support unavailable at this time - Out.";
+		};
+
+	class HAC_40KImp_ArtDen2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fire mission impossible at this time - Out.";
+		};
+
+	class HAC_40KImp_ArtDen3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Negative, artillery unavailable - Out.";
+		};
+
+	class HAC_40KImp_ArtDen4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fire mission request not authorised - Out.";
+		};
+
+	class HAC_40KImp_ArtDen5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Negative, fire support currently unavailable - Out.";
+		};
+
+
+	class HAC_40KImp_OffStance1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "To all callsigns: Offensive formation in effect. For the glory of the Emperor.";
+		};
+
+	class HAC_40KImp_DefStance1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "To all callsigns: Deffensive formation in effect. Emperor be praised.";
+		};
+
+
+	class HAC_40KImp_ArtFire1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Firing for effect! - Out.";
+		};
+
+	class HAC_40KImp_ArtFire2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Shells on the way! - Out.";
+		};
+
+	class HAC_40KImp_ArtFire3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fire mission in progress - Out.";
+		};
+
+	class HAC_40KImp_ArtFire4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Shells away - Out.";
+		};
+
+	class HAC_40KImp_ArtFire5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fire Mission on target location - Out.";
+		};
+
+
+		
+	class HAC_40KImp_HQ_ord_attack
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Engage the Emperor's enemies";
+		};
+
+	class HAC_40KImp_HQ_ord_attackNaval
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Sink enemy sea vessels";
+		};
+
+	class HAC_40KImp_HQ_ord_attackArmor
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Smite the Emperor's enemies";
+		};
+
+	class HAC_40KImp_HQ_ord_attackAir
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Provide Close Air Support";
+		};
+
+	class HAC_40KImp_HQ_ord_attackAirCAP
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Perform Combat Air Patrol";
+		};
+
+	class HAC_40KImp_HQ_ord_attackSnip
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Perform sniper mission";
+		};
+		
+	class HAC_40KImp_HQ_ord_recon
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Perform reconnaissance";
+		};
+		
+	class HAC_40KImp_HQ_ord_capture
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Secure objective in his name";
+		};
+
+	class HAC_40KImp_HQ_ord_captureNav
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Secure seas in his name";
+		};
+		
+	class HAC_40KImp_HQ_ord_defend
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Take and hold defensive position";
+		};
+		
+	class HAC_40KImp_HQ_ord_defendR
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Patrol area and standby for orders";
+		};
+
+	class HAC_40KImp_HQ_ord_defendRNav
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Patrol seas and standby for orders";
+		};
+		
+	class HAC_40KImp_HQ_ord_flank
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Outflank enemy forces";
+		};
+		
+	class HAC_40KImp_HQ_ord_ammoS
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Deliver ammunition";
+		};
+		
+	class HAC_40KImp_HQ_ord_medS
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Provide medevac";
+		};
+		
+	class HAC_40KImp_HQ_ord_fuelS
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Deliver fuel";
+		};
+		
+	class HAC_40KImp_HQ_ord_repS
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Conduct field repairs";
+		};
+		
+	class HAC_40KImp_HQ_ord_idle
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Standby for orders";
+		};
+		
+	class HAC_40KImp_HQ_ord_withdraw
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Performal tactical withdraw";
+		};
+		
+	class HAC_40KImp_HQ_ord_cargo
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Provide transport";
+		};
+		
+	class HAC_40KImp_HQ_ord_SF
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Perform tactical operation";
+		};
+
+//SILENT LINES
+
+	class HAC_SILENTM_OrdConf1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Understood - Out.";
+		};
+
+	class HAC_SILENTM_OrdConf2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Affirmative - Out.";
+		};
+
+	class HAC_SILENTM_OrdConf3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Acknowledged - Out.";
+		};
+
+	class HAC_SILENTM_OrdConf4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "On the way - Out.";
+		};
+
+	class HAC_SILENTM_OrdConf5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Wilco. On the way - Out.";
+		};
+
+
+	class HAC_SILENTM_OrdDen1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Unable to comply - Over.";
+		};
+
+	class HAC_SILENTM_OrdDen2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Not possible - Over.";
+		};
+
+	class HAC_SILENTM_OrdDen3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Negative - Over.";
+		};
+
+	class HAC_SILENTM_OrdDen4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Unable - Over.";
+		};
+
+	class HAC_SILENTM_OrdDen5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Task not possible - Over.";
+		};
+
+
+	class HAC_SILENTM_OrdFinal1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Approaching objective - Out.";
+		};
+
+	class HAC_SILENTM_OrdFinal2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We are nearing our objective - Out.";
+		};
+
+	class HAC_SILENTM_OrdFinal3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "In position - Out.";
+		};
+
+	class HAC_SILENTM_OrdFinal4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We have arrived at our objective - Out.";
+		};
+
+
+	class HAC_SILENTM_OrdEnd1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Standing by for orders - Over.";
+		};
+
+	class HAC_SILENTM_OrdEnd2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Task complete - Over.";
+		};
+
+	class HAC_SILENTM_OrdEnd3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Objective complete. Standing by - Over.";
+		};
+
+	class HAC_SILENTM_OrdEnd4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Mission objective completed - Over.";
+		};
+
+	class HAC_SILENTM_OrdEnd5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Awaiting new orders - Over.";
+		};
+
+
+	class HAC_SILENTM_SuppReq1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting ammunition - Over.";
+		};
+
+	class HAC_SILENTM_SuppReq2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting additional ammunition - Over.";
+		};
+
+	class HAC_SILENTM_SuppReq3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Our supplies are low - Over.";
+		};
+
+	class HAC_SILENTM_SuppReq4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We require additional ammo - Over.";
+		};
+
+	class HAC_SILENTM_SuppReq5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting more ammnition - Over.";
+		};
+
+
+
+	class HAC_SILENTM_MedReq1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting medical assistance! - Over.";
+		};
+
+	class HAC_SILENTM_MedReq2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting medic! - Over.";
+		};
+
+	class HAC_SILENTM_MedReq3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We need a medic! - Over.";
+		};
+
+	class HAC_SILENTM_MedReq4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We need medical support - Over.";
+		};
+
+	class HAC_SILENTM_MedReq5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting a medic - Over.";
+		};
+
+
+
+	class HAC_SILENTM_ArtyReq1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting fire mission on target position - Over.";
+		};
+
+	class HAC_SILENTM_ArtyReq2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting artillery on target position - Over.";
+		};
+
+	class HAC_SILENTM_ArtyReq3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fire support requested - Over";
+		};
+
+	class HAC_SILENTM_ArtyReq4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Shelling requested on target location - Over.";
+		};
+
+	class HAC_SILENTM_ArtyReq5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting fire mission on target coordinates - Over.";
+		};
+
+
+
+	class HAC_SILENTM_SmokeReq1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting smoke cover for tactical withdrawal - Over.";
+		};
+
+	class HAC_SILENTM_SmokeReq2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting smoke deployment on our position - Over.";
+		};
+
+	class HAC_SILENTM_SmokeReq3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Smoke cover requested for tactical withdrawal - Over.";
+		};
+
+	class HAC_SILENTM_SmokeReq4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting concealement smoke - Over.";
+		};
+
+
+	class HAC_SILENTM_IllumReq1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting artillery flare at our position - Over.";
+		};
+
+	class HAC_SILENTM_IllumReq2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Illumination requested at our coordinates - Over.";
+		};
+
+	class HAC_SILENTM_IllumReq3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting illumination on our position - Over.";
+		};
+
+	class HAC_SILENTM_IllumReq4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting illumination shells - Over.";
+		};
+
+	class HAC_SILENTM_InDanger1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Hostile contact! - Over";
+		};
+
+	class HAC_SILENTM_InDanger2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Under fire! - Over";
+		};
+
+	class HAC_SILENTM_InDanger3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Taking fire! - Over";
+		};
+
+	class HAC_SILENTM_InDanger4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Under heavy fire! - Over";
+		};
+
+	class HAC_SILENTM_InDanger5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Taking enemy fire - Over";
+		};
+
+	class HAC_SILENTM_InDanger6
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Heavy enemy response at our position - Over";
+		};
+
+	class HAC_SILENTM_InDanger7
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We're under fire! - Over";
+		};
+
+	class HAC_SILENTM_InDanger8
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Engaging hostiles - Over";
+		};
+
+	class HAC_SILENTM_InDanger9
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Enemy contact! - Over";
+		};
+
+	class HAC_SILENTM_InDanger10
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Enemy fire! - Over";
+		};
+
+	class HAC_SILENTM_InDanger11
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We're engaged in combat - Over";
+		};
+ 
+	class HAC_SILENTM_InDanger12
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Taking fire from hostile forces - Over";
+		};
+
+	class HAC_SILENTM_InDanger13
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Under enemy fire - Over.";
+		};
+
+
+
+	class HAC_SILENTM_EnemySpot1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Enemy spotted - Over.";
+		};
+
+	class HAC_SILENTM_EnemySpot2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Hostiles spotted - Over.";
+		};
+
+	class HAC_SILENTM_EnemySpot3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Confirmed hostiles spotted - Over.";
+		};
+
+	class HAC_SILENTM_EnemySpot4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Hostile presence in the area - Over.";
+		};
+
+	class HAC_SILENTM_EnemySpot5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Hostiles spotted near our location - Over.";
+		};
+
+
+	class HAC_SILENTM_InFear1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Under fire! Trying to regroup! - Over";
+		};
+
+	class HAC_SILENTM_InFear2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting immediate assistance! - Over";
+		};
+
+	class HAC_SILENTM_InFear3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Enemy is gaining ground on us! - Over";
+		};
+
+	class HAC_SILENTM_InFear4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We are overwhelmed! - Over";
+		};
+
+	class HAC_SILENTM_InFear5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We are taking casualties! - Over";
+		};
+
+	class HAC_SILENTM_InFear6
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Enemy fire has us pinned down! - Over";
+		};
+
+	class HAC_SILENTM_InFear7
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Requesting immediate assistance! - Over";
+		};
+
+	class HAC_SILENTM_InFear8
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We're in trouble! Requesting immediate support! - Over";
+		};
+
+
+
+	class HAC_SILENTM_InPanic1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fuck fuck fuck! We need support! - Over";
+		};
+
+	class HAC_SILENTM_InPanic2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We need to reposition!";
+		};
+
+	class HAC_SILENTM_InPanic3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We're getting the fuck out of here!";
+		};
+
+	class HAC_SILENTM_InPanic4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We're so fucked!";
+		};
+
+	class HAC_SILENTM_InPanic5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We're about to die here! - Over!";
+		};
+
+	class HAC_SILENTM_InPanic6
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We're fucking dead!";
+		};
+
+	class HAC_SILENTM_InPanic7
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Anyone? We need help!";
+		};
+
+	class HAC_SILENTM_InPanic8
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "We're not making out of this one!";
+		};
+
+
+	class HAC_SILENTM_SuppAss1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Support on the way - Out.";
+		};
+
+	class HAC_SILENTM_SuppAss2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Support is inbound. - Out.";
+		};
+
+	class HAC_SILENTM_SuppAss3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Support is directed to your position. - Out.";
+		};
+
+	class HAC_SILENTM_SuppAss4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Supplies disptached to you. - Out.";
+		};
+
+	class HAC_SILENTM_SuppAss5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Support en route to you - Out.";
+		};
+
+
+
+	class HAC_SILENTM_SuppDen1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Support not possible at the moment - Out.";
+		};
+
+	class HAC_SILENTM_SuppDen2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Negative, support is unavailable - Out.";
+		};
+
+	class HAC_SILENTM_SuppDen3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Support request denied. Unavailable - Out.";
+		};
+
+	class HAC_SILENTM_SuppDen4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Negative, we have no support available - Out.";
+		};
+
+	class HAC_SILENTM_SuppDen5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Negative, request denied. Support unavailable - Out.";
+		};
+
+
+
+	class HAC_SILENTM_ArtAss1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Artillery support inbound - Out.";
+		};
+
+	class HAC_SILENTM_ArtAss2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Prepare for artillery barrage - Out.";
+		};
+
+	class HAC_SILENTM_ArtAss3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fire mission dispatched. - Out.";
+		};
+
+	class HAC_SILENTM_ArtAss4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Artillery support inbound - Out.";
+		};
+
+	class HAC_SILENTM_ArtAss5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fire mission in progress - Out.";
+		};
+
+
+	class HAC_SILENTM_ArtDen1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Negative, fire support unavailable at this time - Out.";
+		};
+
+	class HAC_SILENTM_ArtDen2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fire mission impossible at this time - Out.";
+		};
+
+	class HAC_SILENTM_ArtDen3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Negative, artillery unavailable - Out.";
+		};
+
+	class HAC_SILENTM_ArtDen4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fire mission request not possible - Out.";
+		};
+
+	class HAC_SILENTM_ArtDen5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Negative, fire support currently unavailable - Out.";
+		};
+
+
+	class HAC_SILENTM_OffStance1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "To all callsigns: Offensive formation in effect.";
+		};
+
+	class HAC_SILENTM_DefStance1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "To all callsigns: Deffensive formation in effect.";
+		};
+
+
+	class HAC_SILENTM_ArtFire1
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Firing for effect! - Out.";
+		};
+
+	class HAC_SILENTM_ArtFire2
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Shells on the way! - Out.";
+		};
+
+	class HAC_SILENTM_ArtFire3
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fire mission in progress - Out.";
+		};
+
+	class HAC_SILENTM_ArtFire4
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Shells away - Out.";
+		};
+
+	class HAC_SILENTM_ArtFire5
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Fire Mission on target location - Out.";
+		};
+
+
+		
+	class HAC_SILENTM_HQ_ord_attack
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Engage enemy forces (Infantry)";
+		};
+
+	class HAC_SILENTM_HQ_ord_attackNaval
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Engage enemy ships";
+		};
+
+	class HAC_SILENTM_HQ_ord_attackArmor
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Engage enemy forces (Armor)";
+		};
+
+	class HAC_SILENTM_HQ_ord_attackAir
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Provide Close Air Support";
+		};
+
+	class HAC_SILENTM_HQ_ord_attackAirCAP
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Perform Combat Air Patrol";
+		};
+
+	class HAC_SILENTM_HQ_ord_attackSnip
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Perform sniper mission";
+		};
+		
+	class HAC_SILENTM_HQ_ord_recon
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Perform reconnaissance";
+		};
+		
+	class HAC_SILENTM_HQ_ord_capture
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Secure objective";
+		};
+
+	class HAC_SILENTM_HQ_ord_captureNav
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Secure seas";
+		};
+		
+	class HAC_SILENTM_HQ_ord_defend
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Take and hold defensive position";
+		};
+		
+	class HAC_SILENTM_HQ_ord_defendR
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Patrol area and standby for orders";
+		};
+
+	class HAC_SILENTM_HQ_ord_defendRNav
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Patrol seas and standby for orders";
+		};
+		
+	class HAC_SILENTM_HQ_ord_flank
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Outflank enemy forces";
+		};
+		
+	class HAC_SILENTM_HQ_ord_ammoS
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Deliver ammunition";
+		};
+		
+	class HAC_SILENTM_HQ_ord_medS
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Provide medevac";
+		};
+		
+	class HAC_SILENTM_HQ_ord_fuelS
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Deliver fuel";
+		};
+		
+	class HAC_SILENTM_HQ_ord_repS
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Conduct field repairs";
+		};
+		
+	class HAC_SILENTM_HQ_ord_idle
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Standby for orders";
+		};
+		
+	class HAC_SILENTM_HQ_ord_withdraw
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Withdraw";
+		};
+		
+	class HAC_SILENTM_HQ_ord_cargo
+		{
+		name = "";
+		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};
+		title = "Provide transport";
+		};
+		
+	class HAC_SILENTM_HQ_ord_SF
 		{
 		name = "";
 		sound[] = {"\NR6_HAL\Sound\Static2ss.ogg", 1, 1};

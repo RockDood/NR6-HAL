@@ -50,6 +50,8 @@ RydxHQ_HQChat = missionNamespace getvariable ["RydxHQ_HQChat",true];
 publicVariable "RydxHQ_HQChat";
 RydxHQ_AIChatDensity = missionNamespace getvariable ["RydxHQ_AIChatDensity",100];
 publicVariable "RydxHQ_AIChatDensity";
+RydxHQ_AIChat_Type = missionNamespace getvariable ["RydxHQ_AIChat_Type",100];
+publicVariable "RydxHQ_AIChat_Type";
 RydxHQ_GarrisonV2 = missionNamespace getvariable ["RydxHQ_GarrisonV2",true];
 publicVariable "RydxHQ_GarrisonV2";
 RydxHQ_NEAware = missionNamespace getvariable ["RydxHQ_NEAware",500];
