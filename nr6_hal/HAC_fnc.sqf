@@ -4549,6 +4549,13 @@ RYD_HQChatter =
 	
 	_unit = leader _gp;
 	_comm = leader _HQ;
+
+	switch (missionNameSpace getVariable ["RydxHQ_AIChat_Type" ,"NONE"]) do
+		{
+		case ("SILENT_M") : {_sentence = "HAC_SILENTM_" + _sentence};
+		case ("40K_IMPERIUM") : {_sentence = "HAC_40KImp_" + _sentence};
+		};
+
 	
 	_sentence = getText (configFile >> "CfgRadio" >> _sentence >> "title");
 	_who = toUpper (getText (configFile >> "CfgVehicles" >> (typeOf (vehicle _unit)) >> "displayName"));
@@ -4627,17 +4634,25 @@ RYD_AIChatter =
 	_gp = group _unit;
 	
 	_lastComm = _gp getVariable "HAC_LastComm";
-	if (isNil "_lastComm") then {_lastComm = -20};
-	if ((time - _lastComm) < 20) exitWith {};
+	if (isNil "_lastComm") then {_lastComm = -5};
+	if ((time - _lastComm) < 5) exitWith {};
 			
 	_sentences = _this select 1;
 	_side = side _unit;
 
 	if (({(((side _x) == _side) and (isPlayer _x))} count AllUnits) < 1) exitWith {};
+
 	
 	_gp setVariable ["HAC_LastComm",time];
 
 	_kind = _this select 2;
+
+
+	switch (missionNameSpace getVariable ["RydxHQ_AIChat_Type" ,"NONE"]) do
+		{
+		case ("SILENT_M") : {_sentences = (call compile ("RydxHQ_AIC_SILENTM_" + _kind))};
+		case ("40K_IMPERIUM") : {_sentences = (call compile ("RydxHQ_AIC_40KImp_" + _kind))};
+		};
 
 	_varName = "_West";
 
@@ -4651,13 +4666,19 @@ RYD_AIChatter =
 	_lastKind = _lastTime select 1;
 	_lastTime = _lastTime select 0;
 
-	if ((time - _lastTime) < 10) then {sleep 4};
+	if ((time - _lastTime) < 5) then {sleep 2};
 
 	_lastTime = missionNameSpace getVariable ["HAC_AIChatLT" + _varName,[0,""]];
 	_lastKind = _lastTime select 1;
 	_lastTime = _lastTime select 0;
 
-	if ((time - _lastTime) < 10) exitWith {}; 
+	if ((time - _lastTime) < 5) then {sleep 2}; 
+
+	_lastTime = missionNameSpace getVariable ["HAC_AIChatLT" + _varName,[0,""]];
+	_lastKind = _lastTime select 1;
+	_lastTime = _lastTime select 0;
+
+	if ((time - _lastTime) < 5) exitWith {}; 
 
 	_exitNow = false;
 
