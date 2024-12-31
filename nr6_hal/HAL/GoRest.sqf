@@ -106,8 +106,8 @@ if not (isNull (_HQ getVariable ["RydHQ_RestDecoy",objNull])) then
 
 //	_posX = (_tPos select 0) + (random (2 * _tRadius)) - (_tRadius);
 //	_posY = (_tPos select 1) + (random (2 * _tRadius)) - (_tRadius);
-	_posX = (_tPos select 0) + (random (_tPos select 0));
-	_posY = (_tPos select 1) + (random (_tPos select 0));
+	_posX = (_tPos select 0) + (random 200) - 100;
+	_posY = (_tPos select 1) + (random 200) - 100;
 	};
 
 if not (_isDecoy) then 
