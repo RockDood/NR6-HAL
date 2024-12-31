@@ -788,6 +788,16 @@ if (_SpawnMode) exitwith {
 sleep 20;
 
 _StartForces = (_side countSide allUnits);
+sleep 20;
+
+private _counter = _side countSide allUnits;
+
+while {_StartForces < _counter} do 
+{
+    _StartForces = (_side countSide allUnits);
+    sleep 20;
+    _counter = _side countSide allUnits;
+};
 
 while {true} do 
 
