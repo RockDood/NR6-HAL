@@ -43,7 +43,6 @@ _CurrentForces = count _LiveForces;
 _CStartForces = count _StartForces;
 
 
-
 sleep 5;
 
 if (isNil ("RydHQ_Included")) then {RydHQ_Included = []};
@@ -63,6 +62,17 @@ if (isNil ("LeaderHQE")) then {LeaderHQE = objNull};
 if (isNil ("LeaderHQF")) then {LeaderHQF = objNull};
 if (isNil ("LeaderHQG")) then {LeaderHQG = objNull};
 if (isNil ("LeaderHQH")) then {LeaderHQH = objNull};
+
+sleep 20;
+private _counter = count _StartForces;
+
+while {_CStartForces < _counter} do 
+{
+    _CStartForces = count _StartForces;
+    sleep 20;
+    _counter = count _StartForces;
+};
+
 
 
 
