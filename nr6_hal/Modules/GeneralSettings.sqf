@@ -13,6 +13,8 @@ missionNamespace setVariable ["RydxHQ_NoCargoPlayers",((_this select 0) getvaria
 
 missionNamespace setVariable ["RydxHQ_HQChat",((_this select 0) getvariable "RydxHQ_HQChat")];
 missionNamespace setVariable ["RydxHQ_AIChatDensity",((_this select 0) getvariable "RydxHQ_AIChatDensity")];
+missionNamespace setVariable ["RydxHQ_AIChat_Type",((_this select 0) getvariable "RydxHQ_AIChat_Type")];
+
 missionNamespace setVariable ["RydxHQ_GarrisonV2",((_this select 0) getvariable "RydxHQ_GarrisonV2")];
 missionNamespace setVariable ["RydxHQ_NEAware",((_this select 0) getvariable "RydxHQ_NEAware")];
 missionNamespace setVariable ["RydxHQ_SlingDrop",((_this select 0) getvariable "RydxHQ_SlingDrop")];
