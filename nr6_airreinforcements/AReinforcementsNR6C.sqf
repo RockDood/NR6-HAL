@@ -70,6 +70,18 @@ if (isNil ("LeaderHQH")) then {LeaderHQH = objNull};
 } forEach _sideForces;
 
 
+sleep 20;
+private _counter = count _StartForces;
+
+while {_CStartForces < _counter} do 
+{
+    _CStartForces = count _StartForces;
+    sleep 20;
+    _counter = count _StartForces;
+};
+
+
+
 while {true} do 
 
     {
