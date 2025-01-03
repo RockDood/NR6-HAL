@@ -584,7 +584,7 @@ Action7ct = {
 
 	if (not (_unitG getVariable ["CargoChosen", false])) then {
 
-		[leader _HQ, (groupId _unitG) + ', copy. No air transport is available at this time. If transport becomes available in the next ' + (str (RydHQx_PlayerCargoCheckLoopTime)) + ' minutes, it will be assigned to you - Over'] remoteExecCall ["RYD_MP_Sidechat"];
+		[leader _HQ, (groupId _unitG) + ', copy. No air transport is available at this time. If transport becomes available in the next ' + (str (RydxHQ_PlayerCargoCheckLoopTime)) + ' minutes, it will be assigned to you - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
 		_AbortAction = (_this select 0) addAction ["Cancel " + "Air" + " Transport Request",
 		{
@@ -611,7 +611,7 @@ Action7ct = {
 
 			_timer = _timer + 5;
 
-			(_unitG getVariable ["CargoChosen", false]) or (_timer > (RydHQx_PlayerCargoCheckLoopTime*60)) or (_unitG getVariable ["CargoCheckLoopAbort",false]);
+			(_unitG getVariable ["CargoChosen", false]) or (_timer > (RydxHQ_PlayerCargoCheckLoopTime*60)) or (_unitG getVariable ["CargoCheckLoopAbort",false]);
 		};
 
 		(_this select 0) removeAction _AbortAction;
@@ -1347,7 +1347,7 @@ ActionGTct = {
 
 	if (not (_unitG getVariable ["CargoChosen", false])) then {
 
-		[leader _HQ, (groupId _unitG) + ', copy. No ground transport is available at this time. If transport becomes available in the next ' + (str (RydHQx_PlayerCargoCheckLoopTime)) + ' minutes, it will be assigned to you - Over'] remoteExecCall ["RYD_MP_Sidechat"];
+		[leader _HQ, (groupId _unitG) + ', copy. No ground transport is available at this time. If transport becomes available in the next ' + (str (RydxHQ_PlayerCargoCheckLoopTime)) + ' minutes, it will be assigned to you - Over'] remoteExecCall ["RYD_MP_Sidechat"];
 
 		_AbortAction = (_this select 0) addAction ["Cancel " + "Ground" + " Transport Request",
 		{
@@ -1374,7 +1374,7 @@ ActionGTct = {
 
 			_timer = _timer + 5;
 
-			(_unitG getVariable ["CargoChosen", false]) or (_timer > (RydHQx_PlayerCargoCheckLoopTime*60)) or (_unitG getVariable ["CargoCheckLoopAbort",false]);
+			(_unitG getVariable ["CargoChosen", false]) or (_timer > (RydxHQ_PlayerCargoCheckLoopTime*60)) or (_unitG getVariable ["CargoCheckLoopAbort",false]);
 		};
 
 		(_this select 0) removeAction _AbortAction;

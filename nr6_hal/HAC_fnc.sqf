@@ -398,27 +398,35 @@ RYD_GarrS =
 	
 RYD_AmmoCount = 
 	{//[_gp] call RYD_AmmoCount
-	private ["_gp","_ct","_ncVeh"];
+	private ["_gp","_ct","_ncVeh","_gVeh"];
 
 	_gp = _this select 0;
 	
 	_ncVeh = [];
 	if ((count _this) > 1) then {_ncVeh = _this select 1};
+	_gVeh = [];
+
+	{if not (_x == (vehicle _x)) then {_gVeh pushBackUnique (vehicle _x)}} foreach (units _gp);
 
 	_ct = 0;
-	
+
 		{
-		_ct = _ct + (count (magazines (vehicle _x)));
-		if ((toLower (typeOf (vehicle _x))) in _ncVeh) then {_ct = _ct + (count (magazines _x))}
+		_ct = _ct + (count (magazines (_x)));
+//		if ((toLower (typeOf (vehicle _x))) in _ncVeh) then {_ct = _ct + (count (magazines _x))}
 		}
 	foreach (units _gp);
+
+		{
+		_ct = _ct + (count (magazineCargo  (_x)));
+		}
+	foreach _gVeh;
 
 	_ct
 	};
 		
 RYD_AmmoFullCount = 
 	{//[_gp] call RYD_AmmoFullCount
-	private ["_gp","_ct","_ncVeh","_checked","_vh","_magsD","_am","_ctMax","_mCount","_magsM","_tp","_back","_magsB","_mag","_magEntry","_trt"];
+	private ["_gp","_ct","_ncVeh","_checked","_vh","_magsD","_am","_ctMax","_mCount","_magsM","_tp","_back","_magsB","_mag","_magEntry","_trt","_vehicles"];
 
 	_gp = _this select 0;
 	
@@ -426,6 +434,7 @@ RYD_AmmoFullCount =
 	if ((count _this) > 1) then {_ncVeh = _this select 1};
 	
 	_checked = [];
+	_vehicles = [];
 
 	_ct = 0;
 	_ctMax = 0;
@@ -433,12 +442,63 @@ RYD_AmmoFullCount =
 	//_ctMMax = 0;
 		
 		{
+		_vh = _x;
+		if not ((vehicle _x) == _x) then {_vehicles pushBackUnique (vehicle _x)};
+		_tp = typeOf _x;
+		
+		switch (true) do
+			{			
+			case (not (_vh in _checked)) :
+				{
+				_checked pushBackUnique _vh;
+				
+				_magsM = 0;
+				
+				_trt = (configFile >> "CfgVehicles" >> (typeOf _vh) >> "Turrets" >> "MainTurret");
+				
+				if (isClass _trt) then
+					{
+					_magsM = (getArray (_trt >> "magazines"));
+					}
+				else
+					{
+					_magsM = (getArray (configFile >> "CfgVehicles" >> (typeOf _vh) >> "magazines"));
+					};
+				
+				//_ctMMax = _ctMMax + ({((getNumber (configFile >> "CfgAmmo" >> (getText (configFile >> "CfgMagazines" >> _x >> "ammo")) >> "Hit")) > 0)} count _magsM);
+
+					{
+					if ((getNumber (configFile >> "CfgAmmo" >> (getText (configFile >> "CfgMagazines" >> _x >> "ammo")) >> "Hit")) > 0) then
+						{
+						_mCount = getNumber (configFile >> "CfgMagazines" >> _x >> "count");
+						_ctMax = _ctMax + _mCount;
+						}
+					}
+				foreach _magsM;
+				
+				_magsD = magazinesAmmo _vh;
+				
+					{
+					if ((getNumber (configFile >> "CfgAmmo" >> (getText (configFile >> "CfgMagazines" >> (_x select 0) >> "ammo")) >> "Hit")) > 0) then
+						{				
+						_ct = _ct + (_x select 1)
+						}
+					}
+				foreach _magsD;
+				
+				//_ctM = _ctM + ({((getNumber (configFile >> "CfgAmmo" >> (getText (configFile >> "CfgMagazines" >> (_x select 0) >> "ammo")) >> "Hit")) > 0)} count _magsD);
+				}
+			}
+		}
+	foreach (units _gp);
+
+	{
 		_vh = vehicle _x;
 		_tp = typeOf _x;
 		
 		switch (true) do
 			{
-			case (((toLower (typeOf _vh)) in _ncVeh) or (_vh == _x)) :
+			case ((toLower (typeOf _vh)) in _ncVeh) :
 				{
 				_magsM = getArray (configFile >> "CfgVehicles" >> _tp >> "magazines");
 				
@@ -489,7 +549,7 @@ RYD_AmmoFullCount =
 				
 			case (not (_vh in _checked)) :
 				{
-				_checked pushBack _vh;
+				_checked pushBackUnique _vh;
 				
 				_magsM = 0;
 				
@@ -529,7 +589,7 @@ RYD_AmmoFullCount =
 				}
 			}
 		}
-	foreach (units _gp);
+	foreach (_vehicles);
 	
 	(_ct/(_ctMax max 1))//(_ct/(_ctMax max 1)) min (_ctM/(_ctMMax max 1))
 	};
@@ -593,7 +653,7 @@ RYD_WPadd =
 		"_isAir","_sPoint","_dst","_dstFirst","_mPoints","_num","_actDst","_angle","_mPoint",
 		"_topPoints","_sPosX","_sPosY","_sUrban","_sForest","_sHills","_sFlat","_sSea",
 		"_sGr","_count","_friendly","_opt","_j","_samplePos","_sRoads,","_lastDistance",
-		"_dstCheck","_pfAll","_sRoads","_mpl","_frds","_TO2"
+		"_dstCheck","_pfAll","_sRoads","_mpl","_frds","_TO2","_isFlat","_Sc","_posX","_posY"
 		];
 
 	_pfAll = true;
@@ -679,6 +739,30 @@ RYD_WPadd =
 		{
 		_rds = 0
 		};
+
+	if (not (isNull (assignedVehicle (leader _gp))) and (_gp == (group (assignedVehicle (leader _gp))))) then {
+		if not ((assignedVehicle (leader _gp)) isKindOf "Air") then {
+
+			_Sc = 50;
+			_posX = _pos select 0;
+			_posY = _pos select 1;
+
+			while {_Sc <= 400} do
+			{
+			_isFlat = _pos isFlatEmpty [10,_Sc,1.5,10,0,false,objNull];
+
+			if ((count _isFlat) > 1) exitWith
+				{
+				_posX = _isFlat select 0;
+				_posY = _isFlat select 1;
+				};
+
+			_Sc = _Sc + 50;
+			};
+
+			if (_posX > 0) then {_pos = [_posX,_posY,0]};
+		};
+	};
 
 	if ((RydxHQ_PathFinding > 0) and (_pfAll)) then
 		{
@@ -1767,7 +1851,7 @@ RYD_CloseEnemyB =
 RYD_Wait = 
 	{
 	private ["_gp","_int","_int0","_ammoF","_speedF","_enemyF","_tolerance","_air","_cargo","_timer","_alive","_enemy","_UL","_DAV","_GDV","_AV","_inside","_outside","_own","_wplimit","_isBusy","_busy",
-	"_isInside","_isOutside","_enG","_arr","_type","_cplR","_cWp","_wpCheck","_boxed","_firedF","_fCount","_forBoxing","_wp","_pass","_Break","_isPlayer"];
+	"_isInside","_isOutside","_enG","_arr","_type","_cplR","_cWp","_wpCheck","_boxed","_firedF","_fCount","_forBoxing","_wp","_pass","_Break","_isPlayer","_enPres","_HQ","_ctc","_dw"];
 
 	_gp = _this select 0;
 	_int0 = _this select 1;
@@ -1783,10 +1867,17 @@ RYD_Wait =
 	_air = [];
 	_enG = [];
 
+	_HQ = grpNull;
+
 	if ((count _arr) > 0) then 
 		{
 		_enG = _arr select 1;
-		_air = _arr select 0
+		_air = _arr select 0;
+		if ((count _arr) > 2) then {
+			_HQ = _arr select 2;
+			_enG = _HQ getVariable ["RydHQ_KnEnemiesG",[]];
+			_air = _HQ getVariable ["RydHQ_AirG",[]];
+			};
 		};
 
 	if not (_int == _int0) then
@@ -1816,19 +1907,20 @@ RYD_Wait =
 	_timer = 0;
 	_alive = false;
 	_enemy = false;
+	_enPres = false;
 	_busy = false;
 	_isInside = false;
 	_isOutside = false;
 	_Break = false;
 
+	_UL = leader (_this select 0);
+	_AV = vehicle _UL;
+	_DAV = _UL;
+	_GDV = _gp;
+
 	waituntil 
 		{
 		sleep _int;
-		
-		_UL = leader (_this select 0);
-		_AV = vehicle _UL;
-		_DAV = _UL;
-		_GDV = _gp;
 
 		_isPlayer = (isPlayer (leader _gp));
 		
@@ -1857,20 +1949,72 @@ RYD_Wait =
 				_DAV = assigneddriver _AV;
 				if not (_own) then {_GDV = group _DAV};
 
-				if (not (_gp getVariable ["CargoChosen",false]) and not (_own)) then {_Break = true};
+//				if (not (_gp getVariable ["CargoChosen",false]) and not (_own)) then {_Break = true};
+				};
+
+			if ((count _arr) > 0) then 
+				{
+				_enG = _arr select 1;
+				_air = _arr select 0;
+				if ((count _arr) > 2) then {
+					_HQ = _arr select 2;
+					_enG = _HQ getVariable ["RydHQ_KnEnemiesG",[]];
+//					_air = _HQ getVariable ["RydHQ_AirG",[]];
+					};
 				};
 
 			if (_enemyF > 0) then
 				{
 				if not (_GDV in _air) then {_enemy = [_AV,_enG,_enemyF] call RYD_CloseEnemy}
+				} else {
+				if not (_GDV in _air) then {_enPres = [_AV,_enG,RydxHQ_DisembarkRange] call RYD_CloseEnemy}
 				};
+			
+			if ((_gp getVariable ["InfGetinCheck"  + (str _gp),false]) and (_GDV == _gp) and not (isNull (assignedVehicle _UL))) then {
+
+				_AV = assignedVehicle _UL;
+				_DAV = assigneddriver _AV;
+
+				if (not (_enemy) and not (_enPres) and not (_GDV in _air)) then {
+					_ctc = objNull;
+					_ctc = (vehicle (leader _gp)) findNearestEnemy (vehicle (leader _gp));
+					if not (isNull _ctc) then 
+						{
+							if (((vehicle (leader _gp)) distance _ctc) < RydxHQ_DisembarkRange) then {_enPres = true; if (_enemyF > 0) then {_enemy = true;}};
+						};
+					};
+
+				if ((_enemy) or (_enPres)) then 
+					{
+						if ((_GDV == _gp) and not (isNull _AV)) then {_AV setUnloadInCombat [true, false]};
+
+					} else {
+
+						if ((_GDV == _gp) and not (isNull _AV)) then 
+							{
+								_AV setUnloadInCombat [false, false];
+								_dw = false;
+								{
+								// Workaround for braindead BIS AI when using mech or mot infantry...					
+								if (not ((_x == (assignedCommander _AV)) or (_x == (assignedDriver _AV)) or (_x == (assignedGunner _AV))) and not ((vehicle _x) == _AV)) then { if (_x == (leader _gp)) then {_x assignAsCommander _AV};_x assignAsCargo _AV;};
+								if (((assignedVehicle _x) == _AV) and (_x == (vehicle _x))) then {[_x] orderGetIn true; doStop _AV; _AV setVariable ["WaitForCargo" + (str _AV),true]; _dw = true;};
+								} forEach (units _gp);
+								if ((_AV getVariable ["WaitForCargo" + (str _AV),false]) and not (_dw)) then {_AV setVariable ["WaitForCargo" + (str _AV),false];};
+								if ((abs (speed (_AV)) < 0.05) and not (_dw) and not ((count (waypoints _unitG)) < 1) and ((time - (_AV getVariable ["LastMoveOR",0])) > 10) ) then {_AV doMove [((position _AV) select 0) +5,((position _AV) select 1) +5,(position _AV) select 2]; _AV setVariable ["LastMoveOR",time];}
+							};
+							
+					};
+
+//				if (_AV getVariable ["WaitForCargo" + (str _AV),false]) then {_enemy = false};
+
+			};
 
 			if (not (isNull _GDV) and not (isNull _UL)) then {_alive = true} else {_alive = false};
 			if (_speedF) then
 				{
 				if not (RydxHQ_SynchroAttack) then
 					{
-					if (abs (speed (vehicle (leader _GDV))) < 0.05) then {_timer = _timer + 1}
+					if (abs (speed (vehicle (leader _GDV))) < 0.05) then {_timer = _timer + 1;}
 					}
 				else
 					{
@@ -1977,8 +2121,12 @@ RYD_Wait =
 
 	if (_isPlayer) then {_timer = 0};
 
+	if not (isNull (_AV)) then {_AV setVariable ["WaitForCargo" + (str _AV),false]};
+
 	_gp setVariable ["RydHQ_WaitingTarget",nil];
 	_gp setVariable ["RydHQ_WaitingObjective",nil];
+
+	if (_gp getVariable ["InfGetinCheck"  + (str _gp),false]) then {_gp setVariable ["InfGetinCheck"  + (str _gp),false]; if (_GDV == _gp) then {_AV setUnloadInCombat [true, false]}};
 
 	if (_timer > _tolerance) then {if ((random 100) < RydxHQ_AIChatDensity) then {[(leader _gp),RydxHQ_AIC_OrdDen,"OrdDen"] call RYD_AIChatter}};
 
