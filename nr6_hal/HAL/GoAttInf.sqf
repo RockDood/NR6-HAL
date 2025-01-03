@@ -115,6 +115,7 @@ if not (isNull _AV) then {
 	} forEach (units _unitG);
 };
 
+
 /*
 if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_IsAPlayer) and (isNull _AV) and (([_posX,_posY] distance (vehicle _UL)) > 1000)) then 
 	{
@@ -235,6 +236,9 @@ if not (isNull _NeN) then
 
 if (_EnNearTrg) then {_NeNMode = true};
 if (not (isNull _GDV) and (_GDV in ((_HQ getVariable ["RydHQ_NCCargoG",[]]) + (_HQ getVariable ["RydHQ_AirG",[]]))) and (_NeNMode)) then {_LX1 = (getPosATL _UL) select 0;_LY1 = (getPosATL _UL) select 1;_halfway = true};
+
+//if ((_GDV == _unitG) and not (isNull _AV) and not (_IsAPlayer)) then {_AV setUnloadInCombat [false, false]};
+//Mech or motorized groups do not getout in combat until at obj or close contact with enemy (Added in wait Loop)
 
 if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer)) then
 	{
@@ -544,18 +548,20 @@ if not (_IsAPlayer) then {
 		{
 		_OtherGroup = true;
 
-		_cause = [_GDV,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
+		_cause = [_GDV,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
 		_timer = _cause select 0;
 		_alive = _cause select 1;
 		_enemy = _cause select 2;
 		}
 	else 
 		{
+		if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 		if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
-		_cause = [_unitG,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
+		_cause = [_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
 		_timer = _cause select 0;
 		_alive = _cause select 1;
 		_enemy = _cause select 2;
+		if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),false]};
 		};
 };
 
@@ -578,7 +584,7 @@ if (not (_alive) and not (_OtherGroup)) exitwith
 if (({alive _x} count (units _unitG)) < 1) exitwith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
-	if not (isNull _GDV) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0];_GDV setVariable [("Busy" + _unitvar), false];};
+	if not (isNull _GDV) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0];};
 	_unitG setVariable [("Busy" + (str _unitG)),false];
 	if not (isNull _GDV) then 
 		{
@@ -632,7 +638,7 @@ _unitvar = str _GDV;
 if ((({alive _x} count (units _unitG)) < 1) or (_timer > 240)) exitwith 
 	{
 	if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markAttack" + str (_unitG))};
-	if not (isNull _GDV) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0];_GDV setVariable [("Busy" + _unitvar), false]};//;_pass orderGetIn true};
+	if not (isNull _GDV) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0];};//;_pass orderGetIn true};
 	if not (_request) then {[_Trg,"InfAttacked"] call RYD_VarReductor};
 	_unitG setVariable [("Busy" + (str _unitG)),false];
 	if not (isNull _GDV) then 
@@ -656,6 +662,13 @@ if (not (isNull _GDV) and (_GDV in (_HQ getVariable ["RydHQ_AirG",[]])) and not 
 
 if not (_IsAPlayer) then {_GDV setVariable [("CargoM" + _unitvar), false]};
 
+_UL = leader _unitG;
+_AV = assignedVehicle _UL;
+_DAV = assigneddriver _AV;
+_GDV = group _DAV;
+
+
+
 _alive = true;
 if (((_halfway) or (_earlyD)) and not (_IsAPlayer)) then
 	{
@@ -673,6 +686,7 @@ if (((_halfway) or (_earlyD)) and not (_IsAPlayer)) then
 		};
 
 	if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
+	if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 	_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
 	_timer = _cause select 0;
 	_alive = _cause select 1;
@@ -717,9 +731,13 @@ if not (_request) then {
 };
 
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
-_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
+if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
+_cause = [_unitG,6,true,0,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
 _timer = _cause select 0;
 _alive = _cause select 1;
+
+//if ((_GDV == _unitG) and not (isNull _AV) and not (_IsAPlayer)) then {_AV setUnloadInCombat [true, false]};
+//Mech or motorized groups getout in combat now (added in wait loop)
 
 if not (_alive) exitwith 
 	{

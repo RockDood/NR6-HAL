@@ -62,7 +62,7 @@ if ( not (_withdraw) and not (_request)) then
 					{
 						_CP deleteAt (_CP find _x);
 					};
-				if ((_ESpace == _NGi) and (_hiredchk isEqualTo "free") and ((count (assignedCargo (vehicle _x))) == 0) and ((count (crew _x)) == 0) and ((fuel _x) >= 0.2) and (damage _x <= 0.8) and (canMove _x)) exitwith 
+				if ((_ESpace == _NGi) and (_hiredchk isEqualTo "free") and not ((group (vehicle _x)) in (_HQ getVariable ["RydHQ_Friends",[]])) and ((count (assignedCargo (vehicle _x))) == 0) and ((count (crew _x)) == 0) and ((fuel _x) >= 0.2) and (damage _x <= 0.8) and (canMove _x)) exitwith 
 					{
 						_ChosenOne = _x;
 						_unitG setVariable ["CargoChosen", true,true];

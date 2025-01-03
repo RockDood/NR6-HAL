@@ -422,6 +422,7 @@ if ((_ammo > 0) and not (_busy)) then
 			}
 		else 
 			{
+			if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 			_cause = [_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
 			_timer = _cause select 0;
 			_alive = _cause select 1;
@@ -485,6 +486,7 @@ if ((_ammo > 0) and not (_busy)) then
 			}
 		else 
 			{
+			if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 			_cause = [_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
 			_timer = _cause select 0;
 			_alive = _cause select 1;
@@ -580,6 +582,7 @@ if ((_ammo > 0) and not (_busy)) then
 			}
 		else 
 			{
+			if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 			_cause = [_unitG,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
 			_timer = _cause select 0;
 			_alive = _cause select 1;

@@ -9,8 +9,8 @@ _HQ = _this select 2;
 _unitvar = str _unitG;
 _busy = false;
 _busy = _unitG getvariable ("Busy" + _unitvar);
-
 if (isNil ("_busy")) then {_busy = false};
+_isAPlayer = false;
 
 _alive = true;
 
@@ -56,6 +56,18 @@ _unitG setVariable [("Deployed" + (str _unitG)),false];
 _unitG setVariable [("Capt" + (str _unitG)),false];
 //_unitG setVariable [("Busy" + _unitvar), false];
 _unitG setVariable ["Defending", true];
+
+_UL = leader _unitG;
+_AV = assignedVehicle _UL;
+_DAV = assigneddriver _AV;
+_GDV = group _DAV;
+
+if not (isNull _AV) then { 
+
+	{
+		if (isNull (assignedVehicle _x)) then {_x assignAsCargo _AV};
+	} forEach (units _unitG);
+};
 
 _DefPos = [((getPosATL _Spot) select 0) + (random 1000) - 500,((getPosATL _Spot) select 1) + (random 1000) - 500];
 
@@ -194,6 +206,10 @@ _endThis = false;
 _suppHQ = false;
 _timer = 0;
 
+_AV = assignedVehicle _UL;
+_DAV = assigneddriver _AV;
+_GDV = group _DAV;
+
 waituntil
 	{
 	sleep 5;
@@ -208,7 +224,20 @@ waituntil
 	if (_unitG getvariable [("Busy" + _unitvar),false]) then {_endThis = true;};
 	if (_unitG getVariable ["Break",false]) then {_endThis = true;_alive = false; _unitG setVariable ["Break",false];_unitG setVariable ["Defending", false];};
 
-	if (((vehicle (leader _unitG)) distance _DefPos) < 500) then {_endThis = true;};
+	if ((_GDV == _unitG) and not (_endThis) and not (isNull _AV) and not (isNull ((vehicle (leader _unitG)) findNearestEnemy (vehicle (leader _unitG))))) then 
+		{
+//		_AV setUnloadInCombat [true, false];
+		_dw = false;
+		{
+			// Workaround for braindead BIS AI when using mech or mot infantry...
+			if (not ((_x == (assignedCommander _AV)) or (_x == (assignedDriver _AV)) or (_x == (assignedGunner _AV))) and not ((vehicle _x) == _AV)) then { if (_x == (leader _unitG)) then {_x assignAsCommander _AV};_x assignAsCargo _AV;};
+			if (((assignedVehicle _x) == _AV) and (_x == (vehicle _x))) then {[_x] orderGetIn true; doStop _AV; _dw = true;};
+		} forEach (units _unitG);
+//		if (not (_dw)) then {_AV setVariable ["WaitForCargo" + (str _AV),false];};
+		if ((abs (speed (_AV)) < 0.05) and not (_dw) and not ((count (waypoints _unitG)) < 1) and ((time - (_AV getVariable ["LastMoveOR",0])) > 10) ) then {_AV doMove [((position _AV) select 0) +5,((position _AV) select 1) +5,(position _AV) select 2]; _AV setVariable ["LastMoveOR",time];}
+	};
+
+	if (((vehicle (leader _unitG)) distance _DefPos) < 50) then {_endThis = true;};
 	if (_timer > 240) then {_endThis = true};
 
 	(_endThis)
@@ -239,4 +268,4 @@ _def = _def - [_unitG];
 _HQ setVariable ["RydHQ_Def",_def];
 _unitG setVariable ["Defending", false];
 
-_UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
+//_UL = leader _unitG;if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdEnd,"OrdEnd"] call RYD_AIChatter}};
