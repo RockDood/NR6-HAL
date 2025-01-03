@@ -10,6 +10,7 @@ _HQ = _this select 3;
 _unitvar = str _unitG;
 _busy = false;
 _busy = _unitG getvariable ("Busy" + _unitvar);
+_isAPlayer = false;
 
 if (isNil ("_busy")) then {_busy = false};
 
@@ -60,6 +61,19 @@ _unitG enableAttack false;
 _unitG setVariable [("Deployed" + (str _unitG)),false];_unitG setVariable [("Capt" + (str _unitG)),false];
 _unitG setVariable [("Busy" + _unitvar), true];
 _unitG setVariable ["Defending", true];
+
+
+_UL = leader _unitG;
+_AV = assignedVehicle _UL;
+_DAV = assigneddriver _AV;
+_GDV = group _DAV;
+
+if not (isNull _AV) then { 
+
+	{
+		if (isNull (assignedVehicle _x)) then {_x assignAsCargo _AV};
+	} forEach (units _unitG);
+};
 
 _posX = (_DefPos select 0) + (random 40) - 20;
 _posY = (_DefPos select 1) + (random 40) - 20;
@@ -148,6 +162,7 @@ if not (isPlayer (leader _unitG)) then {_frm = "FILE"};_tp = "MOVE";
 
 _wp = [_unitG,_DefPos,_tp,"AWARE","GREEN","FULL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_frm] call RYD_WPadd;
 
+if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 _cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
 _alive = _cause select 1;
 

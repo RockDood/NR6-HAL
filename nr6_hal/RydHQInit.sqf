@@ -73,8 +73,11 @@ publicVariable "RydxHQ_MagicRearm";
 RydxHQ_MagicRefuel = missionNamespace getvariable ["RydxHQ_MagicRefuel",false];
 publicVariable "RydxHQ_MagicRefuel";
 
-RydHQx_PlayerCargoCheckLoopTime = missionNamespace getvariable ["RydHQx_PlayerCargoCheckLoopTime",2];
-publicVariable "RydHQx_PlayerCargoCheckLoopTime";
+RydxHQ_PlayerCargoCheckLoopTime = missionNamespace getvariable ["RydxHQ_PlayerCargoCheckLoopTime",2];
+publicVariable "RydxHQ_PlayerCargoCheckLoopTime";
+
+RydxHQ_DisembarkRange = missionNamespace getvariable ["RydxHQ_DisembarkRange",200];
+publicVariable "RydxHQ_DisembarkRange";
 
 if (isNil {"RYD_WS_ArtyMarks"}) then {RYD_WS_ArtyMarks = false};
 

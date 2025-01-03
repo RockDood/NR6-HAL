@@ -64,6 +64,8 @@ if ((count _landE) > 0) then
 _ReconAv = [];
 _onlyL = (_HQ getVariable ["RydHQ_LArmorG",[]]) - (_HQ getVariable ["RydHQ_MArmorG",[]]);
 
+if not ((_HQ getVariable ["RydHQ_ReconReserve",0]) > 0) then {_HQ setVariable ["RydHQ_ReconG",[]];};
+
 	{
 	if not (isNull _x) then
 		{

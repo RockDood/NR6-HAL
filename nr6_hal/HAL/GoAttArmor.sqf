@@ -17,6 +17,9 @@ _PosObj1 = getPosATL _Trg;
 _unitvar = str (_unitG);
 _busy = false;
 
+_IsAPlayer = false;
+if (RydxHQ_NoCargoPlayers and (isPlayer (leader _unitG))) then {_IsAPlayer = true};
+
 //if (_isAttacked > 1) exitwith {};
 
 [_unitG] call RYD_WPdel;
@@ -91,6 +94,15 @@ if ((RydxHQ_SynchroAttack) and not (isPlayer (leader _unitG)) and not (_request)
 if ((isPlayer (leader _unitG)) and (RydxHQ_GPauseActive)) then {hintC "New orders from HQ!";setAccTime 1};
 
 _UL = leader _unitG;
+
+_AV = assignedVehicle _UL;
+
+if not (isNull _AV) then { 
+
+	{
+		if (isNull (assignedVehicle _x)) then {_x assignAsCargo _AV};
+	} forEach (units _unitG);
+};
  
 if not (isPlayer _UL) then {if ((random 100) < RydxHQ_AIChatDensity) then {[_UL,RydxHQ_AIC_OrdConf,"OrdConf"] call RYD_AIChatter}};
 
@@ -109,6 +121,7 @@ if (isPlayer (leader _unitG)) then {deleteWaypoint _wp};
 
 
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
+if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 _cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
 _timer = _cause select 0;
 _alive = _cause select 1;
@@ -163,6 +176,7 @@ if not (_request) then {
 };
 
 if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_trg]};
+if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 _cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
 _timer = _cause select 0;
 _alive = _cause select 1;

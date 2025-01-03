@@ -69,7 +69,6 @@ if not (isNull _AV) then
 		}
 	};
 
-[_unitG] call RYD_WPdel;
 
 _attackAllowed = attackEnabled _unitG;
 _unitG enableAttack false; 
@@ -78,6 +77,8 @@ if (_unitG getVariable [("Busy" + (str _unitG)),false]) then {
 	_unitG setVariable ["Break",true];
 	waitUntil {sleep 5; not (_unitG getVariable ["Break",false])};
 };
+
+[_unitG] call RYD_WPdel;
 
 _unitG setVariable [("Resting" + (str _unitG)),true];
 _unitG setVariable [("Busy" + (str _unitG)), true];
@@ -453,6 +454,8 @@ _alive = true;
 _enemy = false;
 _timer = 0;
 
+if ((_GDV == _unitG) and not (isNull _AV) and not (_IsAPlayer)) then {_AV setUnloadInCombat [false, false]};
+
 if not (_IsAPlayer) then {
 	if not (((group _DAV) == (group _UL)) or (isNull (group _DAV))) then 
 		{
@@ -465,11 +468,14 @@ if not (_IsAPlayer) then {
 		}
 	else 
 		{
+		if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 		_cause = [_unitG,_counts,true,0,60,[],false] call RYD_Wait;
 		_timer = _cause select 0;
 		_alive = _cause select 1;
 		};
 };
+
+if ((_GDV == _unitG) and not (isNull _AV) and not (_IsAPlayer)) then {_AV setUnloadInCombat [true, false]};
 
 _DAV = assigneddriver _AV;
 if (((_timer > 30) or (_enemy)) and (_OtherGroup)) then {if not (isNull _GDV) then {[_GDV, (currentWaypoint _GDV)] setWaypointPosition [getPosATL (vehicle (leader _GDV)), 0]}};

@@ -569,7 +569,8 @@ if not (_IsAPlayer) then {
 	else 
 		{
 	//	_unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
-		_cause = [_unitG,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
+		if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
+		_cause = [_unitG,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
 		_timer = _cause select 0;
 		_alive = _cause select 1;
 		_enemy = _cause select 2;
@@ -695,6 +696,7 @@ if ((_halfway) and not (_IsAPlayer)) then
 	_wp = [_unitG,[_posX,_posY],"MOVE",_beh,"GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_frm] call RYD_WPadd;
 
 //	_unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
+	if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 	_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
 	_timer = _cause select 0;
 	_alive = _cause select 1;
@@ -720,6 +722,7 @@ _UL = leader _unitG;if not (isPlayer _UL) then {if ((_halfway) and (_timer <= 30
 _wp = [_unitG,[_posX,_posY],"SAD",_beh,"GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_frm] call RYD_WPadd;
 
 //_unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
+if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 _cause = [_unitG,6,true,250,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
 _alive = _cause select 1;
 
@@ -737,6 +740,7 @@ if (_unitG in (_HQ getVariable ["RydHQ_FOG",[]])) then
 
 	_wp = [_unitG,[_posX,_posY],"MOVE",_beh,"GREEN","NORMAL",["true","deletewaypoint [(group this), 0];"],true,0.001,[0,0,0],_frm] call RYD_WPadd;
 
+	if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 	_cause = [_unitG,6,true,150,120,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
 	_timer = _cause select 0;
 	_alive = _cause select 1;
@@ -748,7 +752,10 @@ if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then 
 
 [_unitG] call RYD_WPdel;
 
-if not (_specialized) exitWith
+
+//Specialised behavior disabled until bug fixing complete
+//if not (_specialized) exitWith
+if (true) exitwith	
 	{
 	
 	if not (isNull _unitG) then
@@ -842,6 +849,7 @@ while {(_nothing)} do
 				};
 				
 			if (_unitG getVariable ["Break",false]) then {_nothing = false;_unitG setVariable ["Break",false]};
+			_unitG setVariable [("Busy" + (str _unitG)), false];
 			}
 		};
 
@@ -857,6 +865,7 @@ while {(_nothing)} do
 				};
 			};
 		if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {deleteMarker ("markRecon" + str (_unitG))};
+		_unitG setVariable [("Busy" + (str _unitG)), false];
 		};
 	_timer2 = _timer2 + 1;
 	};

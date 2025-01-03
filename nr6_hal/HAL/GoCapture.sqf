@@ -570,15 +570,16 @@ if not (_IsAPlayer) then {
 
 		_OtherGroup = true;
 
-		_cause = [_GDV,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
+		_cause = [_GDV,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
 		_timer = _cause select 0;
 		_alive = _cause select 1;
 		_enemy = _cause select 2;
 		}
 	else 
 		{
+		if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 		_unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
-		_cause = [_unitG,6,true,400,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]])],false] call RYD_Wait;
+		_cause = [_unitG,6,true,300,30,[(_HQ getVariable ["RydHQ_AirG",[]]),(_HQ getVariable ["RydHQ_KnEnemiesG",[]]),_HQ],false] call RYD_Wait;
 		_timer = _cause select 0;
 		_alive = _cause select 1;
 		_enemy = _cause select 2;
@@ -736,6 +737,7 @@ if (((_halfway) or (_earlyD)) and not (_IsAPlayer)) then
 	if (isPlayer (leader _unitG)) then {deleteWaypoint _wp};
 
 	_unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
+	if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 	_cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
 	_timer = _cause select 0;
 	_alive = _cause select 1;
@@ -806,6 +808,7 @@ if not (isPlayer (leader _unitG)) then {_frm = "WEDGE"};
 _wp = [_unitG,_Trg,"SAD",_beh,"RED",_spd,["true","deletewaypoint [(group this), 0];"],true,100,[0,0,0],_frm] call RYD_WPadd;
 
 _unitG setVariable ["RydHQ_WaitingObjective",[_HQ,_trg]];
+if not (_isAPlayer) then {_unitG setVariable ["InfGetinCheck" + (str _unitG),true]};
 _cause = [_unitG,6,true,0,30,[],false] call RYD_Wait;
 _timer = _cause select 0;
 _alive = _cause select 1;

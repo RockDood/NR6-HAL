@@ -16,6 +16,8 @@ if (isNil ("_isAttacked")) then {_isAttacked = 0};
 _PosObj1 = getPosATL _Trg;
 _unitvar = str (_unitG);
 
+_request = false;
+
 //if (_isAttacked > 2) exitwith {};
 
 [_unitG] call RYD_WPdel;

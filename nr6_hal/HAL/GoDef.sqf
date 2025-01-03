@@ -24,6 +24,7 @@ _alive = true;
 
 _busy = false;
 _busy = _unitG getvariable ("Busy" + _unitvar);
+_isAPlayer = false;
 
 if (isNil ("_busy")) then {_busy = false};
 
@@ -69,6 +70,18 @@ _unitG setVariable [("Deployed" + (str _unitG)),false];
 _unitG setVariable [("Capt" + (str _unitG)),false];
 //_unitG setVariable [("Busy" + _unitvar), true];
 _unitG setVariable ["Defending", true];
+
+_UL = leader _unitG;
+_AV = assignedVehicle _UL;
+_DAV = assigneddriver _AV;
+_GDV = group _DAV;
+
+if not (isNull _AV) then { 
+
+	{
+		if (isNull (assignedVehicle _x)) then {_x assignAsCargo _AV};
+	} forEach (units _unitG);
+};
 
 _posX = (_DefPos select 0) + (random 40) - 20;
 _posY = (_DefPos select 1) + (random 40) - 20;
@@ -173,6 +186,10 @@ _endThis = false;
 _suppHQ = false;
 _timer = 0;
 
+_AV = assignedVehicle _UL;
+_DAV = assigneddriver _AV;
+_GDV = group _DAV;
+
 waitUntil {
 	sleep 5;
 	
@@ -184,7 +201,20 @@ waitUntil {
 	if (_unitG getvariable [("Busy" + _unitvar),false]) then {_endThis = true;};
 	if (_unitG getVariable ["Break",false]) then {_endThis = true;_alive = false; _unitG setVariable ["Break",false];_unitG setVariable ["Defending", false];};
 
-	if (((vehicle (leader _unitG)) distance _DefPos) < 500) then {_endThis = true;};
+	if ((_GDV == _unitG) and not (_endThis) and not (isNull _AV) and not (isNull ((vehicle (leader _unitG)) findNearestEnemy (vehicle (leader _unitG))))) then 
+		{
+//		_AV setUnloadInCombat [true, false];
+		_dw = false;
+		{
+			// Workaround for braindead BIS AI when using mech or mot infantry...
+			if (not ((_x == (assignedCommander _AV)) or (_x == (assignedDriver _AV)) or (_x == (assignedGunner _AV))) and not ((vehicle _x) == _AV)) then { if (_x == (leader _unitG)) then {_x assignAsCommander _AV};_x assignAsCargo _AV;};
+			if (((assignedVehicle _x) == _AV) and (_x == (vehicle _x))) then {[_x] orderGetIn true; doStop _AV; _dw = true;};
+		} forEach (units _unitG);
+//		if (not (_dw)) then {_AV setVariable ["WaitForCargo" + (str _AV),false];};
+		if ((abs (speed (_AV)) < 0.05) and not (_dw) and not ((count (waypoints _unitG)) < 1) and ((time - (_AV getVariable ["LastMoveOR",0])) > 10) ) then {_AV doMove [((position _AV) select 0) +5,((position _AV) select 1) +5,(position _AV) select 2]; _AV setVariable ["LastMoveOR",time];}
+	};
+
+	if (((vehicle (leader _unitG)) distance _DefPos) < 50) then {_endThis = true;};
 	if (_timer > 240) then {_endThis = true};
 
 	(_endThis)
