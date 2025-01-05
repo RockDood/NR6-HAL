@@ -37,28 +37,27 @@ if (not (isNull (_HQ getVariable ["RydHQ_IdleDecoy",objNull])) and not (_unitG i
 	{
 	_isDecoy = true;
 
-	_tRadius = (triggerArea (_HQ getVariable ["RydHQ_IdleDecoy",objNull])) select 0;
+	//_tRadius = (triggerArea (_HQ getVariable ["RydHQ_IdleDecoy",objNull])) select 0;
 
 	if ((random 100) >= (_HQ getVariable ["RydHQ_IDChance",100])) exitWith {_isDecoy = false};
 
 	_tPos = getPosATL (_HQ getVariable ["RydHQ_IdleDecoy",objNull]);
-	_enemyMatters = (triggerArea (_HQ getVariable ["RydHQ_IdleDecoy",objNull])) select 3;
+	//_enemyMatters = (triggerArea (_HQ getVariable ["RydHQ_IdleDecoy",objNull])) select 3;
 
-	_posX = (_tPos select 0) + (random (2 * _tRadius)) - (_tRadius);
-	_posY = (_tPos select 1) + (random (2 * _tRadius)) - (_tRadius);
+	_posX = (_tPos select 0) + (random 200) - 100;
+	_posY = (_tPos select 1) + (random 200) - 100;
 	};
 
 if (not (isNull (_HQ getVariable ["RydHQ_SupportDecoy",objNull])) and (_unitG in (_HQ getVariable ["RydHQ_SupportG",[]]))) then
 	{
-	_tRadius = (triggerArea (_HQ getVariable ["RydHQ_SupportDecoy",objNull])) select 0;
+	//_tRadius = (triggerArea (_HQ getVariable ["RydHQ_SupportDecoy",objNull])) select 0;
 
 	if ((random 100) >= (_HQ getVariable ["RydHQ_SDChance",100])) exitWith {_isDecoy = false};
 
 	_tPos = getPosATL (_HQ getVariable ["RydHQ_SupportDecoy",objNull]);
-	_enemyMatters = (triggerArea (_HQ getVariable ["RydHQ_SupportDecoy",objNull])) select 3;
-
-	_posX = (_tPos select 0) + (random (2 * _tRadius)) - (_tRadius);
-	_posY = (_tPos select 1) + (random (2 * _tRadius)) - (_tRadius);
+	//_enemyMatters = (triggerArea (_HQ getVariable ["RydHQ_SupportDecoy",objNull])) select 3;
+	_posX = (_tPos select 0) + (random 200) - 100;
+	_posY = (_tPos select 1) + (random 200) - 100;
 	};
 
 if not (_isDecoy) then 
