@@ -1317,7 +1317,7 @@ RYD_Dispatcher =
 	private ["_threat","_kind","_pool","_cars","_air","_Fpool","_HQ","_force","_range","_pattern","_SortedForce","_tPos","_limit","_avF","_trg","_ix","_infEnough","_armEnough","_airEnough","_sum","_handled",
 	"_SnipersG","_NCrewInfG","_LArmorG","_HArmorG","_LArmorATG","_ATInfG","_AAInfG","_chosen","_ammo","_reck","_topo","_sCity","_sForest","_sHills","_sMeadow","_sGr","_sVal","_mpl","_attackAv","_garrison",
 	"_garrR","_flankAv","_busy","_positive","_ATriskResign1","_ATriskResign2","_AAriskResign","_AAthreat","_ATthreat","_allAir","_armorATthreat","_ATRR1","_ATRR2","_thRep","_isClose","_enDst","_thFct","_chVP",
-	"_clstE","_Airmpl","_NCVeh","_snpEnough","_cntInf","_cntArm","_cntAir","_cntSnp","_Unable","_allNaval","_navEnough","_cntNav","_airCAP","_airCAS"];
+	"_clstE","_Airmpl","_NCVeh","_snpEnough","_cntInf","_cntArm","_cntAir","_cntSnp","_Unable","_allNaval","_navEnough","_cntNav","_airCAP","_airCAS","_BAir"];
 
 	_threat = _this select 0;
 	_kind = _this select 1;
@@ -1349,8 +1349,13 @@ RYD_Dispatcher =
 	_allNaval = _Fpool select 16;
 	_airCAS = _Fpool select 17;
 	_airCAP = _Fpool select 18;
+	_BAir = _Fpool select 19;
 
 	_pool = [];
+
+	{
+		if not (_x in (_airCAS)) then {_airCAS pushBack _x;};
+	} foreach _BAir;
 
 	{
 		if not (_x in (_airCAP + _airCAS)) then {_airCAS pushBack _x; _airCAP pushBack _x;};
