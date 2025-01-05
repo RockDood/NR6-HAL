@@ -214,16 +214,14 @@ Action4ct = {
 	sleep 3;
 
 	_trg = (_this select 0) findNearestEnemy (position (_this select 0));
-	_request = false;
+	_request = true;
 
 	if (_trg isEqualTo objNull) then {
 		_trg = (_this select 0);
-		_request = true;
 	};
 
-	if (((_this select 0) distance2D _trg) > 500) then {
+	if (((_this select 0) distance2D _trg) > 300) then {
 		_trg = (_this select 0);
-		_request = true;
 	};
 
 	_trg = (vehicle (leader (group _trg)));
@@ -235,9 +233,9 @@ Action4ct = {
 	{
 	if ((typeName _x) == "GROUP") then {
 	
-	if (not (_x getvariable [("Busy" + (str _x)),false]) and not (_x == (group (_this select 0))) and not (_x getvariable ["Unable",false]) and (((_this select 0) distance2D (leader _x)) < _dist)) then {_chosen = _x; _dist = ((_this select 0) distance2D (leader _x));};
-	};
-	} forEach ((_HQ getVariable ["RydHQ_AirG",[]]) - ((_HQ getVariable ["RydHQ_NCAirG",[]]) + (_HQ getVariable ["RydHQ_NCrewInfG",[]])));
+		if (not (_x getvariable [("Busy" + (str _x)),false]) and not (_x == (group (_this select 0))) and not (_x getvariable ["Unable",false]) and (((_this select 0) distance2D (leader _x)) < _dist)) then {_chosen = _x; _dist = ((_this select 0) distance2D (leader _x));};
+		};
+	} forEach (((_HQ getVariable ["RydHQ_BAirG",[]]) + (_HQ getVariable ["RydHQ_RCAS",[]])) - (_HQ getVariable ["RydHQ_Exhausted",[]]));
 
 	if (_chosen isEqualTo grpNull) exitwith {[leader _HQ, (groupId (group (_this select 0))) + ', negative. No air support units are available at the moment - Out'] remoteExecCall ["RYD_MP_Sidechat"]};
 
