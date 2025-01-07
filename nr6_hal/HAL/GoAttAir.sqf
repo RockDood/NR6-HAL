@@ -63,16 +63,12 @@ _posY = ((getPosATL (leader _HQ)) select 1) + _dYb;
 
 if (_request) then {
 
+	_Trg = objNull;
+
 	_newTrg = _Trg;
 	_posX = (_PosObj1 select 0) + (random 300) - 150;
 	_posY = (_PosObj1 select 1) + (random 300) - 150;
 
-	{
-		{
-			if ((((vehicle _x) distance _PosObj1) < 500) and not ((vehicle _x) == _x) and (((getpos (vehicle _x)) select 2) < 10)) exitwith {_newTrg = (vehicle _x);}
-		} foreach (units _x);
-		if not (_newTrg == _Trg) exitwith {_Trg = _newTrg;_PosObj1 = getPosATL _Trg;_posX = (_PosObj1 select 0);_posY = (_PosObj1 select 1);_reqTgtSet = true;};
-	} foreach (_HQ getVariable ["RydHQ_KnEnemiesG",[]]);
 };
 
 [_unitG,[_posX,_posY,0],"HQ_ord_attackAir",_HQ] call RYD_OrderPause;
@@ -99,6 +95,8 @@ _lasT = ObjNull;
 if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then 
 	{
 	_eSide = side _unitG;
+
+	_unitG setVariable ["CurrCASLazeOff",false];
 	
 	_tgt = "LaserTargetW";
 	if (_eSide == east) then {_tgt = "LaserTargetE"};
@@ -122,87 +120,8 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 		_lasT confirmSensorTarget [_eSide, true];
 
 		_unitG setVariable ["CurrCASLaze",_lasT];
+		_unitG setVariable ["CurrCASObjSetByLead",_Trg];
 	} else {_lasT = objNull; _Trg = objNull;};
-
-/*
-	_code =
-		{
-		_Trg = _this select 0;
-		_lasT = _this select 1;
-		_unitG = _this select 2;
-		_HQ = _this select 3;
-		_casPos = _this select 4;
-
-		_wp = _this select 6;
-		_tgt = _this select 7;
-		_eSide = _this select 8;
-
-		_VL = vehicle (leader _unitG);
-		_ct = 0;
-		_range = 500;
-		_newTrg = _Trg;
-
-		while {(not (isNull _Trg) and (((side _unitG) knowsAbout _Trg) > 0) and {not (isNull _lasT) and {not (isNull _VL) and {(_ct < 100)}}})} do
-			{
-			if (not (alive _Trg) or (isNull _Trg)) then {
-				{
-					{
-						if ((((vehicle _x) distance _casPos) < _range) and not ((vehicle _x) == _x) and (((side _unitG) knowsAbout (vehicle _x)) > 0) and (((getpos (vehicle _x)) select 2) < 10)) exitwith {_newTrg = (vehicle _x);}
-					} foreach (units _x);
-					if ((_newTrg == _Trg) and (not (alive _newTrg) or (isNull _newTrg))) then {
-						{
-							if ((((vehicle _x) distance _casPos) < (_range/2)) and (5 > (count (units (group _x)))) and (((side _unitG) knowsAbout (vehicle _x)) > 0) and (((getpos (vehicle _x)) select 2) < 10)) exitwith {_newTrg = (vehicle _x);}
-						} foreach (units _x);
-					};
-					if not (_newTrg == _Trg) exitwith {
-						_Trg = _newTrg;
-						deleteVehicle _lasT;
-
-						_lasT = createVehicle [_tgt, _Trg, [], 0, "CAN_COLLIDE"];
-
-						_lasT attachTo [_Trg];
-//						if not (isNull (_wp)) then {_wp waypointAttachVehicle _Trg};
-
-						_eSide reportRemoteTarget [_lasT, 1500]; 
-						_lasT confirmSensorTarget [_eSide, true];
-						_reqTgtSet = true;
-						
-							
-					};
-				} foreach (_HQ getVariable ["RydHQ_KnEnemiesG",[]]);
-			};
-
-			_hideNow = false;
-
-			if not (isNull (_lasT)) then {{if (50 > (_lasT distance2D (vehicle (leader _x)))) exitwith {_hideNow = true;}} foreach (_HQ getVariable ["RydHQ_Friends",[]])};
-			if (isNull (_Trg)) then {_hideNow = true};
-
-			if (_hideNow) then {if not (isNull (_lasT)) then {_lasT hideObjectGlobal true};} else {if not (isNull (_lasT)) then {_lasT hideObjectGlobal false};};
-
-			if (((getpos (vehicle _Trg)) select 2) > 10) then {_Trg = objNull; deleteVehicle _lasT;};
-			if ((isNull _Trg) or not (((side _unitG) knowsAbout _Trg) > 0)) then {_Trg = objNull; deleteVehicle _lasT;};
-			if (not (alive _VL)) then {_endThis = true};
-			if (({alive _x} count (units _unitG)) < 1) then {_endThis = true};
-			if (_ct >= 100) then {_endThis = true};
-			_isBusy = _unitG getVariable [("Busy" + (str _unitG)),false];
-			if not (_isBusy) then {_endThis = true};
-
-
-//			{{if (((vehicle _x) distance _casPos) < _range) and not ((vehicle _x) == _x) exitwith {_lasT detach; _lasT setPos (getpos (vehicle _x)); _Trg = (vehicle _x);}} foreach (units _x)} foreach (_HQ getVariable ["RydHQ_KnEnemiesG",[]]);
-
-		//	_tPos = getPosATL _Trg;
-		//	_tX = (_tPos select 0) + (random 60) - 30;
-		//	_tY = (_tPos select 1) + (random 60) - 30;
-
-		//	_lasT setPos [_tX,_tY,0];
-
-			sleep 15;
-			_ct = _ct + 1
-			};
-
-		deleteVehicle _lasT
-		};*/
-
 	
 	_code =
 		{
@@ -212,7 +131,6 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 		_HQ = _this select 3;
 		_casPos = _this select 4;
 
-//		_reqTgtSet = true;
 
 		_wp = _this select 6;
 		_tgt = _this select 7;
@@ -221,70 +139,84 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 
 		_VL = vehicle (leader _unitG);
 		_ct = 0;
-		_range = 500;
-		_newTrg = _Trg;
+		_range = 3000;
 
-/*		if (_reqTgtSet) then {
-			_lasT = createVehicle [_tgt, _Trg, [], 0, "CAN_COLLIDE"];
-
-			_lasT attachTo [_Trg];
-
-			_wp waypointAttachVehicle _lasT;
-
-			_eSide reportRemoteTarget [_lasT, 600]; 
-			_lasT confirmSensorTarget [_eSide, true];
-				
-		};*/
 
 		waituntil
 			{
-			sleep 15;
+			sleep 5;
 
 			_endThis = false;
-			_lasT = _unitG getVariable ["CurrCASLaze",_lasT];
-			_Trg = _unitG getVariable ["CurrCASTgt",_Trg];
-			_newTrg = _Trg;
+			_newTrg = objNull;
+
+			if (isNull (_unitG getVariable ["CurrCASObjSetByLead",objNull])) then {
+				_nearEnVeh = [(_unitG targets [true, 1500]), [], {_casPos distance _x }, "ASCEND",{not (_x isKindOf "Man") and (((vehicle _x) distance _casPos) < 750)}] call BIS_fnc_sortBy;
+				if (not (_Trg in _nearEnVeh) and ((count _nearEnVeh) > 0)) then {_Trg = objNull;};
+			};
+
 
 			if (not (alive _Trg) or (isNull _Trg)) then {
-				{
-					{
-						if ((((vehicle _x) distance _casPos) < _range) and not ((vehicle _x) == _x) and (((side _unitG) knowsAbout (vehicle _x)) > 0) and (((getpos (vehicle _x)) select 2) < 10)) exitwith {_newTrg = (vehicle _x);}
-					} foreach (units _x);
-					if ((_newTrg == _Trg) and (not (alive _newTrg) or (isNull _newTrg))) then {
-						{
-							if ((((vehicle _x) distance _casPos) < (_range/2)) and (5 > (count (units (group _x)))) and (((side _unitG) knowsAbout (vehicle _x)) > 0) and (((getpos (vehicle _x)) select 2) < 10)) exitwith {_newTrg = (vehicle _x);}
-						} foreach (units _x);
-					};
-					if not (_newTrg == _Trg) exitwith {
-						_Trg = _newTrg;
-						deleteVehicle _lasT;
-						_lasT = createVehicle [_tgt, _Trg, [], 0, "CAN_COLLIDE"];
-						_lasT attachTo [_Trg];
 
-						_eSide reportRemoteTarget [_lasT, 1500]; 
-						_lasT confirmSensorTarget [_eSide, true];
-						_reqTgtSet = true;
+				_Trg = objNull;
+				_newTrg = objNull;
+
+				_nearEnVeh = [(_unitG targets [true, 1500]), [], {_casPos distance _x }, "ASCEND",{not (_x isKindOf "Man")}] call BIS_fnc_sortBy;
+				_nearEnInf = [(_unitG targets [true, 1500]), [], {_casPos distance _x }, "ASCEND",{((vehicle _x) isKindOf "Man") and (3 < (count (units (group _x))))}] call BIS_fnc_sortBy;
+				_nearEnInfHALG = [(_HQ getVariable ["RydHQ_KnEnemiesG",[]]), [], {_casPos distance (vehicle (leader _x))}, "ASCEND",{((vehicle (leader _x)) isKindOf "Man") and (3 < (count (units _x)))}] call BIS_fnc_sortBy; 
+
+				{
+					_range = _x;
+					{
+						if ((((vehicle _x) distance _casPos) < _range) and (((getpos (vehicle _x)) select 2) < 10)) exitwith {_newTrg = (vehicle _x);}
+					} foreach _nearEnVeh;
+
+						
+					if (isNull (_newTrg)) then {
+						{
+							if (((vehicle _x) distance _casPos) < (_range)) exitwith {_newTrg = (vehicle _x);}
+						} foreach _nearEnInf;
+					};	
+
+					if (isNull (_newTrg)) then {
+						{
+							{if ((((vehicle _x) distance _casPos) < (_range)) and (((side _unitG) knowsAbout (vehicle _x)) > 0)) exitwith {_newTrg = (vehicle _x);}} foreach (units _x);
+							if not (isNull (_newTrg)) exitwith {};
+						} foreach _nearEnInfHALG;
+					};	
+					if (isNull (_newTrg)) exitwith {};			
+				} foreach [750,1500];
+				
+
+				if not (isNull (_newTrg)) then {
+					_Trg = _newTrg;
+					if not (isNull _lasT) then {deleteVehicle _lasT};
+					_lasT = createVehicle [_tgt, _Trg, [], 0, "CAN_COLLIDE"];
+					_lasT attachTo [_Trg];
+
+					_eSide reportRemoteTarget [_lasT, 1500]; 
+					_lasT confirmSensorTarget [_eSide, true];
+					_reqTgtSet = true;
+					_unitG setVariable ["CurrCASObjSetByLead",objNull];							
 							
-							
-					};
-				} foreach (_HQ getVariable ["RydHQ_KnEnemiesG",[]]);
+				};
 			};
 
 			_hideNow = false;
 
-			if not (isNull (_lasT)) then {{if (50 > (_lasT distance2D (vehicle (leader _x)))) exitwith {_hideNow = true;}} foreach (_HQ getVariable ["RydHQ_Friends",[]])};
+			if not (isNull (_lasT)) then {{if (75 > (_lasT distance2D (vehicle (leader _x)))) exitwith {_hideNow = true;}} foreach (_HQ getVariable ["RydHQ_Friends",[]])};
 			if (isNull (_Trg)) then {_hideNow = true};
 
 			if (_hideNow) then {if not (isNull (_lasT)) then {_lasT hideObjectGlobal true};} else {if not (isNull (_lasT)) then {_lasT hideObjectGlobal false};};
 
 				
 			if (((getpos (vehicle _Trg)) select 2) > 10) then {_Trg = objNull; deleteVehicle _lasT;};
-			if ((isNull _Trg) or not (alive _Trg) or not (((side _unitG) knowsAbout _Trg) > 0)) then {_Trg = objNull; deleteVehicle _lasT;_ct = _ct + 15;};
+			if ((isNull _Trg) or not (alive _Trg) or not (((side _unitG) knowsAbout _Trg) > 0)) then {_Trg = objNull; deleteVehicle _lasT;};
 			if (not (alive _VL)) then {_endThis = true};
 			if (({alive _x} count (units _unitG)) < 1) then {_endThis = true};
-			if (_ct >= 100) then {_endThis = true};
+			if (_ct >= 300) then {_endThis = true};
 			_isBusy = _unitG getVariable [("Busy" + (str _unitG)),false];
 			if not (_isBusy) then {_endThis = true};
+			if ((((_VL getVariable ["SortiePylons",0])/3) > (count (getPylonMagazines _VL))) or ((damage _VL) > 0.5) or ((fuel _VL) < 0.3)) then {_endThis = true;};
 
 				
 			_ct = _ct + 1;
@@ -292,12 +224,14 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 			_unitG setVariable ["CurrCASTgt",_Trg];
 			_unitG setVariable ["CurrCASLaze",_lasT];
 			_unitG setVariable ["CurrCASDone",_endThis];
+			//Variables for testing or for use to fetch current target of CAS run
 
 
-			(_endThis)
+			(_endThis) or (_unitG getVariable ["CurrCASLazeOff",false])
 			};
 
 		if (not (isNull _lasT)) then {deleteVehicle _lasT};
+		_unitG setVariable ["RydHQ_WaitingTarget",nil];
 		};
 		
 	[[_Trg,_lasT,_unitG,_HQ,[_posX,_posY],_reqTgtSet,_wp,_tgt,_eSide],_code] call RYD_Spawn
@@ -308,6 +242,9 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 _cause = [_unitG,6,true,0,120,[],false] call RYD_Wait;
 _timer = _cause select 0;
 _alive = _cause select 1;
+
+_unitG setVariable ["CurrCASLazeOff",true];
+_unitG setVariable ["CurrCASObjSetByLead",objNull];
 
 if not (_alive) exitwith 
 	{
@@ -326,8 +263,8 @@ if not (_task isEqualTo taskNull) then
 	
 	};
 
-if ((_HQ getVariable ["RydHQ_Debug",false]) or (isPlayer (leader _unitG))) then {_i setMarkerColor "ColorBlue"};
-if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then {deleteVehicle _lasT};
+if (_HQ getVariable ["RydHQ_Debug",false]) then {_i setMarkerColor "ColorBlue"};
+if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then {if not (isNull _lasT) then {deleteVehicle _lasT}};
 
 _rrr = (_unitG getVariable ["Ryd_RRR",false]);
 
@@ -344,7 +281,7 @@ _mustRTB = false;
 } foreach _flight;
 
 
-if not (_mustRTB) then {
+if (_mustRTB) then {
 	_cause = [_unitG,6,true,0,24,[],false] call RYD_Wait;
 	_timer = _cause select 0;
 	_alive = _cause select 1;
