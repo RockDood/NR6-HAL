@@ -224,8 +224,6 @@ Action4ct = {
 		_trg = (_this select 0);
 	};
 
-	_trg = (vehicle (leader (group _trg)));
-
 	_chosen = grpNull;
 
 	_dist = 10000000;
