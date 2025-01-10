@@ -188,7 +188,7 @@ if ((_ammo > 0) and not (_busy)) then
 		} forEach (units _unitG);
 	};
 
-	if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_IsAPlayer) and (isNull _AV) and (([_posXWP4,_posYWP4] distance (vehicle _UL)) > 1000)) then 
+	if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_IsAPlayer) and (isNull _AV) and (([_posXWP4,_posYWP4] distance (vehicle _UL)) > RydxHQ_CargoObjRange)) then 
 		{
 		//[_unitG,_HQ,[_posXWP4,_posYWP4]] spawn HAL_SCargo
 		[[_unitG,_HQ,[_posXWP4,_posYWP4]],HAL_SCargo] call RYD_Spawn;

@@ -228,7 +228,7 @@ if not (isNull _nE) then
 		};
 	};
 		
-if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer)) then
+if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and not (_isAPlayer)) then
 	{
 	_endThis = false;
 	_alive = true;
@@ -269,7 +269,7 @@ if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer))
 
 		};
 
-		if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_IsAPlayer) and (isNull _AV) and (([_posX,_posY] distance (vehicle _UL)) > 1000) and not (_unitG getVariable ["CargoCheckPending" + (str _unitG),false])) then 
+		if (((_HQ getVariable ["RydHQ_CargoFind",0]) > 0) and not (_IsAPlayer) and (isNull _AV) and (([_posX,_posY] distance (vehicle _UL)) > RydxHQ_CargoObjRange) and not (_unitG getVariable ["CargoCheckPending" + (str _unitG),false])) then 
 			{
 			//[_unitG,_HQ,[_posX,_posY]] spawn HAL_SCargo
 			[[_unitG,_HQ,[_posX,_posY],true],HAL_SCargo] call RYD_Spawn;
