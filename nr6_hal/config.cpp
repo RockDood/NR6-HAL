@@ -257,6 +257,13 @@ class CfgVehicles
 				typeName="NUMBER";
 				defaultValue = "200";
 			};
+			class RydxHQ_CargoObjRange
+			{
+				displayName="Distance To Use Transport";
+				description="Distance beyond which infantry will make use of dispatched transports to get a lift. Too low values will result in problematic behaviour.";
+				typeName="NUMBER";
+				defaultValue = "1500";
+			};
 			class RydxHQ_LZ
 			{
 				displayName="Enable LZ System";

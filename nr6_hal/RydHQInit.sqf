@@ -79,19 +79,25 @@ publicVariable "RydxHQ_PlayerCargoCheckLoopTime";
 RydxHQ_DisembarkRange = missionNamespace getvariable ["RydxHQ_DisembarkRange",200];
 publicVariable "RydxHQ_DisembarkRange";
 
+RydxHQ_CargoObjRange = missionNamespace getvariable ["RydxHQ_CargoObjRange",1500];
+publicVariable "RydxHQ_CargoObjRange";
+
+RydxHQ_ReconCargo = missionNamespace getvariable ["RydxHQ_ReconCargo",false];
+publicVariable "RydxHQ_ReconCargo";
+
+
 if (isNil {"RYD_WS_ArtyMarks"}) then {RYD_WS_ArtyMarks = false};
 
-if (isNil {"RydxHQ_ReconCargo"}) then {RydxHQ_ReconCargo = false};
+RYD_Path = "\NR6_HAL\";
 
-_hi = "HAL 1.26.1 RC1 EX 1.0 - [NR6 Pack] Initialized";
+call compile preprocessfile (RYD_Path + "HAL_Version.sqf");
+
+_hi = HAL_Ver + " Initialized";
 
 if ((random 100) < 1) then {_hi = "Good evening, Dave. Everything's running smoothly - and you? - Blame these night owls"};
 
 _hi remoteExecCall ["systemChat"];
 
-//if (isNil "RYD_Path") then {RYD_Path = "RYD_HAL\"};
-
-RYD_Path = "\NR6_HAL\";
 
 call compile preprocessfile (RYD_Path + "HAC_fnc.sqf");
 call compile preprocessfile (RYD_Path + "HAC_fnc2.sqf");
