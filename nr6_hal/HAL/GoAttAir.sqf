@@ -147,6 +147,7 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 			sleep 5;
 
 			_endThis = false;
+//			_Trg = _unitG getVariable ["CurrCASTgt",_Trg];
 			_newTrg = objNull;
 
 			if (isNull (_unitG getVariable ["CurrCASObjSetByLead",objNull])) then {
@@ -154,6 +155,8 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 				if (not (_Trg in _nearEnVeh) and ((count _nearEnVeh) > 0)) then {_Trg = objNull;};
 			};
 
+			_friends = [];
+			{{_friends pushBackUnique (vehicle _x)} foreach (units _x)} foreach (_HQ getVariable ["RydHQ_Friends",[]]);
 
 			if (not (alive _Trg) or (isNull _Trg)) then {
 
@@ -163,23 +166,35 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 				_nearEnVeh = [(_unitG targets [true, 1500]), [], {_casPos distance _x }, "ASCEND",{not (_x isKindOf "Man")}] call BIS_fnc_sortBy;
 				_nearEnInf = [(_unitG targets [true, 1500]), [], {_casPos distance _x }, "ASCEND",{((vehicle _x) isKindOf "Man") and (3 < (count (units (group _x))))}] call BIS_fnc_sortBy;
 				_nearEnInfHALG = [(_HQ getVariable ["RydHQ_KnEnemiesG",[]]), [], {_casPos distance (vehicle (leader _x))}, "ASCEND",{((vehicle (leader _x)) isKindOf "Man") and (3 < (count (units _x)))}] call BIS_fnc_sortBy; 
+				
 
 				{
 					_range = _x;
 					{
-						if ((((vehicle _x) distance _casPos) < _range) and (((getpos (vehicle _x)) select 2) < 10)) exitwith {_newTrg = (vehicle _x);}
+						_tUnit = (vehicle _x);
+						_distOK = true;
+						{if ((_tUnit distance (vehicle _x)) < 75) exitwith {_distOK = false} } foreach _friends;
+						if ((((vehicle _x) distance _casPos) < _range) and (_distOK) and (((getpos (vehicle _x)) select 2) < 10)) exitwith {_newTrg = _tUnit;}
 					} foreach _nearEnVeh;
 
 						
 					if (isNull (_newTrg)) then {
 						{
-							if (((vehicle _x) distance _casPos) < (_range)) exitwith {_newTrg = (vehicle _x);}
+							_tUnit = (vehicle _x);
+							_distOK = true;
+							{if ((_tUnit distance (vehicle _x)) < 75) exitwith {_distOK = false} } foreach _friends;
+							if ((((vehicle _x) distance _casPos) < (_range)) and (_distOK)) exitwith {_newTrg = (vehicle _x);}
 						} foreach _nearEnInf;
 					};	
 
 					if (isNull (_newTrg)) then {
 						{
-							{if ((((vehicle _x) distance _casPos) < (_range)) and (((side _unitG) knowsAbout (vehicle _x)) > 0)) exitwith {_newTrg = (vehicle _x);}} foreach (units _x);
+							{
+								_tUnit = (vehicle _x);
+								_distOK = true;
+								{if ((_tUnit distance (vehicle _x)) < 75) exitwith {_distOK = false} } foreach _friends;
+								if ((((vehicle _x) distance _casPos) < (_range)) and (_distOK) and (((side _unitG) knowsAbout (vehicle _x)) > 0)) exitwith {_newTrg = (vehicle _x);}
+							} foreach (units _x);
 							if not (isNull (_newTrg)) exitwith {};
 						} foreach _nearEnInfHALG;
 					};	
@@ -203,10 +218,10 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 
 			_hideNow = false;
 
-			if not (isNull (_lasT)) then {{if (75 > (_lasT distance2D (vehicle (leader _x)))) exitwith {_hideNow = true;}} foreach (_HQ getVariable ["RydHQ_Friends",[]])};
+			if not (isNull (_lasT)) then {{if (75 >= (_lasT distance2D _x)) exitwith {_hideNow = true;}} foreach (_friends)};
 			if (isNull (_Trg)) then {_hideNow = true};
 
-			if (_hideNow) then {if not (isNull (_lasT)) then {_lasT hideObjectGlobal true};} else {if not (isNull (_lasT)) then {_lasT hideObjectGlobal false};};
+			if (_hideNow) then {if not (isNull (_lasT)) then {_lasT hideObjectGlobal true; deleteVehicle _lasT;};_Trg = objNull;} else {if not (isNull (_lasT)) then {_lasT hideObjectGlobal false};};
 
 				
 			if (((getpos (vehicle _Trg)) select 2) > 10) then {_Trg = objNull; deleteVehicle _lasT;};
