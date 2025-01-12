@@ -240,7 +240,7 @@ if (not (isNull _GDV) and (_GDV in ((_HQ getVariable ["RydHQ_NCCargoG",[]]) + (_
 //if ((_GDV == _unitG) and not (isNull _AV) and not (_IsAPlayer)) then {_AV setUnloadInCombat [false, false]};
 //Mech or motorized groups do not getout in combat until at obj or close contact with enemy (Added in wait Loop)
 
-if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (_isAPlayer)) then
+if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and not (_isAPlayer)) then
 	{
 	_LX = (getPosATL _UL) select 0;
 	_LY = (getPosATL _UL) select 1;

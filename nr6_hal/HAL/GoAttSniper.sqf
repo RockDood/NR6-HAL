@@ -170,7 +170,7 @@ if not (isNull _NeN) then
 if (_EnNearTrg) then {_NeNMode = true};
 if (not (isNull _GDV) and (_GDV in ((_HQ getVariable ["RydHQ_NCCargoG",[]]) + (_HQ getVariable ["RydHQ_AirG",[]]))) and (_NeNMode)) then {_LX1 = (getPosATL _UL) select 0;_LY1 = (getPosATL _UL) select 1;_halfway = true};
 
-if ((isNull _AV) and (([_posX,_posY] distance _UL) > 1500) and not (isPlayer (leader _unitG))) then
+if ((isNull _AV) and (([_posX,_posY] distance _UL) > RydxHQ_CargoObjRange) and not (isPlayer (leader _unitG))) then
 	{
 	_LX = (getPosATL _UL) select 0;
 	_LY = (getPosATL _UL) select 1;
