@@ -501,7 +501,7 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 			if (((_nominal/(_current + 0.1)) > 2) and (isNull (assignedVehicle (leader _x)))) then 
 				{
 				_ex = ((_HQ getVariable ["RydHQ_Exhausted",[]]) - [_x]);
-				for [{_a = 0},{(_a < (count _ex))},{_a = _a + 1}] do
+				for [{private _a = 0}, {(_a < (count _ex))}, {_a = _a + 1}] do
 					{
 					_Aex = _ex select _a;
 					_unitvarA = str _Aex;
@@ -509,9 +509,12 @@ if ((_HQ getVariable ["RydHQ_Combining",false])) then
 					if not (_Aex getVariable [("isCaptive" + _unitvarA),false]) then
 						{
 						_nominalA = _Aex getVariable ("Nominal" + (str _Aex));
-						if (isNil ("_nominal")) then {_Aex setVariable [("Nominal" + _unitvarA),(count (units _Aex)),true];_nominalA = _Aex getVariable ("Nominal" + (str _Aex))};
+						if (isNil ("_nominal")) then {
+							_Aex setVariable [("Nominal" + _unitvarA),(count (units _Aex)),true];
+							_nominalA = _Aex getVariable ("Nominal" + (str _Aex))
+							};
 						_currentA = count (units _Aex);
-						diag_log _nominalA;
+						//diag_log _nominalA;
 						if (((_nominalA/(_currentA + 0.1)) > 2) and (isNull (assignedVehicle (leader _Aex))) and (((vehicle (leader _x)) distance (vehicle (leader _Aex))) < 200)) then 
 							{
 							(units _x) joinsilent _Aex;
