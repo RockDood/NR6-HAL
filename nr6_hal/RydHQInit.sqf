@@ -85,8 +85,8 @@ publicVariable "RydxHQ_CargoObjRange";
 RydxHQ_ReconCargo = missionNamespace getvariable ["RydxHQ_ReconCargo",false];
 publicVariable "RydxHQ_ReconCargo";
 
-
-if (isNil {"RYD_WS_ArtyMarks"}) then {RYD_WS_ArtyMarks = false};
+RYD_WS_ArtyMarks = missionNamespace getvariable ["RYD_WS_ArtyMarks",false];
+publicVariable "RYD_WS_ArtyMarks";
 
 RYD_Path = "\NR6_HAL\";
 
