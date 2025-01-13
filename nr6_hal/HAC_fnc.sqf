@@ -4015,7 +4015,7 @@ RYD_CFF_FFE =
 RYD_CFF = 
 	{//[RydHQ_ArtG,RydHQ_KnEnemies,(RydHQ_EnHArmor + RydHQ_EnMArmor + RydHQ_EnLArmor),RydHQ_Friends,RydHQ_Debug] call RYD_CFF;
 	_SCRname = "CFF";
-	private ["_amnt","_artG","_knEnemies","_enArmor","_friends","_Debug","_CFFMissions","_tgt","_ammo","_bArr","_possible","_UL","_ldr","_amount"];
+	private ["_amnt","_artG","_knEnemies","_enArmor","_friends","_Debug","_CFFMissions","_tgt","_ammo","_bArr","_possible","_UL","_ldr","_amount","_fr"];
 
 	_artG = _this select 0;
 	_knEnemies = _this select 1;
@@ -4023,6 +4023,11 @@ RYD_CFF =
 	_friends = _this select 3;
 	_Debug = _this select 4;
 	_ldr = _this select 5;
+
+	_fr = (group _ldr) getvariable ["RydHQ_Front",locationNull];
+	if not (isNull _fr) then {
+		_knEnemies = [_knEnemies, [], {_ldr distance (vehicle _x) }, "ASCEND",{((getPosATL (vehicle _x)) in _fr)}] call BIS_fnc_sortBy;
+	};
 	
 	_amount = RydART_Amount;
 
