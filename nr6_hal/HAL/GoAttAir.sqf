@@ -233,7 +233,7 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 			if (_ct >= 1200) then {_endThis = true};
 			_isBusy = _unitG getVariable [("Busy" + (str _unitG)),false];
 			if not (_isBusy) then {_endThis = true};
-			if ((((_VL getVariable ["SortiePylons",0])/3) > (count (getPylonMagazines _VL))) or ((damage _VL) > 0.5) or ((fuel _VL) < 0.3)) then {_endThis = true;};
+			if ((((_VL getVariable ["SortiePylons",0])/4) > (count (getPylonMagazines _VL))) or ((damage _VL) > 0.5) or ((fuel _VL) < 0.3)) then {_endThis = true; if not (_unitG getVariable ["CurrCASLazeOff",false]) then {deletewaypoint [(_unitG), 0]}};
 
 				
 			_ct = _ct + 5;
