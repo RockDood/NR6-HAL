@@ -1418,11 +1418,12 @@ ActionArtct = {
 
 	{
 		_lPiece = (vehicle (leader _x));
+		_veh = toLower (typeOf _lPiece);
 		_pos = position _lPiece;
 		if ((vehicle (leader _x)) == (leader _x)) exitwith {};
 		_MrkTxt = (getText (configfile >> "CfgVehicles" >> typeOf (vehicle (leader _x)) >> "displayName")) + " (" + (groupId _x) + ")";
-		_minRange = _lPiece getVariable ["RHQ_RangeMin",0];
-		_maxRange = _lPiece getVariable ["RHQ_RangeMax",0];
+		_minRange = missionNamespace getVariable ["RHQ_ClassRangeMin" + str (_veh),0];
+		_maxRange = missionNamespace getVariable ["RHQ_ClassRangeMax" + str (_veh),0];
 
 		_ctrPosMrk = createMarkerLocal ["ctrMark" + (str _x), position _lPiece];
 		_ctrPosMrk setMarkerTypeLocal "mil_triangle";
