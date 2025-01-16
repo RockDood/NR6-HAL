@@ -92,7 +92,7 @@ _wp = [_unitG,[_posX,_posY],"SAD","COMBAT","RED","NORMAL",["true", "deletewaypoi
 _lasT = ObjNull;
 
 
-if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then 
+if ((_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) and not (isPlayer (leader _unitG))) then 
 	{
 	_eSide = side _unitG;
 
@@ -212,6 +212,7 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 
 					_eSide reportRemoteTarget [_lasT, 1500]; 
 					_lasT confirmSensorTarget [_eSide, true];
+					_VL doTarget _lasT;
 					_reqTgtSet = true;
 					_unitG setVariable ["CurrCASObjSetByLead",objNull];							
 							
