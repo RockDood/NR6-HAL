@@ -255,7 +255,7 @@ if (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]])) then
 };
 
 
-//if not (_request) then {_unitG setVariable ["RydHQ_WaitingTarget",_this select 1]};
+if (not (_request) and not (_unitG in (_HQ getVariable ["RydHQ_BAirG",[]]))) then {_unitG setVariable ["RydHQ_WaitingTarget",_this select 1]};
 _cause = [_unitG,6,true,0,120,[],false] call RYD_Wait;
 _timer = _cause select 0;
 _alive = _cause select 1;
