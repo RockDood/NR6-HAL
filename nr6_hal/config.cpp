@@ -16,12 +16,12 @@ class CfgPatches
 			"NR6_HAL_BBLeader_Module",
 			"NR6_HAL_Front_Module"
 		};
-		requiredVersion=4.1;
+		requiredVersion=4.11;
 		requiredAddons[]=
 		{
 
 		};
-		version="4.1";
+		version="4.11";
 		authors[]=
 		{
 			"NinjaRider600"
