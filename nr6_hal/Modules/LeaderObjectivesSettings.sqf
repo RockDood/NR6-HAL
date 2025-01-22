@@ -44,4 +44,8 @@ _Commanders = [];
 	_logic call compile (_prefix + "MaxSimpleObjs" + " = " + str (_logic getvariable "RydHQ_MaxSimpleObjs"));
 	_logic call compile (_prefix + "CRDefRes" + " = " + str (_logic getvariable "RydHQ_CRDefRes"));
 
+//New Variables
+
+	(group _Leader) setVariable ["RydHQ_ObjectiveRespawn",(_logic getvariable ["RydHQ_ObjectiveRespawn",true])];
+
 } foreach _Commanders;
