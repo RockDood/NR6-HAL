@@ -1150,7 +1150,7 @@ RYD_StatusQuo =
 				_objStr = (_prefix + (_objStr splitString " " joinstring ""));
 				if (_x in _taken) then {
 					if ((getMarkerColor _objStr) == "") then {
-						_Rmrk = createMarker [_objStr,[_x, 1, 150, 3, 0, 20, 0] call BIS_fnc_findSafePos];
+						_Rmrk = createMarker [_objStr,[_x, 1, 75, 2, 0, 20, 0] call BIS_fnc_findSafePos];
 						if not ((_x getvariable ["ObjName",""]) isEqualTo "") then {_Rmrk setMarkerText (_x getvariable ["ObjName",""])};
 					};
 
